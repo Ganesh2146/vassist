@@ -1,0 +1,37 @@
+# -------------------- Secrets / env files --------------------
+# Never commit real secrets. Use *.example template files instead.
+.env
+.env.*
+backend/.env
+h/front/.env
+!backend/.env.example
+
+# -------------------- Python --------------------
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# Logs
+*.log
+logs/
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# -------------------- Node / Vite --------------------
+node_modules/
+dist/
+dist-ssr/
+
+# -------------------- OS / tooling --------------------
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/

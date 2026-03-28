@@ -1,0 +1,410 @@
+Timetable Data (Formatted Data):
+
+--- Sheet: III CSE 1 ---
+SECTION-1(N-414A) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+Monday | PDC(T) | - | BREAK | DL | VERBAL TRAINING | - | BREAK | OE | - | IDP
+Tuesday | SE | PDC | - | DL(N-415) | CNS-L(N-415) | - | - | - | - | PDC(S)-414A
+Wednesday | Training(N-506) | - | - | Training(N-517) | - | - | - | Training(N-406) | - | SE(S)-408
+Thursday | CSA  [lab](N-415) | - | - | PDC | SE | CNS | - | DL-LAB(N-511) | - | -
+Friday | CSA-T | - | - | SE | CNS | DL | - | QLR | - | DL(S)-414A
+Saturday | CNS | PDC | - | QLR | - | DL | - | SE -L(N-415) | - | IDP-514A
+CLASS TEACHER | - | - | Dr. Vinoj J | - | - | - | - | - | - | -
+DL | - | - | Dr. S V Phani Kumar(9912514034) | - | - | - | - | - | - | -
+CNS | - | - | Dr.P. Siva Prasad(9000443503) | - | - | - | - | - | - | -
+- | CNS-LAB | - | Dr.P. Siva Prasad, Mr Kiran Kumar kaveti,251FB04027,251FB04037 | - | - | - | - | - | - | -
+IDP | - | - | Ms Swarna Lalitha,Ms Leelavathy(6281716181) | - | - | - | - | - | - | -
+PDC | - | - | Dr.M. Sunil Babu(8333001991),251FB04006,251FB04030 | - | - | - | - | - | - | -
+SE | - | - | Dr. Vinoj J(9751489857) | - | - | - | - | - | - | -
+SE-L | - | - | Dr. Vinoj J, Dr T.R. Rajesh,241FB04006,241FB04009 | - | - | - | - | - | - | -
+CSA | - | - | Ms D. Manogna(8500347004), Mr Syed Nafees,MR. SAYYAD THAJUDDIN BABA | - | - | - | - | - | - | -
+QALR | - | - | MR TS QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04002,241FB04201 | - | - | - | - | - | - | -
+
+--- Sheet: III CSE 2 ---
+SECTION-2(N-414B) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+Monday | PDC-T | - | BREAK | SE  (N-515) | CSA  [lab](N-515) | - | BREAK | OE | - | -
+Tuesday | ML | SE | - | CNS | CSA-T | - | - | - | - | PDC(S)-
+Wednesday | ML -T(N-404) | - | - | PDC(N-404) | VERBAL TRAINING	(N-404) | - | - | CNS -L(N-404) | - | SE(S)-314A
+Thursday | QLR | - | - | PDC | CNS | SE | - | ML -L(N-515) | - | IDP
+Friday | CNS | PDC | - | QLR | - | ML | - | SE-L-511 | - | IDP
+Saturday | TRAINING(N-417) | - | - | TRAINING (N-415) | - | - | - | TRAINING(N-517) | - | -
+CLASS TEACHER | - | - | Ms. Sd. Shareefunnisa | - | - | - | - | - | - | -
+ML | - | - | Dr. Jhansi Lakshmi P(8500719259) | - | - | - | - | - | - | -
+CNS | - | - | Dr. Prashant Upadhyay(9805406546) | - | - | - | - | - | - | -
+CNS-L | - | - | Dr. Prashant Upadhyay, Dr G.Parimala, Ms N.Sarvani,MR. TULASI VAMSI KRISHNA SAI | - | - | - | - | - | - | -
+IDP | - | - | Ms Sai Spandana,MR.M.YESU RAMBABU | - | - | - | - | - | - | -
+PDC | - | - | Ms Shareefunnisa | - | - | - | - | - | - | -
+PDC-S | - | - | 241FB04002, 241FB04021 | - | - | - | - | - | - | -
+SE | - | - | Dr. T.R. Rajesh(9676560542) | - | - | - | - | - | - | -
+SE-L | - | - | Dr. T.R. Rajesh, Mr Mohan Venkateswara Rao,241FB04016,241FB04022 | - | - | - | - | - | - | -
+CSA-L | - | - | Ms D. Manogna(8500347004), Ms Priya Bharathi, Mr Raj Kiran | - | - | - | - | - | - | -
+CSA-T | - | - | Ms D. Manogna(8500347004), Ms Priya Bharathi | - | - | - | - | - | - | -
+QALR | - | - | MR TS QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04002,241FB04201 | - | - | - | - | - | - | -
+
+--- Sheet: III CSE 3 ---
+SECTION-3(N-415) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+Monday | CSA-L | - | BREAK | ADS | SE | PDC | BREAK | OE | - | -
+Tuesday | SE-L | - | - | CNS(N-414A) | ADS -T(N-414A) | - | - | - | - | -
+Wednesday | TRAINING | - | - | TRAINING | - | - | - | TRAINING | - | IDP-504
+Thursday | PDC -T(N-414A) | CNS (N-414A) | - | SE | ADS-L | - | - | VERBAL TRAINING | - | IDP-514A
+Friday | QLR (N-514B) | - | - | PDC-T (N-514B) | - | CNS (N-514B) | - | CSA -T (N-514B) | - | PDC(S)-514B
+Saturday | CNS -L | - | - | PDC  (N-414B) | SE  (N-414B) | ADS (N-414B) | - | QLR (N-414A) | - | SE(S)-414A
+CLASS TEACHER | - | - | Mr.S.Suresh Babu | - | - | - | - | - | - | -
+ADS | - | - | Mr.S.Suresh Babu(9866684845) | - | - | - | - | - | - | -
+ADS-L,T | - | - | Mr.S.Suresh Babu, Mr Brahma Naidu | - | - | - | - | - | - | -
+CNS | - | - | Dr.Bh. Krishna Reddy(9492709921) | - | - | - | - | - | - | -
+CNS-L | - | - | Dr.Bh. Krishna Reddy, Dr G. Parimala,251FB04007,251FB04035 | - | - | - | - | - | - | -
+IDP | - | - | Ms. Shaik Reehana, Dr Prathap Kumar(7569888963) | - | - | - | - | - | - | -
+PDC | - | - | Mr. K. Pavan Kumar(9703988089),251FB04006,251FB04028,251FB04030 | - | - | - | - | - | - | -
+SE | - | - | Mr. N. Uttej Kumar(9573793892) | - | - | - | - | - | - | -
+SE-L | - | - | Mr. N. Uttej Kumar, Ms Sajida Sultana,251FB04008,251FB04040 | - | - | - | - | - | - | -
+CSA | - | - | Ms Priya Bharathi,Mr R.Gowtham Ms R.Nithya | - | - | - | - | - | - | -
+QALR | - | - | MR TS QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04010,241FB04013 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 4 ---
+SECTION-4(N-416) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+Monday | PDC -T(318) | - | BREAK | ADS -L | - | SE | BREAK | OE | - | -
+Tuesday | CNS | - | - | PDC | CSA-L | - | - | - | - | -
+Wednesday | TRAINING | - | - | TRAINING | - | - | - | TRAINING | - | IDP-404
+Thursday | ADS -T | - | - | QLR(N-419) | - | SE  (N-419) | - | CNS-L | - | SE(S)-511
+Friday | SE | ADS | - | PDC  (N-419) | CSA-T(N-419) | - | - | VERBAL TRAINING | - | IDP-312
+Saturday | QLR (N-519) | - | - | ADS | CNS | PDC | - | SE -L | - | PDC(S)-208
+CLASS TEACHER | - | - | Mr. N. Brahma Naidu | - | - | - | - | - | - | -
+ADS | - | - | Mr. N. Brahma Naidu(7036376240) | - | - | - | - | - | - | -
+CNS | - | - | Dr. J. Vijitha Ananthi(9790628946) | - | - | - | - | - | - | -
+CNS-L | - | - | Dr. J. Vijitha Ananthi, Dr Krishna Reddy, Ms N.Sarvani,MS. SIMHADRI POORNIMA | - | - | - | - | - | - | -
+IDP | - | - | Dr.M. Sunil Babu, Mr K Hareesh(9948723118) | - | - | - | - | - | - | -
+PDC | - | - | Mr. P. Vijaya Babu(9985333934),251FB04028,251FB04031 | - | - | - | - | - | - | -
+SE | - | - | Ms. Sk.Sajida Sultana(7981403193) | - | - | - | - | - | - | -
+SE-L | - | - | Ms. Sk.Sajida Sultana, Mr U. Venkateswara Rao,241FB04016,241FB04022 | - | - | - | - | - | - | -
+CSA | - | - | Mr. Sd.Nafees Ahamed(8790469105), Mr Gowtham,MR. SAYYAD THAJUDDIN BABA | - | - | - | - | - | - | -
+QALR | - | - | MR TS QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04015,241FB04017 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 5 ---
+SECTION-5(N-417) | - | - | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05 | - | -
+Monday | SE | ADS | BREAK | CNS | CSA-T | - | BREAK | OE | - | IDP-306 | - | -
+Tuesday | ADS-L | - | - | PDC | CNS -L | - | - | - | - | IDP-515 | - | -
+Wednesday | TRAINING | - | - | TRAINING | - | - | - | TRAINING | - | - | - | -
+Thursday | ADS-T(N-507) | - | - | CNS(N-507) | SE (N-507) | QLR(N-507) | - | QLR(N-508) | - | - | - | -
+Friday | PDC-T | - | - | CSA-L | - | QLR | - | ADS-507 | SE -507 | QLR(N-507) | - | -
+Saturday | CNS(N-414B) | PDC(N-414B) | - | PDC | SE -L | - | - | VERBAL TRAINING | - | QLR-301 | - | -
+CLASS TEACHER | - | - | Dr.James Deva Koresh H | - | - | - | - | - | - | - | - | -
+ADS | - | - | Mr.S.Suresh Babu(9866684845) | - | - | - | - | - | - | - | - | -
+CNS | - | - | Dr.James Deva Koresh H(9994762822) | - | - | - | - | - | - | - | - | -
+CNS-L | - | - | Dr.James Deva Koresh H, Ms V. Anusha,251FB04005,251FB04016 | - | - | - | - | - | - | - | - | -
+IDP | - | - | Dr.M. Sunil Babu, Dr Jhansi Lakshmi(8333001991) | - | - | - | - | - | - | - | - | -
+PDC | - | - | Ms. Sai Spandana Verella(9948368555),251FB04024,251FB04026,251FB04029 | - | - | - | - | - | - | - | - | -
+SE | - | - | Mrs.V. Nandini(9398983743) | - | - | - | - | - | - | - | - | -
+SE-L | - | - | Mrs.V. Nandini,Dr T.R Rajesh,251FB04008,251FB04040 | - | - | - | - | - | - | - | - | -
+CSA | - | - | Ms R. Nithya, Ms B.Maneesha | - | - | - | - | - | - | - | 0.0 | 2.0
+QALR | - | - | MR TS QLR | - | - | - | - | - | - | - | 0.0 | 2.0
+TRAINING | - | - | 241FB04021,241FB04023 | - | - | - | - | - | - | - | 2.0 | 2.0
+- | - | - | - | - | - | - | - | - | - | - | 2.0 | 0.0
+- | - | - | - | - | - | - | - | - | - | - | 0.0 | 2.0
+- | - | - | - | - | - | - | - | - | - | - | 0.0 | 4.0
+- | - | - | - | - | - | - | - | - | - | - | 0.0 | 4.0
+
+--- Sheet:  III CSE 6 ---
+SECTION-6(N-419) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+Monday | PDC-T | - | BREAK | CNS | QALR | - | BREAK | OE | - | ADS-419
+Tuesday | VERBAL TRAINING | - | - | SE -L(N-504) | - | PDC(N-504) | - | - | - | -
+Wednesday | QALR | - | - | ADS-T | - | CNS | - | MINOR | - | IDP
+Thursday | SE | PDC-T | - | CNS-L(N-416) | - | SE(N-416) | - | - | - | IDP-505
+Friday | CNS | SE | - | PDC(N-416) | ADS-L(N-416) | - | - | - | - | PDC(s)-419
+Saturday | TRAINING(N-404) | - | - | TRAINING(N-317) | - | - | - | TRAINING(N-306) | - | ADS-306
+CLASS TEACHER | - | - | Mr. Mohan Venkateswara Rao | - | - | - | - | - | - | -
+ADS | - | - | Mr. N. Brahma Naidu(7036376240),Mr.S.Suresh Babu | - | - | - | - | - | - | -
+CNS | - | - | Ms. G. Parimala(9177649711) | - | - | - | - | - | - | -
+CNS-L | - | - | Ms. G. Parimala,251FB04007,251FB04035,MR. KODALI SAI PRAVEEN | - | - | - | - | - | - | -
+IDP | - | - | Ms Leelavathy(8074308730),  MS. JAMPANI DIVYA SREE | - | - | - | - | - | - | -
+PDC | - | - | Ms. Shaik Reehana(6301094495) | - | - | - | - | - | - | -
+SE | - | - | Mr. Mohan Venkateswara Rao(9494399849) | - | - | - | - | - | - | -
+SE-L | - | - | Mr. Mohan Venkateswara Rao, Ms. Sk.Sajida Sultana,251FB04008,251FB04040 | - | - | - | - | - | - | -
+QALR | - | - | Mr.Chand | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04010,241FB04013 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 7 ---
+SECTION-7(N-504) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+Monday | SE (N-407) | AJP (N-407) | BREAK | QLR(N-407) | PDC-T(N-407) | - | BREAK | OE | - | IDP
+Tuesday | CNS | SE | - | QLR(N-419) | AJP-T (N-419) | - | - | - | - | IDP
+Wednesday | QLR | - | - | AJP-L | - | CNS | - | SE-L | - | -
+Thursday | TRAINING | - | - | TRAINING | - | - | - | TRAINING | - | -
+Friday | SE | PDC | - | CSA -LAB | - | AJP | - | CNS-L | - | SE(S)-504
+Saturday | CNS | PDC | - | VERBAL TRAINING	(N-307) | - | PDC(N-307) | - | CSA-T | - | PDC(S)-504
+CLASS TEACHER | - | - | Mr. Chavva Ravi Kishore Reddy | - | - | - | - | - | - | -
+AJP | - | - | Mr. Chavva Ravi Kishore Reddy(8186906603) | - | - | - | - | - | - | -
+AJP | - | - | Mr. Chavva Ravi Kishore Reddy(8186906603), Mr T.Latesh Babu, Mr Praveen, 251FB04046 | - | - | - | - | - | - | -
+CNS | - | - | Ms. M. Bhargavi(7095812130) | - | - | - | - | - | - | -
+CNS-L | - | - | Ms. M. Bhargavi, Dr. Krishna Reddy, Ms N.Sarvani,MR. TULASI VAMSI KRISHNA SAI | - | - | - | - | - | - | -
+IDP | - | - | Ms. Shaik Reehana(6301094495) | - | - | - | - | - | - | -
+PDC | - | - | Mr K.Harish, (9948723118),251FB04028,251FB04006 | - | - | - | - | - | - | -
+SE | - | - | Mr. T Narasimha Rao(9441075258) | - | - | - | - | - | - | -
+SE-L | - | - | Mr. T Narasimha Rao, Dr J. Vinoj,241FB04016,241FB04022 | - | - | - | - | - | - | -
+CSA | - | - | Ms. Kollabathula Nimnagasri(7842481619),Mr Aditya Venkateswara Kumar, Ms Priya bharathi | - | - | - | - | - | - | -
+QALR | - | - | MT MW QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04016,241FB04022 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 8 ---
+SECTION-8(N-505) | - | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05 | -
+Monday | QALR | - | BREAK | VERBAL TRAINING	 (N-318) | DL-T(N-318) | - | BREAK | OE | - | SE(LECTURE)-514B | -
+Tuesday | DL -L | - | - | SE | PDC-T | - | - | - | - | SE(S) | -
+Wednesday | CNS(N-508) | DL(N-508) | - | SE -L | - | PDC | - | MINOR | - | CNS (LECTURE) | DL(S)
+Thursday | PDC (514A) | SE (514A) | - | CNS -L | - | DL | - | - | - | PDC(S)-504 | -
+Friday | QALR(N-508) | - | - | CNS (N-508) | PDC | VERBAL TRAINING | - | - | - | IDP | -
+Saturday | TRAINING | - | - | TRAINING | - | - | - | TRAINING | - | IDP | -
+CLASS TEACHER | - | - | Ms. N.Sarvani | - | - | - | - | - | - | - | -
+DL | - | - | Dr. B. Suvarna(7093171146) | - | - | - | - | - | - | - | -
+CNS | - | - | Ms. N.Sarvani(8790776273) | - | - | - | - | - | - | - | -
+CNS-L | - | - | Ms. N.Sarvani,Ms V. Anusha,251FB04027,251FB04037 | - | - | - | - | - | - | - | -
+IDP | - | - | Dr. B. Suvarna(7093171146), MR. KODALI SAI PRAVEEN | - | - | - | - | - | - | - | -
+PDC | - | - | Ms.Tanigundala Leelavathy(8919420637),251FB04028,251FB04030,251FB04031 | - | - | - | - | - | - | - | -
+SE | - | - | Mr.Kumar Devapogu(9704809093) | - | - | - | - | - | - | - | -
+SE-L | - | - | Mr.Kumar Devapogu, Mr N. Uttej Kumar,241FB04016,241FB04022 | - | - | - | - | - | - | - | -
+QALR | - | - | Mr.Chand | - | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04021,241FB04023 | - | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 9 ---
+SECTION-9(N-506) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+Monday | QLR | - | BREAK | SE(N-507) | CNS(N-507) | DIP-T(N-507) | BREAK | OE | - | -
+Tuesday | PDC-T(N-507) | - | - | DIP | QLR | - | - | - | - | IDP-512
+Wednesday | CNS(N-414A) | PDC(N-414A) | - | SE | CSA-L | - | - | DIP-L | - | SE(S)
+Thursday | TRAINING | - | - | TRAINING | - | - | - | TRAINING | - | PDC(S)
+Friday | VERBAL TRAINING	(N-318) | - | - | CNS-L | - | DIP-T | - | PDC | SE | IDP
+Saturday | CNS(N-514B) | DIP(N-514B) | - | PDC(N-507) | CSA-T(N-507) | - | - | SE-L | - | -
+CLASS TEACHER | - | - | Dr K.RAMBABU | - | - | - | - | - | - | -
+DIP | - | - | Dr K.RAMBABU(8919953093) | - | - | - | - | - | - | -
+CNS | - | - | Mr. Kiran Kumar Kaveti(8019419813) | - | - | - | - | - | - | -
+CNS-L | - | - | Mr. Kiran Kumar Kaveti, Dr J Vijitha Ananthi, Ms N.Sarvani,251FB04027 | - | - | - | - | - | - | -
+IDP | - | - | Mr. P. Vijaya Babu, Ms Leelavathy(9985333934) | - | - | - | - | - | - | -
+PDC | - | - | Mr.E.Akhil Babu(8465999059),251FB04024,251FB04025 | - | - | - | - | - | - | -
+SE | - | - | Ms.K.Jyostna(7337373032) | - | - | - | - | - | - | -
+SE-L | - | - | Ms.K.Jyostna, Mr N.Uttej Kumar,MR. GERA PRUDHVI,MR. AKULA GOPI | - | - | - | - | - | - | -
+CSA | - | - | Mr. Sd.Nafees Ahamed(8790469105), Ms Manogna, Ms A.Durga Bhavani | - | - | - | - | - | - | -
+QALR | - | - | MT MW QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04004,241FB04018 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 10 ---
+SECTION-10(N-507) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+MON | SE | CNS | BREAK | ML-L(N-506) | - | QLR(N-506) | BREAK | OE | - | -
+TUE | CSA-L(N-506) | - | - | ML | PDC-T | - | - | - | - | -
+WED | ML | CNS | - | SE | QLR | PDC | - | QLR | - | IDP
+THUR | TRAINING(N-417) | - | - | TRAINING(N-417) | - | - | - | TRAINING(N-417) | - | SE(S)-417
+FRI | CSA-T | - | - | PDC | SE | ML-T | - | CNS-L-417 | - | PDC(S)-512
+SAT | VERBAL TRAINING | - | - | SE-L(N-506) | - | ML-T(N-506) | - | PDC | CNS | IDP
+CLASS TEACHER | - | - | Ms. V.Anusha | - | - | - | - | - | - | -
+ML | - | - | Dr.S. Deva Kumar(9959949221) | - | - | - | - | - | - | -
+CNS | - | - | Ms. V.Anusha(9704754065) | - | - | - | - | - | - | -
+CNS-L | - | - | Ms. V.Anusha, Dr P.Siva Prasad,MR. KODALI SAI PRAVEEN,MR.M.YESU RAMBABU | - | - | - | - | - | - | -
+IDP | - | - | MR.M.YESU RAMBABU,Mr K Hareesh(9948723118) | - | - | - | - | - | - | -
+PDC | - | - | Mr.Sk.Jani(8247840320),251FB04024,251FB04025,251FB04029 | - | - | - | - | - | - | -
+SE | - | - | Mr. Mohan Venkateswara Rao(9494399849) | - | - | - | - | - | - | -
+SE-L | - | - | Mr. Mohan Venkateswara Rao,Ms. Sk.Sajida Sultana,251FB04002,251FB04023 | - | - | - | - | - | - | -
+Honour | - | - | Ms Priya Bharathi, Mr Raj Kiran | - | - | - | - | - | - | -
+QALR | - | - | MT MW QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04007,241FB04025 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 11 ---
+SECTION-11(N-508) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+MON | CNS | ML | BREAK | SE | QLR | PDC | BREAK | OE | - | -
+TUE | QLR | - | - | PDC | CSA-L | - | - | - | - | PDC(S)
+WED | ML-L(N-505) | - | - | PDC-T | - | QLR | - | CNS-L(N-516) | - | SE(S)-516
+THUR | SE | ML | - | CNS | VERBAL TRAINING | - | - | SE-L(N-311) | - | -
+FRI | TRAINING(N-505) | - | - | TRAINING(N-505) | - | - | - | TRAINING(N-505) | - | IDP
+SAT | CSA-T | - | - | SE | PDC | CNS | - | ML-T | - | IDP
+CLASS TEACHER | - | - | Dr.P. Siva Prasad | - | - | - | - | - | - | -
+ML | - | - | Mr. Sourav Mondal(9831422643) | - | - | - | - | - | - | -
+CNS | - | - | Dr.P. Siva Prasad(9000443503) | - | - | - | - | - | - | -
+CNS-L | - | - | Dr.P. Siva Prasad, Dr Krishna Reddy,MR. KODALI SAI PRAVEEN,MR.M.YESU RAMBABU | - | - | - | - | - | - | -
+IDP | - | - | Ms M.Bhargavi , Ms Sk Reehana(7095812130) | - | - | - | - | - | - | -
+PDC | - | - | Dr.M. Sunil Babu(8333001991),251FB04006,251FB04028 | - | - | - | - | - | - | -
+SE | - | - | Mr U.Venkateswara Rao(9966258482) | - | - | - | - | - | - | -
+SE-L | - | - | Mr U.Venkateswara Rao,  Ms V.Nandini,241FB04006,241FB04009 | - | - | - | - | - | - | -
+CSA | - | - | Ms R. Nithya, Ms A.Durga Bhavani | - | - | - | - | - | - | -
+QALR | - | - | MT MW QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04202,241FB04203 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 12 ---
+SECTION-12(N-511) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+MON | CSA-L(N-305) | - | BREAK | CNS(N-514A) | SE(N-514A) | ML-T(N-514A) | BREAK | OE | - | -
+TUE | PDC-T(N-305) | - | - | ML(N-514A) | QLR(N-514A) | - | - | - | - | -
+WED | SE-L(N-405) | - | - | CNS(N-514B) | ML-T(N-514B) | PDC(N-514B) | - | VERBAL TRAINING	(N-307) | - | PDC(S)-307
+THUR | SE(N-305) | CNS(N-305) | - | PDC(N-404) | ML-L(N-404) | - | - | CSA-T(N-307) | - | SE(S)-307
+FRI | PDC(N-307) | ML(N-307) | - | IDP(N-514A) | QLR(N-514A) | - | - | CNS-L(N-405) | - | IDP(N-404)
+SAT | TRAINING(N-306) | - | - | TRAINING(N-504) | - | - | - | TRAINING(N-316) | - | SE LECTURE(N-511)
+CLASS TEACHER | - | - | Ms. Shaik Reehana | - | - | - | - | - | - | -
+ML | - | - | Dr. Jhansi Lakshmi P(8500719259) | - | - | - | - | - | - | -
+CNS | - | - | Mr. Kiran Kumar Kaveti(8019419813) | - | - | - | - | - | - | -
+CNS-L | - | - | Mr. Kiran Kumar Kaveti, Dr James Deva Koresh,MS. SIMHADRI POORNIMA | - | - | - | - | - | - | -
+IDP | - | - | Mr E. Akhil Babu(8465999059) | - | - | - | - | - | - | -
+PDC | - | - | Ms. Shaik Reehana(6301094495),251FB04030,251FB04031 | - | - | - | - | - | - | -
+SE | - | - | Dr. T.R. Rajesh(9676560542) | - | - | - | - | - | - | -
+SE-L | - | - | Dr. T.R. Rajesh, Mr U Venakteswara Rao,251FB04002,251FB04023 | - | - | - | - | - | - | -
+CSA | - | - | Ms B.Maneesha(7093125459), Mr Syed Nafees,MR. SAYYAD THAJUDDIN BABA | - | - | - | - | - | - | -
+QALR | - | - | Mr.Chand | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04004,241FB04018 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 13 ---
+SECTION-13(N-512) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+MON | SE(N-416) | - | BREAK | CNS-L(N-505) | - | PDC-T(N-505) | BREAK | OE | - | -
+TUE | CNS(N-304) | ML(N-304) | - | QLR(N-304) | VERBAL TRAINING(N-304) | - | - | - | - | CSA-318
+WED | PDC-T(N-318) | - | - | ML-L(N-306) | - | QALR-306 | - | SE (317) | CNS(317) | PDC(S)-519
+THUR | CNS(N-318) | ML(N-318) | - | PDC(N-318) | QLR(N-318) | - | - | IDP-507 | SE(N-507) | CSA-507
+FRI | TRAINING(N-506) | - | - | TRAINING(N-311) | - | - | - | TRAINING(N-306) | - | SE(S)-306
+SAT | ML-T(N-312) | - | - | SE(N-318) | PDC(N-318) | IDP(N-318) | - | CSA-406 | CSA-406 | -
+CLASS TEACHER | - | - | Mr. N. Uttej Kumar | - | - | - | - | - | - | -
+ML | - | - | Dr.S. Deva Kumar(9959949221) | - | - | - | - | - | - | -
+CNS | - | - | Ms. V.Anusha(9704754065) | - | - | - | - | - | - | -
+CNS-L | - | - | Ms. V.Anusha, Dr Vijitha Ananthi,251FB04007,251FB04035 | - | - | - | - | - | - | -
+IDP | - | - | Mr. P. Vijaya Babu, Ms Swarna lalitha(9985333934) | - | - | - | - | - | - | -
+PDC | - | - | Mr.Sk.Jani(8247840320),251FB04024,251FB04025 | - | - | - | - | - | - | -
+SE | - | - | Mr. N. Uttej Kumar(9573793892) | - | - | - | - | - | - | -
+SE-L | - | - | Mr. N. Uttej Kumar, Dr Vinoj,251FB04008,251FB04040 | - | - | - | - | - | - | -
+CSA | - | - | Mr K.Raj Kiran(9542687850) | - | - | - | - | - | - | -
+QALR | - | - | MR J Naresh QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04004,241FB04018 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 14 ---
+SECTION-14(N-514A) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15 - 9:00 | 9:00 - 9.50 | 9.50 - 10.05 | 10.05 - 10.55 | 10.55-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40 - 2.30 | 2.30 - 3.20 | 3.20-4.05
+MON | SE | CNS | BREAK | ML-L(N-312) | - | PDC(N-312) | BREAK | OE | - | IDP-506
+TUE | ML | CNS | - | SE-L(N-305) | - | PDC(N-305) | - | - | - | CNS
+WED | VERBAL TRAINING | - | - | SE | QLR | - | - | MINORS | - | -
+THUR | PDC-T(505) | - | - | ML | QLR | - | - | - | - | PDC(LECTURE)-508
+FRI | ML-T | - | - | CNS-L(N-405) | - | SE(N-405) | - | - | - | PDC(S)
+SAT | TRAINING(N-516) | - | - | TRAINING(N-516) | - | - | - | TRAINING(N-516) | - | IDP-512(LECTURE)
+CLASS TEACHER | - | - | Mr.U.Venkateswara Rao | - | - | - | - | - | - | -
+ML | - | - | Mr. Sourav Mondal(9831422643) | - | - | - | - | - | - | -
+CNS | - | - | Ms. G. Parimala(9177649711) | - | - | - | - | - | - | -
+CNS-L | - | - | Ms. G. Parimala, Ms V. Anusha,251FB04005,251FB04016 | - | - | - | - | - | - | -
+IDP | - | - | Mr. E Akhil Babu, Mr Sourav Mondal(8465999059) | - | - | - | - | - | - | -
+PDC | - | - | Mr. P. Vijaya Babu(9985333934),251FB04026,251FB04025,251FB04029 | - | - | - | - | - | - | -
+PDC-T | - | - | Mr. P. Vijaya Babu, Mr Sk Jani | - | - | - | - | - | - | -
+SE | - | - | Mr.U.Venkateswara Rao(9966258482) | - | - | - | - | - | - | -
+SE-L | - | - | Mr.U.Venkateswara Rao(9966258482),251FB04002,251FB04023 | - | - | - | - | - | - | -
+QALR | - | - | Mr.Chand | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04019,241FB04024 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 15 ---
+SECTION-15(N-514B) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+MON | VERBAL TRAINING | - | BREAK | CSA-T | QLR | - | BREAK | OE | - | -
+TUE | SE | PDC | - | MAD-L(N-515) | - | CNS(N-515) | - | - | - | IDP-506
+WED | PDC-T | CNS | - | MAD(N-312) | SE-L(N-312) | - | - | QLR | - | PDC(S)
+THUR | MAD | SE | - | CSA-T(N-517) | PDC-T(N-517) | - | - | CNS-L(411) | - | IDP
+FRI | TRAINING (N-415) | - | - | TRAINING(N-415) | - | - | - | TRAINING(N-415) | - | MAD(S)-505
+SAT | CSA-L(N-506) | - | - | SE | MAD-T | - | - | CNS | PDC | SE(S)
+CLASS TEACHER | - | - | Ms. M. Bhargavi | - | - | - | - | - | - | -
+MAD | - | - | Dr.E. Deepak Chowdary(9553147457) | - | - | - | - | - | - | -
+MAD-T,L | - | - | Dr.E. Deepak Chowdary(9553147457),MR. TULASI SAI GOVARDHAN,251FB04044,241FB04020 | - | - | - | - | - | - | -
+CNS | - | - | Ms. M. Bhargavi(7095812130) | - | - | - | - | - | - | -
+CNS-L | - | - | Ms. M. Bhargavi, Dr james Deva Koresh,MR. KODALI SAI PRAVEEN,MR.M.YESU RAMBABU | - | - | - | - | - | - | -
+IDP | - | - | Mr. K. Pavan Kumar(9440781558),  KODALI SAI PRAVEEN | - | - | - | - | - | - | -
+PDC | - | - | Mr. K. Pavan Kumar(9440781558),251FB04025,251FB04029,251FB04031 | - | - | - | - | - | - | -
+SE | - | - | Mr. T Narasimha Rao(9441075258) | - | - | - | - | - | - | -
+SE-L | - | - | Mr. T Narasimha Rao, Dr Vinoj,251FB04002,251FB04023 | - | - | - | - | - | - | -
+CSA | - | - | Mr. Adavi Aditya Venkateswara Kumar(6301666022), Ms. Kollabathula Nimnagasri, MR. SAYYAD THAJUDDIN BABA | - | - | - | - | - | - | -
+QALR | - | - | Mr. Naresh QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04006,241FB04009 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 16 ---
+SECTION-16(N-515) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+MON | MAD | CNS | BREAK | SE-L(N-516) | - | PDC-T(N-516) | BREAK | OE | - | -
+TUE | MAD-T | - | - | IDP(N-514B) | QLR(N-514B) | - | - | - | - | -
+WED | PDC-T | - | - | CNS | CSA-L | - | - | MAD | - | IDP
+THUR | VERBAL TRAINING | - | - | SE | CNS | PDC-T | - | QLR(N-414B) | - | SE LECTURE
+FRI | TRAINING | - | - | TRAINING | - | - | - | Training | - | PDC(S)
+SAT | MAD | SE | - | CNS-L | - | PDC | - | CSA(T) | - | MAD(S)
+CLASS TEACHER | - | - | \ | - | - | - | - | - | - | -
+MAD | - | - | Mrs.J. Dayanika(7013447336) | - | - | - | - | - | - | -
+MAD-L,T | - | - | - | - | - | - | - | - | - | -
+CNS | - | - | Dr.James Deva Koresh H(9994762822) | - | - | - | - | - | - | -
+CNS-L | - | - | \ | - | - | - | - | - | - | -
+IDP | - | - | Ms. Sd. Shareefunnisa,Mr E.Akhil Babu(8074308730) | - | - | - | - | - | - | -
+PDC | - | - | - | - | - | - | - | - | - | -
+SE | - | - | Mr.Kumar Devapogu(9704809093) | - | - | - | - | - | - | -
+SE-L | - | - | \ | - | - | - | - | - | - | -
+CSA | - | - | Mr R Gowtham(8465057700), Ms Nimnagasri | - | - | - | - | - | - | -
+QALR | - | - | \ | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04015,241FB04017 | - | - | - | - | - | - | -
+- | - | - | - | - | - | - | - | \ | - | -
+- | - | - | - | - | - | - | - | \ | - | -
+
+--- Sheet:  III CSE 17 ---
+SECTION-17(N-516) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+MON | SE | QLR | BREAK | QLR-414b | PDC-T-414b | - | BREAK | OE | - | -
+TUE | CSA | - | - | MAD-L | - | CNS | - | - | - | -
+WED | CSA-L | - | - | CNS-L | - | MAD | - | SE(N-508) | PDC(N-508) | PDC(S)-508
+THUR | CNS | PDC | - | SE-L | - | MAD | - | IDP | - | MAD(S)-512
+FRI | TRAINING | - | - | TRAINING | - | - | - | TRAINING | - | VERBAL TRAINING(414B)
+SAT | PDC-T(N-514A) | SE(N-514A) | - | CNS(N-514A) | QLR(N-514A) | - | - | MAD-T(N-514A) | - | VERBAL TRAINING(N-506)
+CLASS TEACHER | - | - | Dr. J. Vijitha Ananthi | - | - | - | - | - | - | -
+MAD | - | - | Ms. G. Tejaswi(9398046056),241FB04014,241FB04025 | - | - | - | - | - | - | -
+CNS | - | - | Dr. J. Vijitha Ananthi(9790628946) | - | - | - | - | - | - | -
+CNS-L | - | - | Dr. J. Vijitha Ananthi, Ms M. Bhargavi, Ms N.Sarvani,251FB04016 | - | - | - | - | - | - | -
+IDP | - | - | Ms. Sai Spandana Verella,Ms Swarna lalitha(9948368555) | - | - | - | - | - | - | -
+PDC | - | - | Mr.E.Akhil Babu(8465999059),251FB04024,251FB04026,251FB04029 | - | - | - | - | - | - | -
+SE | - | - | Ms.K.Jyostna(7337373032) | - | - | - | - | - | - | -
+SE-L | - | - | Ms.K.Jyostna, Mr U Venkateswara Rao,251FB04002,251FB04023 | - | - | - | - | - | - | -
+CSA | - | - | Mr R Gowtham(8465057700), Ms B.Maneesha, Ms R.Nithya | - | - | - | - | - | - | -
+QALR | - | - | Mr. Naresh QLR | - | - | - | - | - | - | -
+TRAINING | - | - | 251FB04022,251FB04032 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 18 ---
+SECTION-18(N-517) | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05
+MON | SE | PDC | BREAK | MAD-L | - | CNS | BREAK | OE | - | IDP
+TUE | PDC-T | - | - | CSA-L | - | CNS | - | - | - | MAD(S)-516
+WED | MAD-T | - | - | VERBAL TRAINING(N-414A) | QLR(N-414A) | - | - | SE-L | - | -
+THUR | CNS | MAD | - | VERBAL TRAINING(N-514B) | SE(N-514B) | PDC(N-514B) | - | IDP | - | CSA-T-301
+FRI | TRAINING | - | - | TRAINING | - | - | - | TRAINING | - | CSA-T(N-512)
+SAT | MAD | PDC | - | CNS-L | - | SE | - | QLR(N-414B) | - | IDP(414B)
+CLASS TEACHER | - | - | Ms. Sk.Sajida Sultana | - | - | - | - | - | - | -
+MAD | - | - | Dr.E. Deepak Chowdary(9553147457) | - | - | - | - | - | - | -
+MAD-L,T | - | - | Dr.E. Deepak Chowdary, Ms Dayanika,MR. TULASI SAI GOVARDHAN,251FB04044 | - | - | - | - | - | - | -
+CNS | - | - | Dr. Prashant Upadhyay(9805406546) | - | - | - | - | - | - | -
+CNS-L | - | - | Dr. Prashant Upadhyay, Ms M. Bhargavi(9805406546),251FB04005,251FB04016 | - | - | - | - | - | - | -
+IDP | - | - | Mr. K. Pavan Kumar(9440781558) | - | - | - | - | - | - | -
+PDC | - | - | Ms.Tanigundala Leelavathy(8919420637),251FB04006,251FB04028 | - | - | - | - | - | - | -
+SE | - | - | Ms. Sk.Sajida Sultana(7981403193) | - | - | - | - | - | - | -
+SE-L | - | - | Ms. Sk.Sajida Sultana, Mr Mohan Venkateswara Rao,MR. GERA PRUDHVI,MR. AKULA GOPI | - | - | - | - | - | - | -
+CSA | - | - | Ms B.Maneesha(7093125459) | - | - | - | - | - | - | -
+QALR | - | - | MR.KIRAN KUMAR | - | - | - | - | - | - | -
+TRAINING | - | - | 251FB04007,251FB04035 | - | - | - | - | - | - | -
+
+--- Sheet:  III CSE 19 ---
+SECTION-19(N-519) | - | - | - | - | - | - | - | - | - | - | -
+Day | 8.15-9.05 | 9.05-9.55 | 9.55-10.10 | 10.10.-11.00 | 11.00-11.50 | 11.50-12.40 | 12.40-1.40 | 1.40-2.30 | 2.30-3.20 | 3.20-4.05 | -
+MON | PDC-T | - | BREAK | SE | CNS-L | - | BREAK | OE | - | IDP-516 | -
+TUE | QLR | - | - | SE-316 | MAD LAB-316 | - | - | - | - | - | -
+WED | CNS | PDC | - | MAD-T-511 | SE-L-511 | - | - | MINORS | - | - | -
+THUR | QLR | - | - | PDC | CNS | MAD | - | - | - | PDC(LECTURE) | -
+FRI | SE | CNS | - | VERBAL TRAINING | - | MAD-T | - | - | - | IDP | -
+SAT | TRAINING(N-416) | - | - | TRAINING(N-305) | - | - | - | TRAINING(N-317) | - | MAD(LECTURE)-519 | -
+CLASS TEACHER | - | - | Mrs.V. Nandini | - | - | - | - | - | - | - | -
+MAD | - | - | Mrs.J. Dayanika(7013447336),241FB04014,241FB04025,241FB04020 | - | - | - | - | - | - | - | -
+CNS | - | - | Dr.Bh. Krishna Reddy(9492709921) | - | - | - | - | - | - | - | -
+CNS-L | - | - | Dr.Bh. Krishna Reddy, Dr James Deva Koresh(9492709921),251FB04005,251FB04016 | - | - | - | - | - | - | - | -
+IDP | - | - | Ms. Sai Spandana Verella,Ms Swarna Lalitha(9948368555) | - | - | - | - | - | - | - | -
+PDC | - | - | Ms. Sai Spandana Verella(9948368555),251FB04024,251FB04029 | - | - | - | - | - | - | - | -
+SE | - | - | Mrs.V. Nandini(9398983743) | - | - | - | - | - | - | - | -
+SE-L | - | - | Mrs.V. Nandini, Dr T.R Rajesh,241FB04006,241FB04009 | - | - | - | - | - | - | - | -
+QALR | - | - | Mr.Chand | - | - | - | - | - | - | - | -
+TRAINING | - | - | 241FB04202,241FB04203 | - | - | - | - | - | - | - | -
