@@ -86,17 +86,6 @@ Changes refresh analytics data based on selection.
 - **Care** (FiHeart)
 - **Logout** (FiLogOut)
 
-## Demo Data
-
-Admin dashboard comes with realistic demo data:
-- 1,245 total users
-- 5,420 total sessions
-- 3,890 chat messages
-- 256 scheduled appointments
-- Multiple metrics with growth trends
-
-Replace with actual API data by uncommenting API calls in AdminDashboard.jsx.
-
 ## API Endpoints
 
 All admin endpoints are defined in `src/api/config.js`:
@@ -141,9 +130,8 @@ No external charting library needed - all charts built with SVG for lightweight 
 
 ## Next Steps
 
-1. **Connect Real Data**: Replace mock data with actual API calls
-2. **Add More Metrics**: Implement additional analytics sections
-3. **Real-time Updates**: Add WebSocket for live metrics
-4. **Export Reports**: Add PDF export functionality
-5. **Advanced Filters**: More granular date range and category filters
-6. **User Management**: Admin tools to manage users directly
+1. **Add More Metrics**: Implement additional analytics sections
+2. **Real-time Updates**: Add WebSocket for live metrics
+3. **Export Reports**: Add PDF export functionality
+4. **Advanced Filters**: More granular date range and category filters
+5. **User Management**: Admin tools to manage users directly

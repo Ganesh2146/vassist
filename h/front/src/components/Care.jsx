@@ -7,7 +7,16 @@ import PageTransition from './PageTransition';
 
 export default function Care({ onLogout }) {
   const navigate = useNavigate();
-  const [selectedDate, setSelectedDate] = useState(14);
+  const today = new Date();
+  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
+  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const [selectedDate, setSelectedDate] = useState(today.getDate());
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedCounselor, setSelectedCounselor] = useState('');
+  const [bookedToday, setBookedToday] = useState(false);
+  const [bookingSuccessful, setBookingSuccessful] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [bookingDetails, setBookingDetails] = useState(null);
   const [resources, setResources] = useState([
     { type: 'GUIDED EXERCISE', title: '5-Minute Box Breathing', desc: 'Regulate your nervous system...', img: 'video' },
     { type: 'ARTICLE', title: 'Managing Work Anxiety', desc: 'Practical tips for a calmer workday.', img: 'book' },
@@ -15,9 +24,42 @@ export default function Care({ onLogout }) {
   ]);
   const [loading, setLoading] = useState(false);
 
+  const [counselors, setCounselors] = useState([]);
+
   useEffect(() => {
     fetchCareResources();
+    fetchCounselors();
+    checkExistingBooking();
   }, []);
+
+  const fetchCounselors = async () => {
+    try {
+      const response = await careAPI.getCounselors();
+      if (response.data.status === 'success') {
+        setCounselors(response.data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch counselors", error);
+    }
+  };
+
+  const checkExistingBooking = () => {
+    // Check if user already has a booking for today
+    const existingBookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
+    const today = new Date().toDateString();
+    const hasBookingToday = existingBookings.some(booking => 
+      new Date(booking.date).toDateString() === today
+    );
+    setBookedToday(hasBookingToday);
+  };
+
+  const getDaysInMonth = (month, year) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const getFirstDayOfMonth = (month, year) => {
+    return new Date(year, month, 1).getDay();
+  };
 
   const fetchCareResources = async () => {
     try {
@@ -51,29 +93,79 @@ export default function Care({ onLogout }) {
     }
   };
 
-  const handleScheduleAppointment = async (date, time) => {
+  const handleScheduleAppointment = async (date, time, counselor) => {
+    // Check if user already booked for today
+    if (bookedToday) {
+      setErrorMessage('❌ You have already booked a counseling slot for today. Only 1 slot per day is allowed.');
+      setTimeout(() => setErrorMessage(''), 5000);
+      return;
+    }
+
+    if (!time) {
+      setErrorMessage('Please select a time slot first.');
+      setTimeout(() => setErrorMessage(''), 5000);
+      return;
+    }
+
+    if (!counselor) {
+      setErrorMessage('Please select a counselor.');
+      setTimeout(() => setErrorMessage(''), 5000);
+      return;
+    }
+
     try {
+      const selectedCounselorName = counselors.find(c => c.id === parseInt(counselor))?.name;
+      
+      // Format date as YYYY-MM-DD
+      const formattedDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+      
       console.log('📅 Scheduling Appointment:');
-      console.log('  Date:', date);
+      console.log('  Date:', formattedDate);
       console.log('  Time:', time);
-      console.log('  Endpoint: POST /api/care/schedule-appointment');
+      console.log('  Counselor:', selectedCounselorName);
       console.log('  Timestamp:', new Date().toISOString());
       
       // API ENDPOINT: POST /api/care/schedule-appointment
       console.log('📡 Sending appointment request to backend...');
-      const response = await careAPI.scheduleAppointment(date, time);
+      const response = await careAPI.scheduleAppointment({
+        date: formattedDate,
+        time: time,
+        counselorId: counselor,
+        notes: ''
+      });
       console.log('✅ Appointment scheduled successfully:', response.data);
-      alert(`Success! ${response.data.message}`);
       
-      console.log('✅ Appointment scheduled for', date, 'at', time);
+      // Save booking to localStorage
+      const existingBookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
+      const bookingData = { 
+        date: new Date().toISOString(), 
+        time, 
+        counselor: selectedCounselorName,
+        bookedFor: `${date} ${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`
+      };
+      existingBookings.push(bookingData);
+      localStorage.setItem('userBookings', JSON.stringify(existingBookings));
+      
+      setBookedToday(true);
+      setBookingSuccessful(true);
+      setBookingDetails(bookingData);
+      setErrorMessage('');
+      setSelectedTime(null);
+      setSelectedCounselor('');
+      
+      setTimeout(() => {
+        setBookingSuccessful(false);
+      }, 5000);
+      
+      console.log('✅ Appointment scheduled successfully');
     } catch (error) {
       console.error('❌ Schedule Appointment Error:', {
         message: error.message,
         endpoint: 'POST /api/care/schedule-appointment',
-        date: date,
-        time: time,
         timestamp: new Date().toISOString()
       });
+      setErrorMessage('Failed to book appointment. Please try again.');
+      setTimeout(() => setErrorMessage(''), 5000);
     }
   };
 
@@ -86,13 +178,40 @@ export default function Care({ onLogout }) {
       {/* Main Content */}
       <main style={{padding: '30px', paddingBottom: '120px'}}>
         <div className="container-fluid">
-          {/* Section Title */}
-          <h2 style={{fontSize: '28px', fontWeight: 800, color: '#111827', marginBottom: '15px', fontFamily: 'Poppins'}}>
-            How are you feeling today?
-          </h2>
-          <p style={{color: '#4B5563', marginBottom: '30px', fontSize: '15px', fontWeight: '500'}}>
-            We're here to support your mental well-being.
-          </p>
+          {/* Section Title with Appointments Link */}
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '30px'}}>
+            <div>
+              <h2 style={{fontSize: '28px', fontWeight: 800, color: '#111827', marginBottom: '15px', fontFamily: 'Poppins'}}>
+                How are you feeling today?
+              </h2>
+              <p style={{color: '#4B5563', marginBottom: 0, fontSize: '15px', fontWeight: '500'}}>
+                We're here to support your mental well-being.
+              </p>
+            </div>
+            <button 
+              onClick={() => navigate('/my-appointments')}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: '#EFF6FF',
+                color: '#1E40AF',
+                border: '1px solid #BFDBFE',
+                borderRadius: '8px',
+                fontWeight: '600',
+                fontSize: '14px',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#DBEAFE';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#EFF6FF';
+              }}
+            >
+              View My Appointments
+            </button>
+          </div>
 
           {/* Schedule Counseling */}
           <div style={{backgroundColor: '#FFFFFF', padding: '25px', borderRadius: '12px', marginBottom: '30px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)'}}>
@@ -103,211 +222,226 @@ export default function Care({ onLogout }) {
               <h4 style={{fontWeight: 700, color: '#111827', margin: 0, fontFamily: 'Poppins'}}>Schedule Counseling</h4>
             </div>
 
-            {/* Calendar */}
+            {/* Select Counselor */}
             <div style={{marginBottom: '20px'}}>
+              <label style={{fontSize: '14px', color: '#4B5563', fontWeight: '600', marginBottom: '8px', display: 'block', fontFamily: 'Poppins'}}>Select Counselor</label>
+              <select 
+                value={selectedCounselor}
+                onChange={(e) => setSelectedCounselor(e.target.value)}
+                disabled={bookedToday || counselors.length === 0}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: '1px solid #E0E7FF',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontFamily: 'Poppins',
+                  backgroundColor: '#FFFFFF',
+                  cursor: (bookedToday || counselors.length === 0) ? 'not-allowed' : 'pointer',
+                  opacity: (bookedToday || counselors.length === 0) ? 0.5 : 1,
+                  color: '#111827'
+                }}
+              >
+                <option value="">
+                  {counselors.length > 0 ? '-- Select a Counselor --' : 'No counselors available'}
+                </option>
+                {counselors.map((counselor) => (
+                  <option key={counselor.id} value={counselor.id}>
+                    {counselor.first_name} {counselor.last_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Calendar */}
+            <div style={{marginBottom: '20px', backgroundColor: '#F9FAFB', padding: '15px', borderRadius: '8px', border: '1px solid #E5E7EB'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px'}}>
                 <button 
-                  onClick={() => console.log('Previous month')}
-                  style={{background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', color: '#4B5563', fontWeight: 'bold'}}>
+                  onClick={() => setCurrentMonth(currentMonth === 0 ? 11 : currentMonth - 1) || (currentMonth === 0 && setCurrentYear(currentYear - 1))}
+                  style={{background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#1E40AF', fontWeight: 'bold', padding: '8px'}}>
                   ‹
                 </button>
-                <p style={{fontWeight: 700, color: '#4B5563', fontSize: '14px', textTransform: 'uppercase', margin: 0}}>November 2025</p>
+                <p style={{fontWeight: 700, color: '#111827', fontSize: '15px', margin: 0, fontFamily: 'Poppins', minWidth: '180px', textAlign: 'center'}}>
+                  {new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long', year: 'numeric' })}
+                </p>
                 <button 
-                  onClick={() => console.log('Next month')}
-                  style={{background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', color: '#4B5563', fontWeight: 'bold'}}>
+                  onClick={() => setCurrentMonth(currentMonth === 11 ? 0 : currentMonth + 1) || (currentMonth === 11 && setCurrentYear(currentYear + 1))}
+                  style={{background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#1E40AF', fontWeight: 'bold', padding: '8px'}}>
                   ›
                 </button>
+              </div>
 
-              {/* Calendar Grid */}
-              <div style={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', textAlign: 'center', marginBottom: '20px'}}>
-                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, idx) => (
-                  <div key={idx} style={{fontWeight: 600, color: '#9CA3AF', fontSize: '12px', padding: '8px 0'}}>
+              {/* Calendar Grid - IMPROVED STYLE */}
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', textAlign: 'center', marginBottom: '15px'}}>
+                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, idx) => (
+                  <div key={idx} style={{fontWeight: 700, color: '#1E40AF', fontSize: '12px', padding: '8px 0', backgroundColor: '#EFF6FF', borderRadius: '6px'}}>
                     {day}
                   </div>
                 ))}
-                {[...Array(11)].map((_, idx) => (
+                
+                {/* Empty cells for days before month starts */}
+                {[...Array(getFirstDayOfMonth(currentMonth, currentYear))].map((_, idx) => (
+                  <div key={`empty-${idx}`}></div>
+                ))}
+                
+                {/* Calendar days */}
+                {[...Array(getDaysInMonth(currentMonth, currentYear))].map((_, idx) => {
+                  const day = idx + 1;
+                  const isSelected = selectedDate === day;
+                  const isPastDate = new Date(currentYear, currentMonth, day) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                  
+                  return (
+                    <button
+                      key={day}
+                      onClick={() => !isPastDate && setSelectedDate(day)}
+                      disabled={isPastDate || bookedToday}
+                      style={{
+                        padding: '10px',
+                        borderRadius: '8px',
+                        backgroundColor: isSelected ? '#1E40AF' : isPastDate ? '#F3F4F6' : '#FFFFFF',
+                        color: isSelected ? '#FFFFFF' : isPastDate ? '#9CA3AF' : '#111827',
+                        fontWeight: '600',
+                        cursor: isPastDate || bookedToday ? 'not-allowed' : 'pointer',
+                        border: isSelected ? '2px solid #1E40AF' : '1px solid #E5E7EB',
+                        fontFamily: 'Poppins',
+                        fontSize: '13px',
+                        transition: 'all 0.2s ease',
+                        opacity: isPastDate ? 0.5 : 1
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isPastDate && !bookedToday && !isSelected) {
+                          e.currentTarget.style.backgroundColor = '#EFF6FF';
+                          e.currentTarget.style.borderColor = '#1E40AF';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isPastDate && !bookedToday && !isSelected) {
+                          e.currentTarget.style.backgroundColor = '#FFFFFF';
+                          e.currentTarget.style.borderColor = '#E5E7EB';
+                        }
+                      }}
+                    >
+                      {day}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Available Slots */}
+            <div style={{marginBottom: '20px'}}>
+              <p style={{fontSize: '13px', color: '#4B5563', fontWeight: 600, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                <FiClock size={16} />
+                Available Time Slots
+              </p>
+              {bookedToday && (
+                <div style={{backgroundColor: '#FEE2E2', border: '1px solid #FECACA', borderRadius: '8px', padding: '12px', marginBottom: '15px', color: '#DC2626', fontSize: '13px', fontWeight: '600'}}>
+                  ✓ You already have a booking today. You can only book 1 slot per day.
+                </div>
+              )}
+              <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                {['09:00 AM', '10:30 AM', '02:00 PM', '03:30 PM', '04:30 PM'].map((time, idx) => (
                   <button
                     key={idx}
-                    onClick={() => setSelectedDate(12 + idx)}
+                    onClick={() => setSelectedTime(time)}
+                    disabled={bookedToday}
                     style={{
-                      padding: '8px',
+                      padding: '10px 16px',
+                      border: selectedTime === time ? '2px solid #1E40AF' : '1px solid #E0E7FF',
+                      backgroundColor: selectedTime === time ? '#EFF6FF' : '#FFFFFF',
                       borderRadius: '8px',
-                      backgroundColor: selectedDate === 12 + idx ? '#1E40AF' : 'transparent',
-                      color: selectedDate === 12 + idx ? '#FFFFFF' : '#111827',
+                      cursor: bookedToday ? 'not-allowed' : 'pointer',
+                      fontSize: '14px',
                       fontWeight: 600,
-                      cursor: 'pointer',
-                      border: 'none',
                       fontFamily: 'Poppins',
+                      opacity: bookedToday ? 0.5 : 1,
                       transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      if (selectedDate !== 12 + idx) {
-                        e.currentTarget.style.backgroundColor = '#F3F4F6';
+                      if (!bookedToday && selectedTime !== time) {
+                        e.currentTarget.style.borderColor = '#1E40AF';
+                        e.currentTarget.style.backgroundColor = '#F0F9FF';
                       }
                     }}
                     onMouseLeave={(e) => {
-                      if (selectedDate !== 12 + idx) {
-                        e.currentTarget.style.backgroundColor = 'transparent';
+                      if (!bookedToday && selectedTime !== time) {
+                        e.currentTarget.style.borderColor = '#E0E7FF';
+                        e.currentTarget.style.backgroundColor = '#FFFFFF';
                       }
                     }}
                   >
-                    {12 + idx}
+                    {time}
                   </button>
                 ))}
               </div>
+            </div>
 
-              {/* Available Slots */}
-              <div>
-                <p style={{fontSize: '13px', color: '#4B5563', fontWeight: 600, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                  <FiClock size={16} />
-                  Available Slots (Nov {selectedDate})
+            {/* Status Messages */}
+            {bookingSuccessful && (
+              <div style={{backgroundColor: '#DCFCE7', border: '1px solid #BBF7D0', borderRadius: '8px', padding: '16px', marginBottom: '15px'}}>
+                <p style={{color: '#15803D', fontSize: '13px', fontWeight: '600', margin: '0 0 12px'}}>
+                  ✓ Appointment booked successfully! {bookingDetails?.counselor} will contact you on {bookingDetails?.bookedFor} at {bookingDetails?.time}.
                 </p>
-                <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                  {['09:00 AM', '10:30 AM', '02:00 PM'].map((time, idx) => (
-                    <button
-                      key={idx}
-                      style={{
-                        padding: '10px 16px',
-                      border: '1px solid #E0E7FF',
-                      backgroundColor: '#FFFFFF',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      fontSize: '14px',
-                      fontWeight: 600,
-                      fontFamily: 'Poppins'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = '#1E40AF';
-                      e.currentTarget.style.backgroundColor = '#F0F9FF';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = '#E0E7FF';
-                        e.currentTarget.style.backgroundColor = '#FFFFFF';
-                      }}
-                    >
-                      {time}
-                    </button>
-                  ))}
-                </div>
+                <button 
+                  onClick={() => navigate('/my-appointments')}
+                  style={{
+                    backgroundColor: '#16A34A',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '8px 16px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#15803D';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#16A34A';
+                  }}
+                >
+                  View My Appointments
+                </button>
               </div>
+            )}
+            {errorMessage && (
+              <div style={{backgroundColor: '#FEE2E2', border: '1px solid #FECACA', borderRadius: '8px', padding: '12px', marginBottom: '15px', color: '#DC2626', fontSize: '13px', fontWeight: '600'}}>
+                {errorMessage}
+              </div>
+            )}
 
-              <button 
-                onClick={() => handleScheduleAppointment(selectedDate, '09:00 AM')}
-                style={{
+            <button 
+              onClick={() => handleScheduleAppointment(selectedDate, selectedTime, selectedCounselor)}
+              disabled={bookedToday}
+              style={{
                 width: '100%',
                 padding: '14px',
-                backgroundColor: '#1E40AF',
+                backgroundColor: bookedToday ? '#CCCCCC' : '#1E40AF',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '8px',
                 fontWeight: 700,
                 fontSize: '16px',
                 fontFamily: 'Poppins',
-                cursor: 'pointer',
+                cursor: bookedToday ? 'not-allowed' : 'pointer',
                 marginTop: '15px',
                 transition: 'all 0.3s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              >
-                Confirm Appointment
-              </button>
-            </div>
-          </div>
-
-          {/* Stress Management */}
-          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
-            <h4 style={{fontWeight: 700, color: '#111827', margin: 0, fontFamily: 'Poppins', fontSize: '18px'}}>Stress Management</h4>
-            <a href="#" onClick={(e) => {e.preventDefault(); console.log('View library');}} style={{color: '#1E40AF', textDecoration: 'none', fontWeight: 600, fontSize: '14px', cursor: 'pointer'}}>View Library</a>
-          </div>
-
-            <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
-              {resources.map((resource, idx) => {
-                const iconMap = {
-                  'video': <FiVideo size={40} />,
-                  'book': <FiBook size={40} />,
-                  'music': <FiMusic size={40} />
-                };
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => console.log('Open resource:', resource.title)}
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      borderRadius: '12px',
-                      padding: '15px',
-                      display: 'flex',
-                      gap: '15px',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      border: 'none',
-                      width: '100%',
-                      boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <div style={{
-                      width: '100px',
-                      height: '100px',
-                      backgroundColor: '#F0F9FF',
-                      borderRadius: '8px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '40px',
-                      flexShrink: 0,
-                      color: '#1E40AF'
-                    }}>
-                      {iconMap[resource.img]}
-                    </div>
-                    <div style={{flex: 1, textAlign: 'left'}}>
-                      <p style={{color: '#1E40AF', fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', margin: '0 0 5px'}}>
-                        {resource.type}
-                      </p>
-                      <h5 style={{fontWeight: 700, color: '#111827', margin: '0 0 5px', fontFamily: 'Poppins'}}>
-                        {resource.title}
-                      </h5>
-                      <p style={{color: '#4B5563', fontSize: '14px', margin: 0, fontWeight: '500'}}>{resource.desc}</p>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-
-          {/* Crisis Hotline */}
-          <div style={{
-            backgroundColor: '#F0F9FF',
-            borderRadius: '12px',
-            padding: '25px',
-            marginTop: '30px',
-            display: 'flex',
-            gap: '20px',
-            alignItems: 'center',
-            border: '2px solid #1E40AF'
-          }}>
-            <div style={{fontSize: '50px', color: '#1E40AF'}}>
-              <FiPhone size={50} />
-            </div>
-            <div>
-              <h5 style={{fontWeight: 700, color: '#111827', margin: '0 0 8px', fontFamily: 'Poppins'}}>
-                Need immediate help?
-              </h5>
-              <p style={{color: '#4B5563', margin: '0 0 10px', fontSize: '14px', fontWeight: '500'}}>
-                Our crisis hotline is available 24/7.
-              </p>
-              <button 
-                onClick={() => console.log('Calling 988')}
-                style={{color: '#1E40AF', fontWeight: 700, fontSize: '18px', margin: 0, background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'Poppins'}}
-              >
-                Call Now: 988
-              </button>
-            </div>
+              onMouseEnter={(e) => {
+                if (!bookedToday) {
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!bookedToday) {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }
+              }}
+            >
+              {bookedToday ? 'Already Booked Today' : 'Confirm Appointment'}
+            </button>
           </div>
         </div>
       </main>

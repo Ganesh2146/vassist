@@ -19,7 +19,7 @@ export default function Footer({ isDarkTheme }) {
             <ul className="list-unstyled small">
               <li><a href="#" className="text-decoration-none" style={{color: '#D1D5DB'}}>Privacy Policy</a></li>
               <li><a href="#" className="text-decoration-none" style={{color: '#D1D5DB'}}>Terms of Service</a></li>
-              <li><a href="#" className="text-decoration-none" style={{color: '#D1D5DB'}}>Contact Us</a></li>
+              <li><a href="/contact" className="text-decoration-none" style={{color: '#D1D5DB'}}>Contact Us</a></li>
               <li><a href="#" className="text-decoration-none" style={{color: '#D1D5DB'}}>FAQ</a></li>
             </ul>
           </div>

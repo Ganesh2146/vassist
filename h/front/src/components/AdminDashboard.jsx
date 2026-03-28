@@ -36,65 +36,72 @@ export default function AdminDashboard({ userName, onLogout }) {
       console.log('Fetching Admin Analytics');
       setLoading(true);
 
-      // Demo data structure for analytics
-      const mockData = {
-        overview: {
-          totalUsers: 1245,
-          activeUsers: 842,
-          totalSessions: 5420,
-          totalChats: 3890,
-          appointmentsBokked: 256,
-          userGrowth: 12.5,
-          sessionGrowth: 8.3,
-          chatGrowth: 15.2
+      // Fetch analytics data from backend APIs
+      const [
+        overviewResponse,
+        userBreakdownResponse,
+        userAnalyticsResponse,
+        chatAnalyticsResponse,
+        careAnalyticsResponse,
+        systemHealthResponse
+      ] = await Promise.all([
+        adminAPI.getAnalyticsOverview(),
+        adminAPI.getUserBreakdown(),
+        adminAPI.getUserAnalytics(selectedPeriod),
+        adminAPI.getChatAnalytics(selectedPeriod),
+        adminAPI.getCareAnalytics(selectedPeriod),
+        adminAPI.getSystemHealth()
+      ]);
+
+      // Construct analytics data from API responses
+      const analyticsData = {
+        overview: overviewResponse?.data?.data || {
+          totalUsers: 0,
+          activeUsers: 0,
+          totalSessions: 0,
+          totalChats: 0,
+          appointmentsBokked: 0,
+          userGrowth: 0,
+          sessionGrowth: 0,
+          chatGrowth: 0
         },
-        userBreakdown: {
-          students: 890,
-          counselors: 45,
-          staff: 120,
-          admins: 15,
-          others: 175
+        userBreakdown: userBreakdownResponse?.data?.data || {
+          students: 0,
+          counselors: 0,
+          staff: 0,
+          admins: 0,
+          others: 0
         },
-        userTrend: [
-          { date: 'Mar 1', users: 1050, active: 700 },
-          { date: 'Mar 5', users: 1120, active: 750 },
-          { date: 'Mar 10', users: 1180, active: 800 },
-          { date: 'Mar 14', users: 1245, active: 842 }
-        ],
-        chatMetrics: {
-          totalMessages: 15420,
-          averageResponseTime: 2.3,
-          aiResponses: 12340,
-          humanSupport: 3080,
-          satisfactionRate: 94.2
+        userTrend: userAnalyticsResponse?.data?.data?.trend || [],
+        chatMetrics: chatAnalyticsResponse?.data?.data || {
+          totalMessages: 0,
+          averageResponseTime: 0,
+          aiResponses: 0,
+          humanSupport: 0,
+          satisfactionRate: 0
         },
-        careMetrics: {
-          totalAppointments: 256,
-          bookedAppointments: 180,
-          completedAppointments: 156,
-          cancelledAppointments: 24,
-          avgCounselorRating: 4.7
+        careMetrics: careAnalyticsResponse?.data?.data || {
+          totalAppointments: 0,
+          bookedAppointments: 0,
+          completedAppointments: 0,
+          cancelledAppointments: 0,
+          avgCounselorRating: 0
         },
-        topQuestions: [
-          { question: 'How do I register for courses?', count: 342 },
-          { question: 'What about financial aid?', count: 289 },
-          { question: 'How do I schedule counseling?', count: 267 },
-          { question: 'Campus facilities info?', count: 245 },
-          { question: 'Hostel booking process?', count: 198 }
-        ],
-        systemHealth: {
-          uptime: 99.8,
-          apiLatency: 145,
-          dbHealth: 'healthy',
-          errorRate: 0.2
+        topQuestions: chatAnalyticsResponse?.data?.data?.topQuestions || [],
+        systemHealth: systemHealthResponse?.data?.data || {
+          uptime: 0,
+          apiLatency: 0,
+          dbHealth: 'unknown',
+          errorRate: 0
         }
       };
 
-      setAnalyticsData(mockData);
-      console.log('Admin Analytics loaded:', mockData);
+      setAnalyticsData(analyticsData);
+      console.log('Admin Analytics loaded from API:', analyticsData);
       setLoading(false);
     } catch (error) {
       console.error('Analytics Fetch Error:', error);
+      toast.error('Failed to load analytics data');
       setLoading(false);
     }
   };
@@ -208,21 +215,33 @@ export default function AdminDashboard({ userName, onLogout }) {
   };
 
   const SimpleLineChart = ({ data, title }) => {
-    const maxValue = Math.max(...data.map(d => d.users));
-    const points = data.map((d, i) => ({
-      ...d,
-      x: (i / (data.length - 1)) * 100,
-      y: 100 - (d.users / maxValue) * 80
-    }));
+    // Handle empty or insufficient data
+    if (!data || data.length === 0) {
+      return (
+        <div className="surface-card p-4 mb-4">
+          <h3 className="fs-5 fw-bold text-dark mb-4">{title}</h3>
+          <div className="text-center text-muted py-5">No data available</div>
+        </div>
+      );
+    }
+
+    const maxValue = Math.max(...data.map(d => d.users || 0), 1);
+    const points = data.length === 1 
+      ? [{...data[0], x: 50, y: 100 - (data[0].users / maxValue) * 80}]
+      : data.map((d, i) => ({
+        ...d,
+        x: (i / (data.length - 1)) * 100,
+        y: 100 - (d.users / maxValue) * 80
+      }));
 
     const pathData = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
 
     return (
       <div className="surface-card p-4 mb-4">
-        <h3 className="fs-5 fw-bold text-dark mb-4">
+        <h3 className="gradient-text fs-5 fw-bold mb-4">
           {title}
         </h3>
-        <svg width="100%" height="250" style={{overflow: 'visible'}}>
+        <svg width="100%" height="250" style={{overflow: 'visible', minHeight: '250px'}} viewBox="0 0 100 250">
           <defs>
             <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" style={{stopColor: 'var(--primary-color)', stopOpacity: 0.3}} />
@@ -231,20 +250,24 @@ export default function AdminDashboard({ userName, onLogout }) {
           </defs>
           {/* Grid lines */}
           {[0, 20, 40, 60, 80, 100].map((y, i) => (
-            <line key={i} x1="0" y1={y} x2="100%" y2={y} stroke="var(--border-subtle)" strokeWidth="1" />
+            <line key={i} x1="0" y1={y} x2="100" y2={y} stroke="var(--border-subtle)" strokeWidth="0.5" />
           ))}
           {/* Area under curve */}
-          <path d={pathData + ' L 100 100 L 0 100 Z'} fill="url(#gradient)" />
+          {pathData && pathData.startsWith('M') && (
+            <path d={pathData + ' L 100 100 L 0 100 Z'} fill="url(#gradient)" />
+          )}
           {/* Line */}
-          <path d={pathData} stroke="var(--primary-color)" strokeWidth="2" fill="none" />
+          {pathData && pathData.startsWith('M') && (
+            <path d={pathData} stroke="var(--primary-color)" strokeWidth="1.5" fill="none" />
+          )}
           {/* Points */}
           {points.map((p, i) => (
-            <circle key={i} cx={`${p.x}%`} cy={`${p.y}%`} r="4" fill="var(--primary-color)" />
+            <circle key={i} cx={p.x} cy={p.y} r="2" fill="var(--primary-color)" />
           ))}
           {/* X-axis labels */}
           {points.map((p, i) => (
-            <text key={`label-${i}`} x={`${p.x}%`} y="110" textAnchor="middle" fontSize="12" fill="var(--text-muted)">
-              {data[i].date}
+            <text key={`label-${i}`} x={p.x} y="120" textAnchor="middle" fontSize="8" fill="var(--text-muted)">
+              {data[i]?.date || ''}
             </text>
           ))}
         </svg>
@@ -286,7 +309,7 @@ export default function AdminDashboard({ userName, onLogout }) {
         <div className="container-fluid mx-auto px-4 mt-3 mb-2" style={{ maxWidth: '1400px' }}>
           <div className="d-flex justify-content-between align-items-center">
             <div>
-              <h2 className="mb-1 fw-bold fs-4 text-dark">Admin Console</h2>
+              <h2 className="gradient-text mb-1 fw-bold fs-4">Admin Console</h2>
               <p className="mb-0 text-muted fs-7">Manage system settings and view global analytics</p>
             </div>
             <select
@@ -310,7 +333,7 @@ export default function AdminDashboard({ userName, onLogout }) {
           <div className="row g-4 mb-4">
             <div className="col-12 col-xl-6">
               <div className="surface-card p-4 h-100">
-                <h3 className="fs-5 fw-bold text-dark mb-2">Knowledge Base Upload</h3>
+                <h3 className="gradient-text fs-5 fw-bold mb-2">Knowledge Base Upload</h3>
                 <p className="text-muted fs-7 mb-4">Upload an Excel file with columns: <strong>Question</strong> and <strong>Answer</strong>.</p>
                 
                 <div className="d-flex flex-column flex-sm-row gap-3 align-items-sm-center">
@@ -340,7 +363,7 @@ export default function AdminDashboard({ userName, onLogout }) {
             
             <div className="col-12 col-xl-6">
               <div className="surface-card p-4 h-100">
-                <h3 className="fs-5 fw-bold text-dark mb-2">Timetable Upload</h3>
+                <h3 className="gradient-text fs-5 fw-bold mb-2">Timetable Upload</h3>
                 <p className="text-muted fs-7 mb-4">Upload a timetable file <strong>(.xlsx, .csv, .txt)</strong> for the AI Chatbot to answer user questions about schedules.</p>
                 
                 <div className="d-flex flex-column flex-sm-row gap-3 align-items-sm-center">
@@ -371,7 +394,7 @@ export default function AdminDashboard({ userName, onLogout }) {
           </div>
 
           <div className="mb-5">
-            <h2 className="fs-4 fw-bold text-dark mb-4">Overview</h2>
+            <h2 className="gradient-text fs-4 fw-bold mb-4">Overview</h2>
             <div className="grid-auto-fit">
               <MetricCard title="Total Users" value={overview.totalUsers} change={overview.userGrowth} icon={FiUsers} colorClass="text-primary" bgClass="bg-primary bg-opacity-10" />
               <MetricCard title="Active Users" value={overview.activeUsers} change={7.2} icon={FiActivity} colorClass="text-success" bgClass="bg-success bg-opacity-10" />
@@ -382,7 +405,7 @@ export default function AdminDashboard({ userName, onLogout }) {
           </div>
 
           <div className="mb-5">
-            <h2 className="fs-4 fw-bold text-dark mb-4">Analytics</h2>
+            <h2 className="gradient-text fs-4 fw-bold mb-4">Analytics</h2>
             <SimpleLineChart data={userTrend} title="User Growth Trend" />
           </div>
 
@@ -390,7 +413,7 @@ export default function AdminDashboard({ userName, onLogout }) {
             {/* User Breakdown */}
             <div className="col-12 col-lg-6 col-xl-4">
               <div className="surface-card p-4 h-100">
-                <h3 className="fs-5 fw-bold text-dark mb-4">User Breakdown</h3>
+                <h3 className="gradient-text fs-5 fw-bold text-dark mb-4">User Breakdown</h3>
                 <ChartBar label="Students" value={userBreakdown.students} maxValue={Math.max(...Object.values(userBreakdown))} colorClass="bg-primary" />
                 <ChartBar label="Counselors" value={userBreakdown.counselors} maxValue={Math.max(...Object.values(userBreakdown))} colorClass="bg-success" />
                 <ChartBar label="Staff" value={userBreakdown.staff} maxValue={Math.max(...Object.values(userBreakdown))} colorClass="bg-warning" />
@@ -402,7 +425,7 @@ export default function AdminDashboard({ userName, onLogout }) {
             {/* Chat Metrics */}
             <div className="col-12 col-lg-6 col-xl-4">
               <div className="surface-card p-4 h-100">
-                <h3 className="fs-5 fw-bold text-dark mb-4">Chat Metrics</h3>
+                <h3 className="gradient-text fs-5 fw-bold text-dark mb-4">Chat Metrics</h3>
                 <div className="d-flex flex-column gap-3">
                   <div className="flex-between border-bottom border-subtle pb-2">
                     <p className="mb-0 text-muted fs-6 fw-medium">Total Messages</p>
@@ -431,7 +454,7 @@ export default function AdminDashboard({ userName, onLogout }) {
             {/* Care Metrics */}
              <div className="col-12 col-lg-12 col-xl-4">
               <div className="surface-card p-4 h-100">
-                <h3 className="fs-5 fw-bold text-dark mb-4">Care & Counseling</h3>
+                <h3 className="gradient-text fs-5 fw-bold text-dark mb-4">Care & Counseling</h3>
                 <div className="d-flex flex-column gap-3">
                   <div className="flex-between border-bottom border-subtle pb-2">
                     <p className="mb-0 text-muted fs-6 fw-medium">Total Appointments</p>
@@ -464,7 +487,7 @@ export default function AdminDashboard({ userName, onLogout }) {
           <div className="row g-4 mb-4">
             <div className="col-12 col-xl-8">
               <div className="surface-card p-4 h-100">
-                <h3 className="fs-5 fw-bold text-dark mb-4">Top User Questions</h3>
+                <h3 className="gradient-text fs-5 fw-bold text-dark mb-4">Top User Questions</h3>
                 <div className="d-flex flex-column gap-3">
                   {topQuestions.map((q, idx) => (
                     <div key={idx} className="bg-secondary bg-opacity-10 p-3 rounded-3 border-start border-4 border-primary flex-between hover-lift transition-normal">
@@ -482,7 +505,7 @@ export default function AdminDashboard({ userName, onLogout }) {
 
             <div className="col-12 col-xl-4">
               <div className="surface-card p-4 h-100">
-                <h3 className="fs-5 fw-bold text-dark mb-4">System Health</h3>
+                <h3 className="gradient-text fs-5 fw-bold text-dark mb-4">System Health</h3>
                 <div className="d-flex flex-column gap-3">
                   <div className="bg-success bg-opacity-10 p-3 rounded-3 border-start border-4 border-success">
                     <p className="text-muted fs-8 fw-bold text-uppercase letter-spacing-1 mb-1">Uptime</p>

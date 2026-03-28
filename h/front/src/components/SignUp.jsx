@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FiUser, FiMail, FiLock, FiCheckCircle, FiBook, FiAward, FiAlertCircle, FiCheck } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiCheckCircle, FiBook, FiAward, FiAlertCircle, FiCheck, FiEye, FiEyeOff } from 'react-icons/fi';
 import { authAPI } from '../api/config';
 
 export default function SignUp({ onSignUpSuccess }) {
@@ -10,6 +10,8 @@ export default function SignUp({ onSignUpSuccess }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [userType, setUserType] = useState('student');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -166,9 +168,9 @@ export default function SignUp({ onSignUpSuccess }) {
         <div className="position-absolute opacity-10 text-primary animate-float stagger-3" style={{ bottom: '12%', left: '12%' }}><FiUser size={100} /></div>
         
         <div className="w-100 position-relative z-1" style={{ maxWidth: '520px' }}>
-          <div className="surface-card p-4 p-md-5 animate-slide-up">
+          <div className="surface-card gradient-bg-subtle p-4 p-md-5 animate-slide-up" style={{ position: 'relative' }}>
             <div className="mb-4">
-              <h2 className="fs-2 fw-bold text-dark mb-2">
+              <h2 className="gradient-text fs-2 fw-bold mb-2">
                 Join V-Assist
               </h2>
               <p className="text-muted mb-0 fs-6 fw-medium">
@@ -259,12 +261,19 @@ export default function SignUp({ onSignUpSuccess }) {
                     <FiLock size={18} />
                   </span>
                   <input
-                    type="password"
-                    className="form-control border-start-0 border-subtle bg-transparent input-modern ps-0"
+                    type={showPassword ? 'text' : 'password'}
+                    className="form-control border-start-0 border-end-0 border-subtle bg-transparent input-modern ps-0"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                   />
+                  <button
+                    type="button"
+                    className="btn border border-start-0 border-subtle bg-transparent text-muted px-3 transition-normal hover-bg-subtle"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                  </button>
                 </div>
                 
                 {/* Password Strength Indicator */}
@@ -321,12 +330,19 @@ export default function SignUp({ onSignUpSuccess }) {
                     <FiLock size={18} />
                   </span>
                   <input
-                    type="password"
-                    className="form-control border-start-0 border-subtle bg-transparent input-modern ps-0"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    className="form-control border-start-0 border-end-0 border-subtle bg-transparent input-modern ps-0"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••"
                   />
+                  <button
+                    type="button"
+                    className="btn border border-start-0 border-subtle bg-transparent text-muted px-3 transition-normal hover-bg-subtle"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                  </button>
                 </div>
               </div>
 

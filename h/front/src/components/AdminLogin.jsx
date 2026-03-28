@@ -87,7 +87,7 @@ export default function AdminLogin({ onSignInSuccess }) {
         {/* Login Form */}
         <div className="flex-grow-1 flex-center p-4">
           <div className="w-100" style={{ maxWidth: '500px' }}>
-            <div className="surface-card p-4 p-md-5 rounded-4 shadow-lg text-center position-relative overflow-hidden">
+            <div className="surface-card gradient-bg-subtle p-4 p-md-5 rounded-4 shadow-lg text-center position-relative overflow-hidden" style={{ position: 'relative' }}>
               {/* Background accent */}
               <div className="position-absolute bg-warning bg-opacity-10 rounded-circle w-50 h-50" style={{ top: '-10%', left: '-10%', filter: 'blur(30px)' }}></div>
               <div className="position-absolute bg-primary bg-opacity-10 rounded-circle w-50 h-50" style={{ bottom: '-10%', right: '-10%', filter: 'blur(30px)' }}></div>
@@ -97,7 +97,7 @@ export default function AdminLogin({ onSignInSuccess }) {
                   <FiShield size={32} />
                 </div>
                 
-                <h2 className="fs-3 fw-bold text-dark mb-2">
+                <h2 className="gradient-text fs-3 fw-bold mb-2">
                   Admin Portal
                 </h2>
                 <p className="text-muted fw-medium mb-4 pb-2 fs-6">
@@ -149,7 +149,7 @@ export default function AdminLogin({ onSignInSuccess }) {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="btn btn-modern w-100 py-3 fs-6 d-flex justify-content-center align-items-center gap-2"
+                    className="btn btn-modern btn-gradient-overlay w-100 py-3 fs-6 d-flex justify-content-center align-items-center gap-2"
                     style={{ backgroundColor: 'var(--warning)', color: 'white', opacity: loading ? 0.7 : 1 }}
                   >
                     {loading ? (

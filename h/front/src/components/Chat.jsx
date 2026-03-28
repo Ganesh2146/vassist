@@ -11,6 +11,8 @@ export default function Chat({ userName, onLogout }) {
   const navigate = useNavigate();
   const storedUser = JSON.parse(localStorage.getItem('userData') || '{}');
   const userId = storedUser.id || storedUser.user_id || storedUser.email || 'guest';
+  const userFullName = storedUser.first_name ? `${storedUser.first_name} ${storedUser.last_name}` : (userName || 'User');
+  const profilePhoto = storedUser.profile_photo_url || null;
   const chatStorageKey = `chatConversationHistory:${userId}`;
   const [messages, setMessages] = useState([
     {
@@ -28,6 +30,7 @@ export default function Chat({ userName, onLogout }) {
   const [isRecording, setIsRecording] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const recognitionRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     fetchQuickQuestions();
@@ -48,6 +51,13 @@ export default function Chat({ userName, onLogout }) {
       saveConversation();
     }
   }, [messages]);
+
+  // Auto-scroll to latest message
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, loading]);
 
   const loadConversationHistory = async () => {
     try {
@@ -311,8 +321,18 @@ export default function Chat({ userName, onLogout }) {
         <div className="p-4 pt-5">
           <button 
             onClick={startNewChat}
-            className="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2 py-3 fw-semibold rounded-3 shadow-sm hover-lift transition-normal"
+            className="btn w-100 d-flex justify-content-center align-items-center gap-2 py-3 fw-semibold rounded-3 shadow-sm hover-lift transition-normal"
             title="Start new conversation"
+            style={{
+              background: 'linear-gradient(135deg, var(--neon-purple) 0%, var(--neon-magenta) 100%)',
+              color: 'white',
+              border: 'none',
+              boxShadow: '0 0 15px var(--neon-purple), inset 0 0 8px rgba(255, 255, 255, 0.2)',
+              fontWeight: '700',
+              letterSpacing: '0.5px'
+            }}
+            onMouseEnter={(e) => e.target.style.boxShadow = '0 0 25px var(--neon-purple), 0 0 40px var(--neon-purple), inset 0 0 10px rgba(255, 255, 255, 0.3)'}
+            onMouseLeave={(e) => e.target.style.boxShadow = '0 0 15px var(--neon-purple), inset 0 0 8px rgba(255, 255, 255, 0.2)'}
           >
             <i className="fa-solid fa-plus icon-glow"></i> New Chat
           </button>
@@ -320,7 +340,12 @@ export default function Chat({ userName, onLogout }) {
 
         {/* Sidebar Header */}
         <div className="px-4 py-3 border-bottom border-subtle">
-          <p className="mb-0 text-muted fs-7 fw-semibold text-uppercase letter-spacing-1">Conversations</p>
+          <p className="mb-0 fs-7 fw-semibold text-uppercase letter-spacing-1" style={{ 
+            color: 'var(--text-muted)',
+            fontWeight: '700'
+          }}>
+              Conversations
+          </p>
         </div>
 
         {/* Conversations List */}
@@ -377,8 +402,8 @@ export default function Chat({ userName, onLogout }) {
             <>
               {/* Welcome Header */}
               <div className="chat-center-panel welcome-header mb-5 animate-slide-up">
-                <h2 className="fs-2 mb-2">
-                  How can I help you today?
+                <h2 className="fs-2 mb-2" style={{ fontWeight: '800' }}>
+                  ✨ How can I help you today?
                 </h2>
                 <p className="fs-6 mb-0">
                   Ask me anything about admissions, academics, campus life, career guidance, or mental wellness support
@@ -386,8 +411,8 @@ export default function Chat({ userName, onLogout }) {
               </div>
 
               {/* Quick Questions Card */}
-              <div className="surface-card p-4 p-md-5 animate-slide-up chat-center-panel quick-questions-card mb-4">
-                <p className="text-secondary fs-7 fw-bold letter-spacing-1 text-uppercase mb-4 d-flex align-items-center gap-2">
+              <div className="surface-card gradient-bg-subtle gradient-glow p-4 p-md-5 animate-slide-up chat-center-panel quick-questions-card mb-4" style={{ position: 'relative' }}>
+                <p className="gradient-text fs-7 fw-bold letter-spacing-1 text-uppercase mb-4 d-flex align-items-center gap-2">
                   Popular Questions
                 </p>
                 <div className="d-grid gap-3">
@@ -396,9 +421,15 @@ export default function Chat({ userName, onLogout }) {
                       key={idx}
                       onClick={() => handleQuestionClick(q)}
                       className="btn quick-question-btn p-3 rounded-3 fw-medium"
+                      style={{ animationDelay: `${idx * 0.1}s` }}
                     >
                       <div className="d-flex align-items-center gap-3">
-                        <div className="flex-center rounded-circle bg-secondary bg-opacity-10 text-secondary" style={{ width: '36px', height: '36px', flexShrink: 0 }}>
+                        <div className="flex-center rounded-circle question-icon-circle" style={{ 
+                          width: '36px', 
+                          height: '36px', 
+                          flexShrink: 0,
+                          color: 'white'
+                        }}>
                           <i className="fa-regular fa-circle-question"></i>
                         </div>
                         <span>{q}</span>
@@ -425,12 +456,39 @@ export default function Chat({ userName, onLogout }) {
                 </div>
                 
                 {msg.sender === 'user' && (
-                  <div className="chat-avatar user shadow-sm">
-                    <i className="fa-solid fa-user"></i>
+                  <div 
+                    className="chat-avatar user shadow-sm d-flex align-items-center justify-content-center fw-bold"
+                    style={{
+                      backgroundImage: profilePhoto ? `url(${profilePhoto})` : 'none',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      fontSize: '14px',
+                      color: 'white'
+                    }}
+                  >
+                    {!profilePhoto && <i className="fa-solid fa-user"></i>}
                   </div>
                 )}
               </div>
             ))}
+            
+            {/* Loading Indicator */}
+            {loading && (
+              <div className="d-flex justify-content-start align-items-end gap-2">
+                <div className="chat-avatar ai shadow-sm">
+                  <i className="fa-solid fa-microchip"></i>
+                </div>
+                <div className="chat-bubble ai loading-bubble">
+                  <div className="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            <div ref={messagesEndRef} />
           </div>
         </div>
 
@@ -439,12 +497,6 @@ export default function Chat({ userName, onLogout }) {
           <div className="chat-input-container d-flex gap-3 align-items-end">
             <div className="flex-grow-1">
               <div className="position-relative d-flex align-items-center chat-input-box">
-                <button 
-                  className="btn btn-link p-2 text-secondary m-0 border-0"
-                  title="Attachment"
-                >
-                  <i className="fa-solid fa-paperclip"></i>
-                </button>
                 <input
                   type="text"
                   value={inputValue}

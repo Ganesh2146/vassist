@@ -45,7 +45,13 @@ export default function TopNav({ onToggleSidebar }) {
 
   const storedUserType = localStorage.getItem('userType') || 'student';
   const actualNavLinks = storedUserType === 'admin' 
-    ? [ { path: '/admin-dashboard', label: 'Admin Console' } ]
+    ? [ { path: '/admin', label: 'Admin Console' } ]
+    : storedUserType === 'counselor'
+    ? [
+        { path: '/counselor-bookings', label: 'My Bookings' },
+        { path: '/chat', label: 'Chat' },
+        { path: '/profile', label: 'Profile' }
+      ]
     : [
         { path: '/dashboard', label: 'Dashboard' },
         { path: '/chat', label: 'Chat' },

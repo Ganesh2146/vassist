@@ -32,7 +32,7 @@ export default function Landing() {
       </header>
 
       {/* Hero Section - Modern Gradient with Creative Elements */}
-      <section className="position-relative overflow-hidden flex-grow-1 d-flex align-items-center section-padding">
+      <section className="position-relative overflow-hidden flex-grow-1 d-flex align-items-center section-padding hero-gradient" style={{ borderRadius: '12px', margin: '16px', marginTop: '8px' }}>
         {/* Animated Background Blobs */}
         <div className="blob-shape blob-primary animate-float" style={{ top: '-10%', right: '-5%', width: '400px', height: '400px' }}></div>
         <div className="blob-shape blob-secondary animate-float stagger-3" style={{ bottom: '-10%', left: '-5%', width: '500px', height: '500px' }}></div>
@@ -64,7 +64,7 @@ export default function Landing() {
               {/* Main Heading with Animation */}
               <h2 className="fw-900 text-dark mb-4 drop-shadow-sm" style={{ fontSize: 'clamp(40px, 6vw, 76px)', lineHeight: '1.2' }}>
                 Your AI-Powered <br className="d-none d-lg-block" />
-                <span className="text-gradient-animated" style={{ fontSize: 'clamp(44px, 7vw, 84px)' }}>University Portal</span>
+                <span className="gradient-text" style={{ fontSize: 'clamp(44px, 7vw, 84px)' }}>University Portal</span>
               </h2>
               
               {/* Subheading */}
@@ -75,7 +75,7 @@ export default function Landing() {
                 className="text-muted mb-5 fs-5 mx-auto mx-lg-0" 
                 style={{ maxWidth: '600px', lineHeight: '1.6' }}
               >
-                Experience the easiest way to manage your campus life. From real-time academic counseling to personalized stress management, AI is at your fingertips.
+                Experience the easiest way to manage your campus life. From real-time academic counseling to comprehensive support services, AI is at your fingertips.
               </motion.p>
 
               {/* CTA Buttons with Creative Effects */}
@@ -187,7 +187,7 @@ export default function Landing() {
             transition={{ duration: 0.6 }}
             className="mt-5 pt-5 pb-4 border-top border-subtle"
           >
-            <p className="text-primary fw-bold text-uppercase mb-4 text-center text-lg-start" style={{ fontSize: '14px', letterSpacing: '2px' }}>
+            <p className="gradient-text fw-bold text-uppercase mb-4 text-center text-lg-start" style={{ fontSize: '14px', letterSpacing: '2px' }}>
               Why Choose V-Assist
             </p>
             <div className="grid-auto-fit text-start">
@@ -197,7 +197,7 @@ export default function Landing() {
                 { title: 'Financial Guidance', desc: 'Scholarships, grants, and payment information', icon: FiDollarSign, color: 'var(--warning)' },
                 { title: 'Campus Services', desc: 'Housing, dining, and student organizations', icon: FiUsers, color: 'var(--primary)' }
               ].map((service, idx) => (
-                <div key={idx} className="surface-card p-4 h-100 d-flex flex-column hover-lift">
+                <div key={idx} className="surface-card gradient-bg-subtle p-4 h-100 d-flex flex-column hover-lift gradient-glow" style={{ position: 'relative' }}>
                   <div className="mb-4 rounded-4 flex-center shadow-sm" style={{ width: '64px', height: '64px', backgroundColor: `${service.color}15`, color: service.color, transition: 'all var(--transition-bounce)' }}>
                     <service.icon size={28} />
                   </div>

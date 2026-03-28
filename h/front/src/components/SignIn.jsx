@@ -94,8 +94,8 @@ export default function SignIn({ onSignInSuccess }) {
         <div className="position-absolute opacity-10 text-primary animate-float stagger-3" style={{ bottom: '10%', left: '15%' }}><FiCheck size={110} /></div>
         
         <div className="w-100 position-relative z-1" style={{ maxWidth: '450px' }}>
-          <div className="surface-card p-4 p-md-5 animate-slide-up">
-            <h2 className="fs-2 fw-bold text-dark mb-2">
+          <div className="surface-card gradient-bg-subtle p-4 p-md-5 animate-slide-up" style={{ position: 'relative' }}>
+            <h2 className="gradient-text fs-2 fw-bold mb-2">
               Welcome Back
             </h2>
             <p className="text-muted mb-4 fs-6 fw-medium">
@@ -157,7 +157,7 @@ export default function SignIn({ onSignInSuccess }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn btn-modern btn-primary-gradient w-100 py-3 fs-5"
+                className="btn btn-modern btn-primary-gradient btn-gradient-overlay w-100 py-3 fs-5"
               >
                 {loading ? 'Logging in...' : 'Login'}
               </button>

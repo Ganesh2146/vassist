@@ -11,6 +11,9 @@ import Chat from './components/Chat';
 import Profile from './components/Profile';
 import AdminDashboard from './components/AdminDashboard';
 import Care from './components/Care';
+import StudentAppointments from './components/StudentAppointments';
+import CounselorBookings from './components/CounselorBookings';
+import Contact from './components/Contact';
 import './App.css';
 
 function App() {
@@ -91,6 +94,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/admin-login" element={<AdminLogin onSignInSuccess={handleSignInSuccess} />} />
         <Route path="/signup" element={<SignUp onSignUpSuccess={handleSignInSuccess} />} />
+        <Route path="/contact" element={<Contact />} />
         
         {/* ADMIN ROUTES */}
         <Route 
@@ -114,6 +118,14 @@ function App() {
         <Route 
           path="/care" 
           element={isLoggedIn ? <Care onLogout={handleLogout} /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/my-appointments" 
+          element={isLoggedIn ? <StudentAppointments /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/counselor-bookings" 
+          element={isLoggedIn && (userType === 'counselor' || userType === 'admin') ? <CounselorBookings /> : <Navigate to="/login" />} 
         />
 
         {/* CATCH ALL - Redirect to home */}

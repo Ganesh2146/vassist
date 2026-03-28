@@ -208,8 +208,16 @@ export const careAPI = {
     api.get('/care/available-slots', { params: { date } }),
   
   // POST /api/care/schedule-appointment
-  scheduleAppointment: (date, time, counselorId = null) => 
-    api.post('/care/schedule-appointment', { date, time, counselorId }),
+  scheduleAppointment: (params) => {
+    // Handle both old format (date, time, counselorId) and new format (object)
+    if (typeof params === 'string') {
+      // Old format: scheduleAppointment(date, time, counselorId)
+      const [date, time, counselorId] = arguments;
+      return api.post('/care/schedule-appointment', { date, time, counselorId });
+    }
+    // New format: scheduleAppointment({date, time, counselorId, notes})
+    return api.post('/care/schedule-appointment', params);
+  },
   
   // GET /api/care/resources
   getResources: (category = 'all') => 
@@ -227,17 +235,29 @@ export const careAPI = {
   getSoundscapes: () => 
     api.get('/care/resources/soundscapes'),
 
-  // GET /api/care/appointments
+  // GET /api/care/my-appointments
   getAppointments: () => 
-    api.get('/care/appointments'),
+    api.get('/care/my-appointments'),
 
-  // POST /api/care/cancel-appointment/:id
+  // GET /api/care/counselor/bookings
+  getCounselorBookings: () => 
+    api.get('/care/counselor/bookings'),
+
+  // PATCH /api/care/appointment/:id
+  updateAppointment: (appointmentId, data) => 
+    api.patch(`/care/appointment/${appointmentId}`, data),
+
+  // DELETE /api/care/appointment/:id
   cancelAppointment: (appointmentId) => 
-    api.post(`/care/cancel-appointment/${appointmentId}`),
+    api.delete(`/care/appointment/${appointmentId}`),
 
   // GET /api/care/crisis-hotline
   getCrisisHotline: () => 
     api.get('/care/crisis-hotline'),
+
+  // GET /api/care/counselors
+  getCounselors: () => 
+    api.get('/care/counselors'),
 };
 
 // ==================== CONVERSATION HISTORY ENDPOINTS ====================

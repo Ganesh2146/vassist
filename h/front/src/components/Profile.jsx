@@ -163,7 +163,7 @@ export default function Profile({ userName, onLogout }) {
             <div className="p-4 p-md-5">
               {/* Personal Information Section */}
               <div className="mb-5">
-                <h3 className="fs-5 fw-bold text-dark mb-4">
+                <h3 className="gradient-text fs-5 fw-bold mb-4">
                   Personal Information
                 </h3>
                 <div className="row g-4">
@@ -230,7 +230,7 @@ export default function Profile({ userName, onLogout }) {
 
               {/* Account Settings Section */}
               <div className="pt-4 border-top border-subtle mb-4">
-                <h3 className="fs-5 fw-bold text-dark mb-4">
+                <h3 className="gradient-text fs-5 fw-bold mb-4">
                   Account Settings
                 </h3>
                 <div className="d-flex flex-column gap-4">

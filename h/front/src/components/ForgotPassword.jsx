@@ -115,7 +115,7 @@ export default function ForgotPassword({ isDarkTheme }) {
         {/* Form Container */}
         <div className="flex-grow-1 flex-center p-4">
           <div className="w-100" style={{ maxWidth: '500px' }}>
-            <div className="surface-card p-4 p-md-5 rounded-4 shadow-lg text-center position-relative overflow-hidden">
+            <div className="surface-card gradient-bg-subtle p-4 p-md-5 rounded-4 shadow-lg text-center position-relative overflow-hidden" style={{ position: 'relative' }}>
               {/* Background accent */}
               <div className="position-absolute bg-primary bg-opacity-10 rounded-circle w-50 h-50" style={{ top: '-10%', left: '-10%', filter: 'blur(30px)' }}></div>
               <div className="position-absolute bg-info bg-opacity-10 rounded-circle w-50 h-50" style={{ bottom: '-10%', right: '-10%', filter: 'blur(30px)' }}></div>
@@ -125,7 +125,7 @@ export default function ForgotPassword({ isDarkTheme }) {
                   {step === 1 ? <FiMail size={32} /> : step === 2 ? <FiKey size={32} /> : <FiShield size={32} />}
                 </div>
                 
-                <h2 className="fs-3 fw-bold text-dark mb-2">
+                <h2 className="gradient-text fs-3 fw-bold mb-2">
                   Reset Password
                 </h2>
                 <p className="text-muted fw-medium mb-4 pb-2 fs-6">
