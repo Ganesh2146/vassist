@@ -1,0 +1,549 @@
+/* ============================================================================
+   PREMIUM VISUAL EFFECTS & ANIMATIONS
+   Advanced CSS effects for a stunning, professional look
+   ============================================================================ */
+
+/* ============================================================================
+   GRADIENT ANIMATIONS - Dynamic Background Effects
+   ============================================================================ */
+
+.gradient-animate {
+  background: linear-gradient(-45deg, #7C3AED, #EC4899, #06B6D4, #14B8A6, #7C3AED);
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #7C3AED 0%, #06B6D4 50%, #14B8A6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-glow 3s ease-in-out infinite;
+}
+
+.gradient-border {
+  position: relative;
+  padding: 2px;
+  background: linear-gradient(135deg, #7C3AED, #06B6D4, #14B8A6, #7C3AED);
+  background-size: 300% 300%;
+  border-radius: 20px;
+  animation: gradient-shift 4s ease infinite;
+}
+
+.gradient-border > * {
+  background: var(--bg-card);
+  border-radius: 18px;
+  padding: 2rem;
+}
+
+/* ============================================================================
+   GLASSMORPHISM - Frosted Glass Effect
+   ============================================================================ */
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+.glass.dark {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(123, 58, 237, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(123, 58, 237, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(123, 58, 237, 0.15);
+  transform: translateY(-4px);
+}
+
+/* ============================================================================
+   NEON EFFECTS - Vibrant Glowing Elements
+   ============================================================================ */
+
+.neon-text {
+  color: #7C3AED;
+  text-shadow: 0 0 10px #7C3AED,
+               0 0 20px #7C3AED,
+               0 0 30px #7C3AED,
+               0 0 40px #06B6D4;
+  letter-spacing: 2px;
+  animation: neon-flicker 3s ease-in-out infinite;
+}
+
+.neon-box {
+  border: 2px solid #7C3AED;
+  box-shadow: 0 0 10px #7C3AED,
+              inset 0 0 10px #7C3AED,
+              0 0 20px #06B6D4;
+  border-radius: 12px;
+  animation: neon-pulse-glow 2s ease-in-out infinite;
+}
+
+.neon-button {
+  position: relative;
+  color: #7C3AED;
+  border: 2px solid #7C3AED;
+  background: transparent;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 300ms ease-in-out;
+  box-shadow: 0 0 10px #7C3AED, inset 0 0 10px rgba(123, 58, 237, 0.3);
+}
+
+.neon-button:hover {
+  color: #06B6D4;
+  border-color: #06B6D4;
+  box-shadow: 0 0 20px #06B6D4, inset 0 0 20px rgba(6, 182, 212, 0.3), 0 0 30px #7C3AED;
+  text-shadow: 0 0 10px #06B6D4;
+}
+
+/* ============================================================================
+   MORPHING SHAPES - Unique Design Elements
+   ============================================================================ */
+
+.morph-shape {
+  width: 200px;
+  height: 200px;
+  background: var(--primary-gradient);
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: morph 8s ease-in-out infinite;
+  box-shadow: var(--shadow-premium);
+  position: relative;
+}
+
+.morph-shape::before {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: linear-gradient(45deg, rgba(236, 72, 153, 0.1), rgba(114, 58, 237, 0.1));
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  animation: morph 10s ease-in-out infinite reverse;
+  z-index: -1;
+}
+
+/* ============================================================================
+   PARALLAX EFFECTS - Depth & Movement
+   ============================================================================ */
+
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+  height: 400px;
+}
+
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  background: linear-gradient(135deg, rgba(123, 58, 237, 0.05), rgba(6, 182, 212, 0.05));
+  will-change: transform;
+}
+
+.parallax-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================================
+   HOVER EFFECTS - Interactive & Responsive
+   ============================================================================ */
+
+.hover-lift {
+  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(123, 58, 237, 0.3);
+}
+
+.hover-glow {
+  transition: all 300ms ease-in-out;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(123, 58, 237, 0.5),
+              0 0 40px rgba(6, 182, 212, 0.3);
+}
+
+.hover-scale {
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-rotate {
+  transition: transform 300ms ease-in-out;
+}
+
+.hover-rotate:hover {
+  transform: rotate(-2deg) scale(1.02);
+}
+
+.hover-blur {
+  transition: filter 300ms ease-in-out;
+}
+
+.hover-blur:hover {
+  filter: blur(2px);
+}
+
+/* ============================================================================
+   TEXT EFFECTS - Typography Animation
+   ============================================================================ */
+
+.text-shimmer {
+  background: linear-gradient(90deg, var(--text-primary), var(--primary), var(--secondary), var(--text-primary));
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s infinite;
+}
+
+.text-glow {
+  animation: text-glow 3s ease-in-out infinite;
+}
+
+.text-bounce {
+  animation: bounce-subtle 1s ease-in-out infinite;
+}
+
+.text-pop {
+  animation: scale-in 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================================================
+   FLIP ANIMATION - Card Flip Effects
+   ============================================================================ */
+
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 600ms;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.flip-card-front {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+.flip-card-back {
+  background: var(--secondary-gradient);
+  color: white;
+  transform: rotateY(180deg);
+}
+
+/* ============================================================================
+   FLOATING ANIMATION - Subtle Movement
+   ============================================================================ */
+
+.float {
+  animation: float-smooth 3s ease-in-out infinite;
+}
+
+.float-1 { animation-delay: 0s; }
+.float-2 { animation-delay: 0.5s; }
+.float-3 { animation-delay: 1s; }
+.float-4 { animation-delay: 1.5s; }
+.float-5 { animation-delay: 2s; }
+
+/* ============================================================================
+   PULSE ANIMATIONS - Attention Grabbers
+   ============================================================================ */
+
+.pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+.pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* ============================================================================
+   REVEAL ANIMATIONS - Entrance Effects
+   ============================================================================ */
+
+.reveal {
+  animation: slide-up 600ms ease-out;
+}
+
+.reveal-fade {
+  animation: fade-in 800ms ease-out;
+}
+
+.reveal-blur {
+  animation: blur-in 800ms ease-out;
+}
+
+.reveal-scale {
+  animation: scale-in 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================================================
+   STAGGER ANIMATIONS - Multiple Element Sequences
+   ============================================================================ */
+
+.stagger-children > * {
+  animation: slide-up 600ms ease-out both;
+}
+
+.stagger-children > :nth-child(1) { animation-delay: 0ms; }
+.stagger-children > :nth-child(2) { animation-delay: 100ms; }
+.stagger-children > :nth-child(3) { animation-delay: 200ms; }
+.stagger-children > :nth-child(4) { animation-delay: 300ms; }
+.stagger-children > :nth-child(5) { animation-delay: 400ms; }
+
+/* ============================================================================
+   NEON FLICKER - Old School Neon Aesthetic
+   ============================================================================ */
+
+@keyframes neon-flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow: 0 0 10px #7C3AED,
+                 0 0 20px #7C3AED,
+                 0 0 30px #7C3AED,
+                 0 0 40px #06B6D4;
+    filter: brightness(1);
+  }
+  20%, 24%, 55% {
+    text-shadow: 0 0 5px #7C3AED,
+                 0 0 10px #7C3AED;
+    filter: brightness(0.8);
+  }
+}
+
+/* ============================================================================
+   LIQUID SWIPE - Smooth Transition Effect
+   ============================================================================ */
+
+.liquid-swipe {
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-swipe::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-gradient);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  animation: liquid-wave 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes liquid-wave {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* ============================================================================
+   ORBIT ANIMATION - Spinning Elements
+   ============================================================================ */
+
+.orbit-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.orbit-item {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  box-shadow: var(--shadow-premium);
+}
+
+.orbit-item:nth-child(1) {
+  animation: orbit 6s linear infinite;
+}
+
+.orbit-item:nth-child(2) {
+  animation: orbit 6s linear infinite 2s;
+}
+
+.orbit-item:nth-child(3) {
+  animation: orbit 6s linear infinite 4s;
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(80px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(80px) rotate(-360deg);
+  }
+}
+
+/* ============================================================================
+   TYPING ANIMATION - Text Appear Effect
+   ============================================================================ */
+
+.typing {
+  border-right: 3px solid var(--primary);
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--primary);
+  }
+}
+
+/* ============================================================================
+   RAINBOW TEXT - Colorful Animation
+   ============================================================================ */
+
+.rainbow-text {
+  background: linear-gradient(90deg, 
+    #FF0000, 
+    #FF7F00, 
+    #FFFF00, 
+    #00FF00, 
+    #0000FF, 
+    #4B0082, 
+    #9400D3,
+    #FF0000);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbow-shift 3s ease infinite;
+}
+
+@keyframes rainbow-shift {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .morph-shape {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .flip-card {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .parallax-container {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .neon-text {
+    font-size: 0.9rem;
+  }
+  
+  .flip-card {
+    width: 200px;
+    height: 200px;
+  }
+}
