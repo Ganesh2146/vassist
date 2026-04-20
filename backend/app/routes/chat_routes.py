@@ -96,8 +96,8 @@ def chat_message():
                     for appt in completed_appointments:
                         counselor_name = f"{appt.counselor.first_name} {appt.counselor.last_name}" if appt.counselor else "Unknown"
                         report_entry = {
-                            'date': appt.date,
-                            'time': appt.time,
+                            'date': appt.appointment_date,
+                            'time': appt.appointment_time,
                             'counselor': counselor_name,
                             'report': appt.counselor_report,
                             'feedback': appt.student_feedback

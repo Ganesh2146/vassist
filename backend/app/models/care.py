@@ -7,8 +7,8 @@ class Appointment(db.Model):
     appointment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     counselor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
-    date = db.Column(db.String(50), nullable=False)
-    time = db.Column(db.String(50), nullable=False)
+    appointment_date = db.Column(db.String(50), nullable=False)
+    appointment_time = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(50), default="scheduled", nullable=False)  # scheduled, confirmed, cancelled, completed
     notes = db.Column(db.Text, nullable=True)
     cancellation_reason = db.Column(db.Text, nullable=True)
@@ -26,8 +26,8 @@ class Appointment(db.Model):
             "id": self.appointment_id,
             "user_id": self.user_id,
             "counselor_id": self.counselor_id,
-            "date": self.date,
-            "time": self.time,
+            "date": self.appointment_date,
+            "time": self.appointment_time,
             "status": self.status,
             "notes": self.notes,
             "cancellation_reason": self.cancellation_reason,
