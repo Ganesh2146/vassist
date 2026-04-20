@@ -242,7 +242,6 @@ a {
 [data-theme='dark'] .neon-alert {
   filter: brightness(1.15);
 }
-}
 
 a:hover {
   color: var(--primary-color) !important;
