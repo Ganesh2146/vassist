@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiCalendar, FiClock, FiUser, FiCheckCircle, FiAlertCircle, FiTrash2, FiRefreshCw } from 'react-icons/fi';
+import { FiCalendar, FiClock, FiUser, FiCheckCircle, FiAlertCircle, FiTrash2, FiRefreshCw, FiX } from 'react-icons/fi';
 import { careAPI } from '../api/config';
 import TopNav from './TopNav';
 import PageTransition from './PageTransition';
@@ -11,6 +11,7 @@ export default function StudentAppointments() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [cancellingId, setCancellingId] = useState(null);
+  const [modalState, setModalState] = useState({ type: null, appointmentId: null, content: '' });
 
   useEffect(() => {
     fetchAppointments();
@@ -32,20 +33,42 @@ export default function StudentAppointments() {
     }
   };
 
-  const handleCancelAppointment = async (appointmentId) => {
-    if (!window.confirm('Are you sure you want to cancel this appointment?')) return;
-
+  const handleUpdateStatus = async (appointmentId, newStatus, additionalData = {}) => {
     try {
+      // Verify appointment can be cancelled
+      const appointment = appointments.find(apt => apt.id === appointmentId);
+      if (!appointment) {
+        setError('❌ Appointment not found');
+        return;
+      }
+      
+      if (newStatus === 'cancelled' && appointment.status !== 'scheduled') {
+        setError(`❌ Cannot cancel a ${appointment.status} appointment. Only scheduled appointments can be cancelled.`);
+        setModalState({ type: null, appointmentId: null, content: '' });
+        return;
+      }
+      
       setCancellingId(appointmentId);
-      console.log('🔄 Cancelling appointment:', appointmentId);
-      await careAPI.updateAppointment(appointmentId, { status: 'cancelled' });
-      console.log('✅ Appointment cancelled');
+      const payload = { status: newStatus, ...additionalData };
+      console.log('🔄 Updating appointment:', appointmentId);
+      const response = await careAPI.updateAppointment(appointmentId, payload);
+      console.log('✅ Appointment updated');
+      
+      // Update local state with the response data
       setAppointments(prev => prev.map(apt => 
-        apt.id === appointmentId ? { ...apt, status: 'cancelled' } : apt
+        apt.id === appointmentId ? { ...apt, ...response.data.data } : apt
       ));
+      setModalState({ type: null, appointmentId: null, content: '' });
+      setError('');
     } catch (err) {
-      console.error('❌ Error cancelling appointment:', err);
-      setError('Failed to cancel appointment');
+      console.error('❌ Error updating appointment:', err);
+      
+      // Get detailed error message from backend
+      const errorMessage = err.response?.data?.message || 'Failed to update appointment';
+      setError(errorMessage);
+      
+      // Refresh appointments to ensure frontend is in sync with backend
+      await fetchAppointments();
     } finally {
       setCancellingId(null);
     }
@@ -71,6 +94,11 @@ export default function StudentAppointments() {
       default:
         return <FiCalendar size={16} />;
     }
+  };
+
+  const canCancelAppointment = (appointmentId) => {
+    const apt = appointments.find(a => a.id === appointmentId);
+    return apt && apt.status === 'scheduled';
   };
 
   return (
@@ -259,10 +287,10 @@ export default function StudentAppointments() {
                       </div>
                     )}
 
-                    {/* Cancel Button */}
-                    {appointment.status !== 'cancelled' && appointment.status !== 'completed' && (
+                    {/* Cancel Button - Only for Scheduled */}
+                    {appointment.status === 'scheduled' && (
                       <button
-                        onClick={() => handleCancelAppointment(appointment.id)}
+                        onClick={() => setModalState({ type: 'cancel_reason', appointmentId: appointment.id, content: '' })}
                         disabled={cancellingId === appointment.id}
                         style={{
                           padding: '8px 16px',
@@ -281,7 +309,52 @@ export default function StudentAppointments() {
                         }}
                       >
                         <FiTrash2 size={14} />
-                        {cancellingId === appointment.id ? 'Cancelling...' : 'Cancel Appointment'}
+                        Cancel Appointment
+                      </button>
+                    )}
+
+                    {/* Confirmed Status Message */}
+                    {appointment.status === 'confirmed' && (
+                      <div style={{
+                        padding: '12px 16px',
+                        backgroundColor: '#D1FAE5',
+                        border: '1px solid #A7F3D0',
+                        borderRadius: '6px',
+                        color: '#047857',
+                        fontWeight: '600',
+                        fontSize: '13px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}>
+                        <FiCheckCircle size={16} />
+                        Appointment confirmed by counselor - You cannot cancel now
+                      </div>
+                    )}
+
+                    {/* Feedback Button for Completed */}
+                    {appointment.status === 'completed' && !appointment.student_feedback && (
+                      <button
+                        onClick={() => setModalState({ type: 'student_feedback', appointmentId: appointment.id, content: '' })}
+                        disabled={cancellingId === appointment.id}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: '#DBEAFE',
+                          color: '#1E40AF',
+                          border: 'none',
+                          borderRadius: '6px',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          fontSize: '13px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          opacity: cancellingId === appointment.id ? 0.6 : 1,
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        <FiCheckCircle size={14} />
+                        Add Feedback
                       </button>
                     )}
                   </div>
@@ -290,6 +363,171 @@ export default function StudentAppointments() {
             )}
           </div>
         </main>
+
+        {/* Modal for Cancellation Reason */}
+        {modalState.type === 'cancel_reason' && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}>
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              padding: '24px',
+              maxWidth: '400px',
+              width: '90%',
+              boxShadow: '0 20px 25px rgba(0,0,0,0.15)'
+            }}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+                <h3 style={{margin: 0, color: '#111827', fontWeight: '700'}}>Cancel Appointment</h3>
+                <button onClick={() => setModalState({ type: null, appointmentId: null, content: '' })} style={{background: 'none', border: 'none', cursor: 'pointer', fontSize: '24px'}}>
+                  <FiX />
+                </button>
+              </div>
+              <p style={{color: '#6B7280', marginBottom: '16px'}}>Please provide the reason for cancellation:</p>
+              <textarea
+                value={modalState.content}
+                onChange={(e) => setModalState({...modalState, content: e.target.value})}
+                placeholder="Enter cancellation reason..."
+                style={{
+                  width: '100%',
+                  minHeight: '100px',
+                  padding: '12px',
+                  border: '1px solid #E5E7EB',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontFamily: 'inherit',
+                  resize: 'vertical',
+                  marginBottom: '16px'
+                }}
+              />
+              <div style={{display: 'flex', gap: '12px'}}>
+                <button
+                  onClick={() => setModalState({ type: null, appointmentId: null, content: '' })}
+                  style={{
+                    flex: 1,
+                    padding: '10px',
+                    border: '1px solid #E5E7EB',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    backgroundColor: 'white'
+                  }}
+                >
+                  Go Back
+                </button>
+                <button
+                  onClick={() => handleUpdateStatus(modalState.appointmentId, 'cancelled', { cancellation_reason: modalState.content })}
+                  disabled={!modalState.content.trim() || !canCancelAppointment(modalState.appointmentId)}
+                  title={canCancelAppointment(modalState.appointmentId) ? '' : 'This appointment is no longer scheduled (it may have been confirmed)'}
+                  style={{
+                    flex: 1,
+                    padding: '10px',
+                    backgroundColor: canCancelAppointment(modalState.appointmentId) ? '#DC2626' : '#9CA3AF',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    cursor: (!modalState.content.trim() || !canCancelAppointment(modalState.appointmentId)) ? 'not-allowed' : 'pointer',
+                    opacity: (!modalState.content.trim() || !canCancelAppointment(modalState.appointmentId)) ? 0.6 : 1
+                  }}
+                >
+                  Cancel Appointment
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal for Student Feedback */}
+        {modalState.type === 'student_feedback' && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}>
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              padding: '24px',
+              maxWidth: '500px',
+              width: '90%',
+              boxShadow: '0 20px 25px rgba(0,0,0,0.15)',
+              maxHeight: '80vh',
+              overflowY: 'auto'
+            }}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+                <h3 style={{margin: 0, color: '#111827', fontWeight: '700'}}>Appointment Feedback</h3>
+                <button onClick={() => setModalState({ type: null, appointmentId: null, content: '' })} style={{background: 'none', border: 'none', cursor: 'pointer', fontSize: '24px'}}>
+                  <FiX />
+                </button>
+              </div>
+              <p style={{color: '#6B7280', marginBottom: '16px'}}>Please share your feedback about this counseling session:</p>
+              <textarea
+                value={modalState.content}
+                onChange={(e) => setModalState({...modalState, content: e.target.value})}
+                placeholder="Share your experience and feedback..."
+                style={{
+                  width: '100%',
+                  minHeight: '150px',
+                  padding: '12px',
+                  border: '1px solid #E5E7EB',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontFamily: 'inherit',
+                  resize: 'vertical',
+                  marginBottom: '16px'
+                }}
+              />
+              <div style={{display: 'flex', gap: '12px'}}>
+                <button
+                  onClick={() => setModalState({ type: null, appointmentId: null, content: '' })}
+                  style={{
+                    flex: 1,
+                    padding: '10px',
+                    border: '1px solid #E5E7EB',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    backgroundColor: 'white'
+                  }}
+                >
+                  Skip
+                </button>
+                <button
+                  onClick={() => handleUpdateStatus(modalState.appointmentId, 'completed', { student_feedback: modalState.content })}
+                  style={{
+                    flex: 1,
+                    padding: '10px',
+                    backgroundColor: '#10B981',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Submit Feedback
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <style>{`
           @keyframes spin {

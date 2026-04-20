@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dark Web – Full Cinematic Video</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:ital,wght@0,100;0,300;0,400;0,600;0,800;0,900;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1280px;height:720px;overflow:hidden;background:#000;font-family:'Exo 2',sans-serif;cursor:none}
+canvas{position:fixed;top:0;left:0;z-index:0}
+#c1{z-index:0}
+.layer-noise{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px}
+.layer-vignette{position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse 80% 70% at 50% 50%,transparent 40%,rgba(0,0,0,.8) 100%)}
+.layer-scan{position:fixed;inset:0;z-index:4;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px)}
+#stage{position:fixed;inset:0;z-index:10}
+.sc{position:absolute;inset:0;opacity:0;pointer-events:none}
+.sc.on{opacity:1;pointer-events:all}
+
+/* ── SHARED COMPONENTS ── */
+.scene-center{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
+.scene-split{display:flex;align-items:center;height:100%}
+.chip{display:inline-block;font:700 10px/1 'Share Tech Mono';letter-spacing:3px;
+  border:1px solid currentColor;padding:4px 12px;border-radius:2px;margin-bottom:18px;opacity:0}
+.big-title{font:'Black Ops One';font-size:82px;font-weight:900;line-height:.95;opacity:0}
+.big-title.blue{background:linear-gradient(160deg,#fff 0%,#9fc8ff 45%,#2255ff 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 50px rgba(50,120,255,.6))}
+.big-title.red{background:linear-gradient(160deg,#ffaaaa 0%,#ff3344 50%,#880011 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 50px rgba(255,30,50,.6))}
+.big-title.green{background:linear-gradient(160deg,#aaffcc 0%,#00ff88 50%,#008844 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 50px rgba(0,255,136,.5))}
+.big-title.orange{background:linear-gradient(160deg,#ffe0b0 0%,#ff8800 50%,#cc4400 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 50px rgba(255,120,0,.6))}
+.sec-head{font:800 46px/1.1 'Exo 2';color:#fff;opacity:0}
+.sec-head span.a{color:#4af}
+.sec-head span.r{color:#ff4455}
+.sec-head span.g{color:#00ff88}
+.sec-head span.o{color:#ff8800}
+.rule{height:3px;width:0;background:linear-gradient(90deg,var(--c,#4af),transparent);
+  box-shadow:0 0 14px var(--c,#4af);margin:12px 0 26px;transition:width 1.2s ease}
+.rule.on{width:120px}
+.card{background:rgba(8,12,28,.85);border:1px solid rgba(255,255,255,.08);
+  border-top:2px solid var(--cc,#4af);padding:24px 26px;border-radius:6px;
+  opacity:0;backdrop-filter:blur(6px);position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.03),transparent);pointer-events:none}
+.card-icon{font-size:28px;margin-bottom:12px}
+.card-label{font:700 11px/1 'Share Tech Mono';letter-spacing:3px;color:var(--cc,#4af);margin-bottom:10px}
+.card-text{font:300 14px/1.7 'Exo 2';color:rgba(215,225,255,.82)}
+.card-text strong{color:#fff;font-weight:600}
+
+/* ── ANIMATIONS ── */
+@keyframes fiu{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fil{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fir{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fiz{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@keyframes gp{0%,100%{filter:drop-shadow(0 0 40px rgba(50,120,255,.6))}50%{filter:drop-shadow(0 0 90px rgba(50,120,255,.95)) drop-shadow(0 0 150px rgba(50,120,255,.3))}}
+@keyframes gpr{0%,100%{filter:drop-shadow(0 0 40px rgba(255,30,50,.6))}50%{filter:drop-shadow(0 0 90px rgba(255,30,50,.95))}}
+@keyframes gpg{0%,100%{filter:drop-shadow(0 0 40px rgba(0,255,120,.5))}50%{filter:drop-shadow(0 0 80px rgba(0,255,120,.9))}}
+@keyframes scanMove{from{transform:translateY(-100%)}to{transform:translateY(100vh)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes countUp{from{opacity:0;transform:scale(1.4)}to{opacity:1;transform:scale(1)}}
+@keyframes drawBar{from{width:0}to{width:var(--w,60%)}}
+@keyframes pulseRing{0%{transform:scale(.8);opacity:.8}100%{transform:scale(2);opacity:0}}
+
+.au{animation:fiu .65s ease forwards}
+.al{animation:fil .65s ease forwards}
+.ar{animation:fir .65s ease forwards}
+.az{animation:fiz .7s ease forwards}
+.apb{animation:gp 2.5s ease-in-out infinite}
+.apbr{animation:gpr 2.5s ease-in-out infinite}
+.apbg{animation:gpg 2.5s ease-in-out infinite}
+
+/* ── SCENE 1: TITLE ── */
+#s1{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.s1-pre{font:300 11px/1 'Share Tech Mono';letter-spacing:7px;color:rgba(100,180,255,.5);opacity:0;margin-bottom:24px}
+.s1-bg{position:absolute;font:900 300px/1 'Black Ops One';color:rgba(255,255,255,.012);
+  white-space:nowrap;pointer-events:none;user-select:none;top:50%;left:50%;transform:translate(-50%,-50%)}
+.s1-main{text-align:center;position:relative}
+.s1-the{font:300 32px/1 'Exo 2';letter-spacing:18px;color:rgba(180,210,255,.6);opacity:0;margin-bottom:8px;text-transform:uppercase}
+.s1-dark{font:'Black Ops One';font-size:136px;font-weight:900;line-height:.9;
+  background:linear-gradient(165deg,#ffffff 0%,#ff8899 30%,#ff1133 65%,#880010 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:0;display:block}
+.s1-web{font:'Black Ops One';font-size:136px;font-weight:900;line-height:.9;
+  background:linear-gradient(165deg,#cce0ff 0%,#4499ff 40%,#1133cc 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:0;display:block;margin-bottom:20px}
+.s1-sub{font:300 16px/1 'Exo 2';letter-spacing:10px;color:rgba(160,200,255,.65);opacity:0;margin-bottom:30px;text-transform:uppercase}
+.s1-divider{display:flex;align-items:center;gap:20px;opacity:0;margin-bottom:18px}
+.s1-divider-line{width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(100,180,255,.4),transparent)}
+.s1-divider-dot{width:5px;height:5px;border-radius:50%;background:#4af;box-shadow:0 0 10px #4af}
+.s1-tags{font:400 10px/1 'Share Tech Mono';letter-spacing:4px;color:rgba(100,150,200,.35);opacity:0}
+.scan-line{position:absolute;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(100,200,255,.6),transparent);
+  animation:scanMove 4s linear infinite;pointer-events:none;z-index:1}
+
+/* ── SCENE 2: HOOK STATS ── */
+#s2{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.stat-row{display:flex;gap:30px;margin-top:20px}
+.stat-box{text-align:center;padding:30px 40px;background:rgba(8,12,30,.9);
+  border:1px solid rgba(255,255,255,.08);border-top:2px solid var(--sc,#4af);border-radius:6px;opacity:0;min-width:200px}
+.stat-num{font:900 64px/1 'Black Ops One';color:var(--sc,#4af);
+  filter:drop-shadow(0 0 20px var(--sc,#4af));display:block;margin-bottom:8px}
+.stat-label{font:600 11px/1.5 'Share Tech Mono';letter-spacing:3px;color:rgba(200,220,255,.6)}
+
+/* ── SCENE 3: ICEBERG ── */
+#s3{display:flex;align-items:center}
+#s3-canvas-wrap{width:520px;height:720px;flex-shrink:0;position:relative}
+.s3-right{flex:1;padding:0 55px;display:flex;flex-direction:column;gap:22px}
+.layer-card{opacity:0;padding:18px 20px;border-left:3px solid var(--lc,#4af);
+  background:rgba(var(--lr,0,100,200),.06);border-radius:0 6px 6px 0}
+.lc-pct{font:700 10px/1 'Share Tech Mono';letter-spacing:3px;opacity:.55;margin-bottom:6px}
+.lc-name{font:800 20px/1 'Exo 2';color:var(--lc,#4af);margin-bottom:6px}
+.lc-desc{font:300 13px/1.6 'Exo 2';color:rgba(210,225,255,.75)}
+
+/* ── SCENE 4: WHAT IS ── */
+#s4{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 70px}
+.s4-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;margin-top:4px}
+
+/* ── SCENE 5: HISTORY ── */
+#s5{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 80px}
+.timeline{width:100%;position:relative;margin-top:8px}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,rgba(100,180,255,.05),rgba(100,180,255,.4),rgba(100,180,255,.05));
+  transform:translateX(-50%)}
+.tl-item{display:flex;align-items:flex-start;gap:0;margin-bottom:16px;opacity:0}
+.tl-item:nth-child(odd){flex-direction:row-reverse}
+.tl-item:nth-child(odd) .tl-content{margin-right:50px;margin-left:0;text-align:right}
+.tl-content{flex:1;margin-left:50px;padding:14px 18px;
+  background:rgba(8,14,30,.85);border:1px solid rgba(255,255,255,.07);border-radius:6px}
+.tl-dot-wrap{position:relative;display:flex;align-items:center;justify-content:center;
+  z-index:2;flex-shrink:0}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--dc,#4af);
+  box-shadow:0 0 12px var(--dc,#4af);position:relative;z-index:2}
+.tl-year{font:700 13px/1 'Share Tech Mono';color:var(--dc,#4af);margin-bottom:6px;letter-spacing:2px}
+.tl-title{font:700 15px/1.2 'Exo 2';color:#fff;margin-bottom:5px}
+.tl-desc{font:300 12px/1.5 'Exo 2';color:rgba(200,215,255,.7)}
+
+/* ── SCENE 6: TOR ── */
+#s6{display:flex;align-items:center}
+.s6-left{flex:1;padding:50px 55px;display:flex;flex-direction:column}
+#s6-canvas-wrap{width:480px;height:720px;flex-shrink:0}
+.step-item{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.05);opacity:0;align-items:flex-start}
+.sn{font:700 10px/1 'Share Tech Mono';color:#ff7700;background:rgba(255,120,0,.1);
+  border:1px solid rgba(255,120,0,.3);width:30px;height:30px;display:flex;align-items:center;
+  justify-content:center;border-radius:4px;flex-shrink:0;margin-top:2px;letter-spacing:1px}
+.si strong{font:700 15px/1.3 'Exo 2';color:#fff;display:block;margin-bottom:3px}
+.si span{font:300 12px/1.5 'Exo 2';color:rgba(255,255,255,.5)}
+
+/* ── SCENE 7: ONION DOMAINS ── */
+#s7{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 80px}
+.onion-viz{width:100%;display:flex;align-items:center;justify-content:center;gap:60px;margin-top:8px}
+.onion-side{flex:1;display:flex;flex-direction:column;gap:14px}
+.onion-item{display:flex;align-items:center;gap:14px;opacity:0;padding:12px 16px;
+  border:1px solid rgba(255,255,255,.07);border-radius:6px;background:rgba(8,12,28,.7)}
+.onion-icon{font-size:22px;flex-shrink:0}
+.onion-text strong{font:600 14px/1 'Exo 2';color:#fff;display:block;margin-bottom:4px}
+.onion-text span{font:300 12px/1.4 'Exo 2';color:rgba(200,215,255,.65)}
+.onion-center{display:flex;flex-direction:column;align-items:center;gap:16px;flex-shrink:0}
+.onion-ring{text-align:center;opacity:0}
+.onion-ring .code{font:700 13px/1 'Share Tech Mono';color:#ff6600;padding:8px 14px;
+  background:rgba(255,100,0,.08);border:1px solid rgba(255,100,0,.25);border-radius:4px;
+  word-break:break-all;max-width:220px;display:inline-block;line-height:1.5}
+.onion-ring .label{font:300 11px/1 'Exo 2';color:rgba(255,255,255,.35);margin-top:6px;letter-spacing:2px}
+
+/* ── SCENE 8: CONTENTS ── */
+#s8{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:38px 70px}
+.s8-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;width:100%;margin-top:6px;
+  border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden}
+.s8-col{padding:28px 32px}
+.s8-col.leg{background:rgba(0,255,120,.03);border-right:1px solid rgba(255,255,255,.06)}
+.s8-col.ill{background:rgba(255,30,50,.03)}
+.s8-ch{font:700 11px/1 'Share Tech Mono';letter-spacing:4px;padding-bottom:14px;margin-bottom:14px;border-bottom:2px solid;opacity:0}
+.s8-col.leg .s8-ch{color:#00ff88;border-color:#00ff88}
+.s8-col.ill .s8-ch{color:#ff3344;border-color:#ff3344}
+.s8-row{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);opacity:0;align-items:flex-start}
+.s8-dot{width:5px;height:5px;border-radius:50%;margin-top:8px;flex-shrink:0}
+.leg .s8-dot{background:#00ff88;box-shadow:0 0 6px #00ff88}
+.ill .s8-dot{background:#ff3344;box-shadow:0 0 6px #ff3344}
+.s8-t{font:400 14px/1.5 'Exo 2';color:rgba(215,230,255,.85)}
+.s8-t b{font-weight:700;color:#fff}
+
+/* ── SCENE 9: REAL CASES ── */
+#s9{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 70px}
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;margin-top:6px}
+.case-card{background:rgba(20,5,10,.9);border:1px solid rgba(255,60,80,.2);
+  border-top:2px solid #ff3344;padding:20px 18px;border-radius:6px;opacity:0}
+.case-year{font:700 10px/1 'Share Tech Mono';letter-spacing:3px;color:rgba(255,100,110,.6);margin-bottom:8px}
+.case-name{font:800 17px/1.2 'Exo 2';color:#fff;margin-bottom:8px}
+.case-badge{display:inline-block;font:700 9px/1 'Share Tech Mono';letter-spacing:2px;
+  padding:3px 8px;border-radius:2px;margin-bottom:10px}
+.badge-bust{background:rgba(255,50,80,.2);color:#ff7788;border:1px solid rgba(255,50,80,.3)}
+.badge-active{background:rgba(255,150,0,.15);color:#ffaa44;border:1px solid rgba(255,150,0,.25)}
+.case-text{font:300 12px/1.6 'Exo 2';color:rgba(210,190,195,.75)}
+
+/* ── SCENE 10: GLOBAL STATS ── */
+#s10{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 80px}
+.stats-visual{display:flex;gap:40px;width:100%;margin-top:12px;align-items:flex-start}
+.stat-bars{flex:1;display:flex;flex-direction:column;gap:18px}
+.bar-row{opacity:0}
+.bar-label{display:flex;justify-content:space-between;margin-bottom:7px}
+.bar-name{font:600 13px/1 'Exo 2';color:rgba(220,230,255,.8)}
+.bar-val{font:700 13px/1 'Share Tech Mono';color:var(--bc,#4af)}
+.bar-track{height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--bc,#4af),var(--bc2,#7af));
+  width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 10px var(--bc,#4af)}
+.stat-circles{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex-shrink:0}
+.circ-stat{text-align:center;padding:24px 20px;background:rgba(8,12,28,.85);
+  border:1px solid rgba(255,255,255,.07);border-radius:8px;opacity:0}
+.circ-num{font:900 48px/1 'Black Ops One';color:var(--cc2,#4af);
+  filter:drop-shadow(0 0 16px var(--cc2,#4af));display:block;margin-bottom:6px}
+.circ-text{font:300 11px/1.4 'Share Tech Mono';letter-spacing:2px;color:rgba(180,200,230,.55)}
+
+/* ── SCENE 11: DANGERS ── */
+#s11{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 65px}
+.dg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;margin-top:6px}
+.dc{background:rgba(20,5,5,.9);border:1px solid rgba(255,30,50,.18);
+  border-top:2px solid #ff2233;padding:20px 18px;border-radius:6px;opacity:0}
+.dc-em{font-size:26px;margin-bottom:10px}
+.dc-n{font:700 10px/1 'Share Tech Mono';letter-spacing:2px;color:#ff5566;margin-bottom:8px}
+.dc-t{font:300 12px/1.6 'Exo 2';color:rgba(215,195,195,.8)}
+
+/* ── SCENE 12: LAW ENFORCEMENT ── */
+#s12{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 80px}
+.law-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;margin-top:8px}
+.law-card{background:rgba(5,10,25,.9);border:1px solid rgba(100,180,255,.15);
+  border-left:3px solid #4af;padding:20px 22px;border-radius:0 6px 6px 0;opacity:0}
+.law-op{font:700 10px/1 'Share Tech Mono';letter-spacing:3px;color:rgba(100,180,255,.5);margin-bottom:6px}
+.law-name{font:800 18px/1.2 'Exo 2';color:#fff;margin-bottom:8px}
+.law-tag{display:inline-block;font:700 9px/1 'Share Tech Mono';letter-spacing:2px;padding:3px 8px;
+  border-radius:2px;margin-bottom:8px;background:rgba(100,180,255,.1);
+  color:#7bc;border:1px solid rgba(100,180,255,.2)}
+.law-text{font:300 12px/1.6 'Exo 2';color:rgba(200,215,255,.7)}
+
+/* ── SCENE 13: STAY SAFE ── */
+#s13{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:38px 65px}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;margin-top:6px}
+.safe-c{background:rgba(0,20,12,.85);border:1px solid rgba(0,255,136,.12);
+  border-top:2px solid #00ff88;padding:18px 16px;border-radius:6px;
+  opacity:0;display:flex;gap:12px;align-items:flex-start}
+.safe-n{font:800 22px/1 'Exo 2';color:rgba(0,255,136,.25);flex-shrink:0;margin-top:2px}
+.safe-info strong{font:700 14px/1.3 'Exo 2';color:#fff;display:block;margin-bottom:5px}
+.safe-info span{font:300 11px/1.5 'Exo 2';color:rgba(180,220,190,.65)}
+
+/* ── SCENE 14: INDIA CALL-TO-ACTION ── */
+#s14{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 80px}
+.india-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;margin-top:10px}
+.india-card{padding:24px 26px;border-radius:6px;opacity:0;border:1px solid rgba(255,255,255,.07)}
+.ic-emergency{background:rgba(255,30,50,.07);border-top:2px solid #ff3344}
+.ic-resource{background:rgba(0,180,255,.05);border-top:2px solid #4af}
+.ic-org{background:rgba(255,150,0,.05);border-top:2px solid #ff9900}
+.ic-tip{background:rgba(0,200,100,.05);border-top:2px solid #00cc66}
+.ic-label{font:700 10px/1 'Share Tech Mono';letter-spacing:3px;color:var(--ilc,#4af);margin-bottom:10px}
+.ic-title{font:800 20px/1.2 'Exo 2';color:#fff;margin-bottom:10px}
+.ic-detail{font:300 13px/1.7 'Exo 2';color:rgba(210,225,255,.75)}
+.ic-num{font:700 28px/1 'Black Ops One';color:var(--ilc,#4af);
+  filter:drop-shadow(0 0 10px var(--ilc,#4af));margin-bottom:6px}
+
+/* ── SCENE 15: OUTRO ── */
+#s15{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.outro-pre{font:300 11px/1 'Share Tech Mono';letter-spacing:6px;color:rgba(100,180,255,.4);opacity:0;margin-bottom:28px}
+.outro-main{font:'Black Ops One';font-size:92px;font-weight:900;line-height:.95;
+  background:linear-gradient(135deg,#ffffff 0%,#aacfff 35%,#4af 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:0;
+  margin-bottom:20px;filter:drop-shadow(0 0 60px rgba(60,150,255,.5))}
+.outro-quote{font:300 italic 18px/1.85 'Exo 2';color:rgba(170,200,255,.65);
+  max-width:740px;opacity:0;margin-bottom:32px}
+.outro-divider{display:flex;align-items:center;gap:24px;opacity:0;margin-bottom:24px}
+.od-line{width:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(100,180,255,.3),transparent)}
+.od-sym{font:400 18px/1 'Share Tech Mono';color:rgba(100,180,255,.4)}
+.outro-credits{font:400 10px/2 'Share Tech Mono';letter-spacing:3px;color:rgba(80,120,180,.3);opacity:0}
+
+/* ── HUD ── */
+#hud-rec{position:fixed;top:18px;left:28px;display:flex;align-items:center;gap:10px;z-index:99}
+.rec-dot{width:9px;height:9px;border-radius:50%;background:#ff2233;
+  box-shadow:0 0 10px #ff2233;animation:blink 1s ease-in-out infinite}
+.rec-label{font:400 10px/1 'Share Tech Mono';letter-spacing:3px;color:rgba(255,80,80,.45)}
+#hud-scene{position:fixed;top:18px;right:28px;font:400 10px/1 'Share Tech Mono';
+  letter-spacing:3px;color:rgba(100,180,255,.35);z-index:99}
+#hud-time{position:fixed;bottom:12px;right:28px;font:400 11px/1 'Share Tech Mono';
+  letter-spacing:2px;color:rgba(100,150,200,.4);z-index:99}
+#hud-badge{position:fixed;bottom:12px;left:28px;font:400 9px/1 'Share Tech Mono';
+  letter-spacing:2px;color:rgba(100,150,200,.25);z-index:99}
+#prog-wrap{position:fixed;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.04);z-index:99}
+#prog{height:100%;width:0%;
+  background:linear-gradient(90deg,#ff1133 0%,#ff7700 20%,#ffcc00 40%,#00ff88 60%,#00aaff 80%,#7744ff 100%);
+  box-shadow:0 0 8px rgba(100,200,255,.5);transition:width .08s linear}
+
+/* TRANSITION */
+#wipe{position:fixed;inset:0;background:#000;z-index:88;transform:scaleX(0);transform-origin:left;pointer-events:none}
+</style>
+</head>
+<body>
+
+<canvas id="c1" width="1280" height="720"></canvas>
+<div class="layer-noise"></div>
+<div class="layer-vignette"></div>
+<div class="layer-scan"></div>
+
+<div id="hud-rec"><div class="rec-dot"></div><div class="rec-label">REC</div></div>
+<div id="hud-scene">SCENE 01 / 15</div>
+<div id="hud-time">00:00</div>
+<div id="hud-badge">EDUCATIONAL AWARENESS · NOT AN ENDORSEMENT</div>
+<div id="prog-wrap"><div id="prog"></div></div>
+<div id="wipe"></div>
+
+<div id="stage">
+
+<!-- ══ S1: CINEMATIC TITLE ══ -->
+<div class="sc" id="s1">
+  <div class="scan-line"></div>
+  <div class="s1-bg">DARK</div>
+  <div class="scene-center" style="position:relative">
+    <div class="s1-pre" id="e_s1pre">◈ DIGITAL AWARENESS SERIES · VIGNAN'S FSTR ◈</div>
+    <div class="s1-main">
+      <div class="s1-the" id="e_s1the">THE</div>
+      <span class="s1-dark apbr" id="e_s1dk">DARK</span>
+      <span class="s1-web apb" id="e_s1wb">WEB</span>
+      <div class="s1-sub" id="e_s1sb">The Hidden Side of the Internet</div>
+      <div class="s1-divider" id="e_s1dv">
+        <div class="s1-divider-line"></div>
+        <div class="s1-divider-dot"></div>
+        <div class="s1-divider-line"></div>
+      </div>
+      <div class="s1-tags" id="e_s1tg">AWARENESS &nbsp;·&nbsp; EDUCATION &nbsp;·&nbsp; DIGITAL SAFETY &nbsp;·&nbsp; 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S2: SHOCKING STATS HOOK ══ -->
+<div class="sc" id="s2">
+  <div class="scene-center" style="gap:0">
+    <div class="chip" id="e_s2chip" style="--c:#ff9900;color:#ff9900">◉ DID YOU KNOW?</div>
+    <div class="sec-head" id="e_s2h" style="text-align:center">The Scale of<br><span class="o">the Problem</span></div>
+    <div class="rule" id="e_s2r" style="--c:#ff9900"></div>
+    <div class="stat-row">
+      <div class="stat-box" id="sb1" style="--sc:#ff3344">
+        <span class="stat-num">2.5M</span>
+        <span class="stat-label">DAILY TOR USERS<br>WORLDWIDE</span>
+      </div>
+      <div class="stat-box" id="sb2" style="--sc:#ff9900">
+        <span class="stat-num">65%</span>
+        <span class="stat-label">OF DARK WEB CONTENT<br>IS ILLEGAL</span>
+      </div>
+      <div class="stat-box" id="sb3" style="--sc:#4af">
+        <span class="stat-num">$1.5B</span>
+        <span class="stat-label">CRYPTO TRADED ON<br>DARK WEB ANNUALLY</span>
+      </div>
+      <div class="stat-box" id="sb4" style="--sc:#00ff88">
+        <span class="stat-num">30K</span>
+        <span class="stat-label">ACTIVE .ONION<br>WEBSITES TODAY</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S3: ICEBERG ══ -->
+<div class="sc" id="s3">
+  <div id="s3-canvas-wrap"></div>
+  <div class="s3-right">
+    <div class="sec-head" id="e_s3h" style="font-size:40px">The Internet<br>is an <span class="a">Iceberg</span></div>
+    <div class="rule" id="e_s3r"></div>
+    <div class="layer-card" id="lc1" style="--lc:#4af;--lr:40,150,255">
+      <div class="lc-pct">ONLY 4% · FULLY VISIBLE</div>
+      <div class="lc-name">Surface Web</div>
+      <div class="lc-desc">Google, YouTube, Wikipedia, social media. Everything you search daily is just the tiny visible tip of the iceberg.</div>
+    </div>
+    <div class="layer-card" id="lc2" style="--lc:#7788ff;--lr:60,80,200">
+      <div class="lc-pct">~90% · PRIVATE BUT LEGAL</div>
+      <div class="lc-name">Deep Web</div>
+      <div class="lc-desc">Emails, banking portals, academic databases, medical records. Not indexed by Google — requires authentication.</div>
+    </div>
+    <div class="layer-card" id="lc3" style="--lc:#ff3344;--lr:180,10,25">
+      <div class="lc-pct">~6% · ENCRYPTED · ANONYMOUS</div>
+      <div class="lc-name">Dark Web ⚠</div>
+      <div class="lc-desc">Requires Tor Browser. Uses .onion domains. Completely anonymous routing. Home to activists — and criminals.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S4: WHAT IS DARK WEB ══ -->
+<div class="sc" id="s4">
+  <div style="width:100%;padding:40px 70px">
+    <div class="sec-head" id="e_s4h">What <span class="a">Exactly</span> is the Dark Web?</div>
+    <div class="rule" id="e_s4r"></div>
+    <div class="s4-grid">
+      <div class="card" id="s4c1" style="--cc:#4af">
+        <div class="card-icon">🌐</div><div class="card-label">DEFINITION</div>
+        <div class="card-text">A portion of the internet <strong>not indexed by search engines</strong>, accessible only via Tor Browser which routes traffic through layered encryption — making you anonymous.</div>
+      </div>
+      <div class="card" id="s4c2" style="--cc:#ff9900">
+        <div class="card-icon">🧅</div><div class="card-label">.ONION DOMAINS</div>
+        <div class="card-text">Sites end in <strong>.onion</strong> — 56-character cryptographic hashes with no DNS registration and no fixed IP. Invisible to regular browsers entirely.</div>
+      </div>
+      <div class="card" id="s4c3" style="--cc:#7788ff">
+        <div class="card-icon">🛡️</div><div class="card-label">ORIGIN</div>
+        <div class="card-text">Built by the <strong>U.S. Naval Research Lab</strong> in the 1990s for secure military communications. Later open-sourced for journalists in censored regions.</div>
+      </div>
+      <div class="card" id="s4c4" style="--cc:#ff3344">
+        <div class="card-icon">⚠️</div><div class="card-label">DARK ≠ DEEP WEB</div>
+        <div class="card-text">The Deep Web = private but legal (your Gmail, bank). The Dark Web = intentionally hidden, requiring <strong>anonymous routing tools</strong>. Completely different things.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S5: HISTORY TIMELINE ══ -->
+<div class="sc" id="s5">
+  <div style="width:100%;padding:36px 80px">
+    <div class="sec-head" id="e_s5h" style="font-size:42px">History of <span class="a">the Dark Web</span></div>
+    <div class="rule" id="e_s5r"></div>
+    <div class="timeline">
+      <div class="tl-item" id="tl1" style="--dc:#4af">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">1990s</div>
+          <div class="tl-title">U.S. Navy Creates Tor</div>
+          <div class="tl-desc">Naval Research Lab develops onion routing for secure military communications over the public internet.</div>
+        </div>
+      </div>
+      <div class="tl-item" id="tl2" style="--dc:#7788ff">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2002</div>
+          <div class="tl-title">Tor Project Released Publicly</div>
+          <div class="tl-desc">Tor Browser released as open-source. Journalists, activists, and privacy advocates in censored countries gain anonymous internet access.</div>
+        </div>
+      </div>
+      <div class="tl-item" id="tl3" style="--dc:#ff9900">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2011</div>
+          <div class="tl-title">Silk Road Launches</div>
+          <div class="tl-desc">First major dark web marketplace for illegal drugs — operated by "Dread Pirate Roberts." Accepted only Bitcoin. Changed the dark web forever.</div>
+        </div>
+      </div>
+      <div class="tl-item" id="tl4" style="--dc:#ff3344">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2013</div>
+          <div class="tl-title">FBI Takes Down Silk Road</div>
+          <div class="tl-desc">FBI seizes $1 billion in Bitcoin and arrests Ross Ulbricht. Proves no one is truly anonymous — even Tor has limits.</div>
+        </div>
+      </div>
+      <div class="tl-item" id="tl5" style="--dc:#00ff88">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2024+</div>
+          <div class="tl-title">Modern Era: AI Meets the Dark Web</div>
+          <div class="tl-desc">AI-generated malware, deepfakes, and data trading surge. Global agencies use AI to fight back. The arms race continues.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S6: TOR BROWSER ══ -->
+<div class="sc" id="s6">
+  <div class="s6-left">
+    <div class="big-title orange" id="e_s6t" style="font-size:66px;font-family:'Black Ops One'">THE ONION<br>ROUTER</div>
+    <div style="height:8px"></div>
+    <div class="chip" id="e_s6chip" style="--c:#ff8800;color:#ff8800;opacity:0">HOW ANONYMITY IS ACHIEVED</div>
+    <div style="height:18px"></div>
+    <div class="step-item" id="st1"><div class="sn">01</div><div class="si"><strong>Multi-Layer Encryption</strong><span>Your request gets wrapped in 3 layers of encryption — like an onion.</span></div></div>
+    <div class="step-item" id="st2"><div class="sn">02</div><div class="si"><strong>Entry Node</strong><span>Knows your IP, not your destination. Strips outer layer, passes on.</span></div></div>
+    <div class="step-item" id="st3"><div class="sn">03</div><div class="si"><strong>Middle Relay</strong><span>Knows only previous &amp; next hop. Full path is impossible to reconstruct.</span></div></div>
+    <div class="step-item" id="st4"><div class="sn">04</div><div class="si"><strong>Exit Node</strong><span>Strips final layer, delivers request. Site sees exit IP — never yours.</span></div></div>
+    <div class="step-item" id="st5"><div class="sn">05</div><div class="si"><strong>.onion Routing</strong><span>For dark web sites, data never leaves Tor. End-to-end invisible.</span></div></div>
+  </div>
+  <div id="s6-canvas-wrap"></div>
+</div>
+
+<!-- ══ S7: .ONION DOMAINS ══ -->
+<div class="sc" id="s7">
+  <div style="width:100%;padding:36px 70px">
+    <div class="sec-head" id="e_s7h" style="text-align:center">Inside a <span class="o">.onion Domain</span></div>
+    <div class="rule" id="e_s7r" style="--c:#ff9900;margin:12px auto 20px"></div>
+    <div class="onion-viz">
+      <div class="onion-side">
+        <div class="onion-item" id="oi1"><div class="onion-icon">🔒</div><div class="onion-text"><strong>No IP Address</strong><span>Cannot be traced to a physical server or location globally</span></div></div>
+        <div class="onion-item" id="oi2"><div class="onion-icon">🕵️</div><div class="onion-text"><strong>No DNS Entry</strong><span>Not listed in any domain registry — invisible to ICANN</span></div></div>
+        <div class="onion-item" id="oi3"><div class="onion-icon">🔑</div><div class="onion-text"><strong>Cryptographic Address</strong><span>The 56-char hash IS the public key — verifies authenticity</span></div></div>
+      </div>
+      <div class="onion-center">
+        <div class="onion-ring" id="or1">
+          <div class="code">facebookwkhpilnemxj<br>7asber7cyber<br>punk.onion</div>
+          <div class="label">FACEBOOK'S OFFICIAL .ONION</div>
+        </div>
+        <div class="onion-ring" id="or2">
+          <div class="code" style="color:#ff4455;border-color:rgba(255,50,80,.3);background:rgba(255,30,50,.08)">xxxxxxxxxx<br>xxxxxxxxxxxxxx<br>drugmarket.onion</div>
+          <div class="label" style="color:rgba(255,80,80,.35)">TYPICAL ILLEGAL MARKET</div>
+        </div>
+      </div>
+      <div class="onion-side">
+        <div class="onion-item" id="oi4"><div class="onion-icon">🌍</div><div class="onion-text"><strong>Tor-Only Access</strong><span>Standard browsers simply cannot load .onion addresses</span></div></div>
+        <div class="onion-item" id="oi5"><div class="onion-icon">♾️</div><div class="onion-text"><strong>Self-Authenticating</strong><span>The address proves the site is who it says it is — no CA needed</span></div></div>
+        <div class="onion-item" id="oi6"><div class="onion-icon">🚫</div><div class="onion-text"><strong>Impossible to Censor</strong><span>No authority can take down a .onion by contacting a registrar</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S8: WHAT'S INSIDE ══ -->
+<div class="sc" id="s8">
+  <div style="width:100%;padding:34px 65px">
+    <div class="sec-head" id="e_s8h" style="font-size:40px">What's <span class="a">Found</span> on the Dark Web?</div>
+    <div class="rule" id="e_s8r"></div>
+    <div class="s8-grid">
+      <div class="s8-col leg">
+        <div class="s8-ch" id="s8h1">✓ LEGITIMATE USES</div>
+        <div class="s8-row" id="s8r1"><div class="s8-dot"></div><div class="s8-t"><b>Whistleblowing</b> — SecureDrop used by major global news orgs</div></div>
+        <div class="s8-row" id="s8r2"><div class="s8-dot"></div><div class="s8-t"><b>Censorship bypass</b> — Citizens in Iran, China, Russia</div></div>
+        <div class="s8-row" id="s8r3"><div class="s8-dot"></div><div class="s8-t"><b>Secure comms</b> — Encrypted messaging for activists</div></div>
+        <div class="s8-row" id="s8r4"><div class="s8-dot"></div><div class="s8-t"><b>News mirrors</b> — BBC, NY Times, Deutsche Welle .onion</div></div>
+        <div class="s8-row" id="s8r5"><div class="s8-dot"></div><div class="s8-t"><b>Research</b> — Cybersecurity professionals &amp; ethical hackers</div></div>
+      </div>
+      <div class="s8-col ill">
+        <div class="s8-ch" id="s8h2">⚠ CRIMINAL ACTIVITY</div>
+        <div class="s8-row" id="s8r6"><div class="s8-dot"></div><div class="s8-t"><b>Drug trafficking</b> — Anonymous marketplace transactions</div></div>
+        <div class="s8-row" id="s8r7"><div class="s8-dot"></div><div class="s8-t"><b>Stolen data</b> — Credit cards, Aadhaar, passwords for sale</div></div>
+        <div class="s8-row" id="s8r8"><div class="s8-dot"></div><div class="s8-t"><b>Hacking tools</b> — Ransomware-as-a-Service, botnets</div></div>
+        <div class="s8-row" id="s8r9"><div class="s8-dot"></div><div class="s8-t"><b>Counterfeit docs</b> — Fake IDs, passports, certificates</div></div>
+        <div class="s8-row" id="s8r10"><div class="s8-dot"></div><div class="s8-t"><b>Crypto laundering</b> — Mixing services, money mules</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S9: REAL CASES ══ -->
+<div class="sc" id="s9">
+  <div style="width:100%;padding:36px 65px">
+    <div class="sec-head" id="e_s9h" style="font-size:40px">Real <span class="r">Notorious Cases</span></div>
+    <div class="rule" id="e_s9r" style="--c:#ff3344"></div>
+    <div class="case-grid">
+      <div class="case-card" id="cc1">
+        <div class="case-year">2011 – 2013</div>
+        <div class="case-name">Silk Road</div>
+        <div class="case-badge badge-bust">BUSTED BY FBI</div>
+        <div class="case-text">First dark web drug empire. $1B+ in Bitcoin seized. Founder Ross Ulbricht sentenced to life without parole. Showed Tor isn't foolproof.</div>
+      </div>
+      <div class="case-card" id="cc2">
+        <div class="case-year">2014</div>
+        <div class="case-name">Operation Onymous</div>
+        <div class="case-badge badge-bust">EUROPOL + FBI</div>
+        <div class="case-text">Europol &amp; FBI simultaneously shut down 400+ dark web sites including Silk Road 2.0. 17 arrests across 17 countries in one coordinated strike.</div>
+      </div>
+      <div class="case-card" id="cc3">
+        <div class="case-year">2017</div>
+        <div class="case-name">AlphaBay Takedown</div>
+        <div class="case-badge badge-bust">DOJ OPERATION</div>
+        <div class="case-text">Largest dark web marketplace — 10× bigger than Silk Road. Founder Alexandre Cazes arrested in Thailand; found dead in cell days later.</div>
+      </div>
+      <div class="case-card" id="cc4">
+        <div class="case-year">2021</div>
+        <div class="case-name">DarkSide Ransomware</div>
+        <div class="case-badge badge-bust">DISRUPTED</div>
+        <div class="case-text">Attacked Colonial Pipeline — shut down 45% of U.S. East Coast fuel supply. $4.4M ransom paid in Bitcoin. U.S. recovered $2.3M.</div>
+      </div>
+      <div class="case-card" id="cc5">
+        <div class="case-year">2023</div>
+        <div class="case-name">Genesis Market Bust</div>
+        <div class="case-badge badge-bust">120 ARRESTED</div>
+        <div class="case-text">FBI-led Operation Cookie Monster took down market selling stolen browser credentials. 120 arrests in 13 countries simultaneously.</div>
+      </div>
+      <div class="case-card" id="cc6">
+        <div class="case-year">ONGOING</div>
+        <div class="case-name">Indian Data Breaches</div>
+        <div class="case-badge badge-active">ACTIVE THREAT</div>
+        <div class="case-text">AIIMS Delhi, IRCTC, Aadhaar data sold on dark web forums. India ranked 5th most targeted country for cybercrime globally.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S10: GLOBAL STATS ══ -->
+<div class="sc" id="s10">
+  <div style="width:100%;padding:36px 80px">
+    <div class="sec-head" id="e_s10h" style="font-size:40px">Dark Web by the <span class="a">Numbers</span></div>
+    <div class="rule" id="e_s10r"></div>
+    <div class="stats-visual">
+      <div class="stat-bars">
+        <div class="bar-row" id="br1">
+          <div class="bar-label"><span class="bar-name">Drug Sales</span><span class="bar-val" style="--bc:#ff3344">38%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="--bc:#ff3344;--bc2:#ff7788;--w:38%" id="bf1"></div></div>
+        </div>
+        <div class="bar-row" id="br2">
+          <div class="bar-label"><span class="bar-name">Stolen Data / Fraud</span><span class="bar-val" style="--bc:#ff9900">27%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="--bc:#ff9900;--bc2:#ffcc44;--w:27%" id="bf2"></div></div>
+        </div>
+        <div class="bar-row" id="br3">
+          <div class="bar-label"><span class="bar-name">Hacking Services</span><span class="bar-val" style="--bc:#ff5588">18%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="--bc:#ff5588;--bc2:#ff88aa;--w:18%" id="bf3"></div></div>
+        </div>
+        <div class="bar-row" id="br4">
+          <div class="bar-label"><span class="bar-name">Counterfeit Goods &amp; Docs</span><span class="bar-val" style="--bc:#aa66ff">12%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="--bc:#aa66ff;--bc2:#cc99ff;--w:12%" id="bf4"></div></div>
+        </div>
+        <div class="bar-row" id="br5">
+          <div class="bar-label"><span class="bar-name">Legitimate / Private Use</span><span class="bar-val" style="--bc:#00ff88">35%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="--bc:#00ff88;--bc2:#44ffaa;--w:35%" id="bf5"></div></div>
+        </div>
+      </div>
+      <div class="stat-circles">
+        <div class="circ-stat" id="cs1" style="--cc2:#ff3344">
+          <span class="circ-num">$1.5B</span>
+          <span class="circ-text">CRYPTO TRADED<br>ANNUALLY</span>
+        </div>
+        <div class="circ-stat" id="cs2" style="--cc2:#ff9900">
+          <span class="circ-num">15B+</span>
+          <span class="circ-text">STOLEN CREDENTIALS<br>FOR SALE</span>
+        </div>
+        <div class="circ-stat" id="cs3" style="--cc2:#4af">
+          <span class="circ-num">2.5M</span>
+          <span class="circ-text">DAILY TOR<br>USERS</span>
+        </div>
+        <div class="circ-stat" id="cs4" style="--cc2:#00ff88">
+          <span class="circ-num">30K</span>
+          <span class="circ-text">ACTIVE .ONION<br>SITES</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S11: DANGERS ══ -->
+<div class="sc" id="s11">
+  <div style="width:100%;padding:34px 60px">
+    <div style="text-align:center">
+      <div class="big-title red apbr" id="e_s11t" style="font-size:72px;font-family:'Black Ops One'">REAL DANGERS</div>
+    </div>
+    <div style="height:6px"></div>
+    <div class="dg">
+      <div class="dc" id="dc1"><div class="dc-em">🦠</div><div class="dc-n">INSTANT MALWARE</div><div class="dc-t">One click downloads ransomware, keyloggers, RATs. Your device — fully compromised in seconds.</div></div>
+      <div class="dc" id="dc2"><div class="dc-em">🪤</div><div class="dc-n">EXIT SCAMS</div><div class="dc-t">90%+ of dark markets vanish overnight with your crypto. Payments are irreversible. Zero legal recourse.</div></div>
+      <div class="dc" id="dc3"><div class="dc-em">🔍</div><div class="dc-n">ACTIVE SURVEILLANCE</div><div class="dc-t">FBI, CBI, Interpol run live sting operations. Your metadata and timing patterns can deanonymize you.</div></div>
+      <div class="dc" id="dc4"><div class="dc-em">😵</div><div class="dc-n">TRAUMA EXPOSURE</div><div class="dc-t">Accidental exposure to extreme illegal content. No filters, no warnings — deeply traumatic for life.</div></div>
+      <div class="dc" id="dc5"><div class="dc-em">🆔</div><div class="dc-n">IDENTITY THEFT</div><div class="dc-t">Your data is already being traded. A single session can expose all linked accounts and finances.</div></div>
+      <div class="dc" id="dc6"><div class="dc-em">⚖️</div><div class="dc-n">CRIMINAL CHARGES</div><div class="dc-t">Under Indian IT Act 2000, visiting certain dark web sites can result in arrest and imprisonment.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S12: LAW ENFORCEMENT ══ -->
+<div class="sc" id="s12">
+  <div style="width:100%;padding:36px 75px">
+    <div class="sec-head" id="e_s12h" style="font-size:40px">Agencies <span class="a">Fighting Back</span></div>
+    <div class="rule" id="e_s12r"></div>
+    <div class="law-grid">
+      <div class="law-card" id="lwc1">
+        <div class="law-op">UNITED STATES</div>
+        <div class="law-name">FBI Cyber Division</div>
+        <div class="law-tag">OPERATION SHROUDED HORIZON</div>
+        <div class="law-text">Operates undercover agents within dark web markets. Uses blockchain analytics and timing correlations to deanonymize users despite Tor.</div>
+      </div>
+      <div class="law-card" id="lwc2">
+        <div class="law-op">EUROPE</div>
+        <div class="law-name">Europol EC3 Unit</div>
+        <div class="law-tag">OPERATION ONYMOUS</div>
+        <div class="law-text">Coordinates cross-border takedowns across 17+ countries. Has shut down hundreds of dark web markets through technical exploitation of Tor nodes.</div>
+      </div>
+      <div class="law-card" id="lwc3">
+        <div class="law-op">INDIA</div>
+        <div class="law-name">CBI Cybercrime Unit + CERT-In</div>
+        <div class="law-tag">NATIONAL CYBERCRIME PORTAL</div>
+        <div class="law-text">India's cybercrime.gov.in portal and 1930 helpline. CERT-In monitors dark web for Indian data breaches in real time — 24/7 operations.</div>
+      </div>
+      <div class="law-card" id="lwc4">
+        <div class="law-op">GLOBAL</div>
+        <div class="law-name">Interpol Dark Web Unit</div>
+        <div class="law-tag">PROJECT GATEWAY</div>
+        <div class="law-text">AI-powered tools scan dark web forums for keywords, stolen credentials, and threat actors. Over 9,000 individuals identified in recent years.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S13: STAY SAFE ══ -->
+<div class="sc" id="s13">
+  <div style="width:100%;padding:34px 60px">
+    <div class="big-title green apbg" id="e_s13t" style="font-size:62px;text-align:center;font-family:'Black Ops One'">STAY SAFE ONLINE</div>
+    <div style="height:10px"></div>
+    <div class="sg">
+      <div class="safe-c" id="sc1"><div class="safe-n">01</div><div class="safe-info"><strong>Never Browse the Dark Web</strong><span>Curiosity is never worth criminal exposure or trauma. No legitimate reason for average users.</span></div></div>
+      <div class="safe-c" id="sc2"><div class="safe-n">02</div><div class="safe-info"><strong>Use Strong Unique Passwords</strong><span>Password manager + unique credentials + 2FA everywhere. Assume breach has already happened.</span></div></div>
+      <div class="safe-c" id="sc3"><div class="safe-n">03</div><div class="safe-info"><strong>Check HaveIBeenPwned.com</strong><span>See if your email appears in known dark web data dumps. Act immediately if found.</span></div></div>
+      <div class="safe-c" id="sc4"><div class="safe-n">04</div><div class="safe-info"><strong>Keep Software Updated</strong><span>Outdated browsers are open doors for hackers. Every patch closes known dark web exploits.</span></div></div>
+      <div class="safe-c" id="sc5"><div class="safe-n">05</div><div class="safe-info"><strong>Report Cybercrime Immediately</strong><span>India: cybercrime.gov.in &amp; call 1930. Don't wait — early reporting recovers more money.</span></div></div>
+      <div class="safe-c" id="sc6"><div class="safe-n">06</div><div class="safe-info"><strong>Spread Awareness</strong><span>Share this knowledge with classmates and family. Digital safety is a collective responsibility.</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S14: INDIA RESOURCES ══ -->
+<div class="sc" id="s14">
+  <div style="width:100%;padding:38px 75px">
+    <div class="sec-head" id="e_s14h" style="font-size:40px"><span class="g">India</span> Cybersecurity Resources</div>
+    <div class="rule" id="e_s14r" style="--c:#00ff88"></div>
+    <div class="india-grid">
+      <div class="india-card ic-emergency" id="ic1" style="--ilc:#ff3344">
+        <div class="ic-label">EMERGENCY HELPLINE</div>
+        <div class="ic-num" style="--ilc:#ff3344">1930</div>
+        <div class="ic-title">National Cyber Crime Helpline</div>
+        <div class="ic-detail">Call 1930 immediately if you've been scammed online or suspect your data is on the dark web. Available 24/7 across India. First response within hours.</div>
+      </div>
+      <div class="india-card ic-resource" id="ic2" style="--ilc:#4af">
+        <div class="ic-label">GOVERNMENT PORTAL</div>
+        <div class="ic-num" style="--ilc:#4af;font-size:18px;padding-top:6px">cybercrime.gov.in</div>
+        <div class="ic-title">National Cybercrime Reporting Portal</div>
+        <div class="ic-detail">File FIR online for cybercrime. Report dark web links, stolen identity, financial fraud, and digital blackmail. Tracked by CBI Cyber Cell directly.</div>
+      </div>
+      <div class="india-card ic-org" id="ic3" style="--ilc:#ff9900">
+        <div class="ic-label">GOVT CYBER AGENCY</div>
+        <div class="ic-num" style="--ilc:#ff9900;font-size:18px;padding-top:6px">CERT-In</div>
+        <div class="ic-title">Indian Computer Emergency Response Team</div>
+        <div class="ic-detail">India's national nodal agency for cyber threats. Monitors dark web for Indian data leaks in real time and issues alerts to affected organizations.</div>
+      </div>
+      <div class="india-card ic-tip" id="ic4" style="--ilc:#00cc66">
+        <div class="ic-label">QUICK SAFETY CHECK</div>
+        <div class="ic-num" style="--ilc:#00cc66;font-size:16px;padding-top:6px">haveibeenpwned.com</div>
+        <div class="ic-title">Check if Your Data is Exposed</div>
+        <div class="ic-detail">Free tool — enter your email to see if it appears in any known dark web data breach. If yes, change passwords immediately and enable 2FA everywhere.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S15: CINEMATIC OUTRO ══ -->
+<div class="sc" id="s15">
+  <div class="scan-line"></div>
+  <div class="scene-center">
+    <div class="outro-pre" id="e_o1">◈ END OF AWARENESS SESSION ◈</div>
+    <div class="outro-main apb" id="e_o2">KNOWLEDGE<br>PROTECTS YOU</div>
+    <div class="outro-quote" id="e_o3">"The internet is the most powerful tool humanity has ever created — but power without awareness is danger. Understanding the Dark Web's hidden world is the first step to staying safe, staying legal, and protecting everyone around you."</div>
+    <div class="outro-divider" id="e_o4">
+      <div class="od-line"></div>
+      <div class="od-sym">◈</div>
+      <div class="od-line"></div>
+    </div>
+    <div class="outro-credits" id="e_o5">CREATED BY BATCH 06 · DEPT. OF CSE · VIGNAN'S FSTR · COURSE 22RH301 · SUPERVISOR DR. VINOJ</div>
+  </div>
+</div>
+
+</div><!-- end stage -->
+
+<script>
+// ═══ PARTICLE ENGINE ═══
+const c1=document.getElementById('c1'),g=c1.getContext('2d');
+const pts=[];
+for(let i=0;i<200;i++){
+  const hue=Math.random()<.4?210+Math.random()*30:Math.random()<.5?0:Math.random()*360;
+  pts.push({x:Math.random()*1280,y:Math.random()*720,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:.4+Math.random()*1.4,h:hue,t:Math.random()*6.28});
+}
+function drawPts(){
+  g.clearRect(0,0,1280,720);
+  pts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.t+=.015;
+    if(p.x<0||p.x>1280)p.vx*=-1;if(p.y<0||p.y>720)p.vy*=-1;
+    const a=.15+.25*Math.sin(p.t);
+    const r=p.h===0?`rgba(255,50,80,${a})`:`rgba(${p.h>180&&p.h<240?'60,150,255':p.h<30?'255,180,60':'180,100,255'},${a})`;
+    g.beginPath();g.arc(p.x,p.y,p.r,0,Math.PI*2);g.fillStyle=r;g.fill();
+  });
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+    const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<90){g.beginPath();g.moveTo(pts[i].x,pts[i].y);g.lineTo(pts[j].x,pts[j].y);
+      g.strokeStyle=`rgba(60,130,255,${.07*(1-d/90)})`;g.lineWidth=.5;g.stroke();}
+  }
+  requestAnimationFrame(drawPts);
+}
+drawPts();
+
+// ═══ ICEBERG CANVAS ═══
+const s3w=document.getElementById('s3-canvas-wrap');
+const s3c=document.createElement('canvas');s3c.width=520;s3c.height=720;s3w.appendChild(s3c);
+const gI=s3c.getContext('2d');
+let iceT=0,iceRunning=false;
+function drawIce(){
+  if(!iceRunning)return;
+  gI.clearRect(0,0,520,720);
+  const wY=320;
+  // Ocean
+  const og=gI.createLinearGradient(0,wY,0,720);
+  og.addColorStop(0,'rgba(0,10,40,.95)');og.addColorStop(1,'rgba(0,0,15,1)');
+  gI.fillStyle=og;gI.fillRect(0,wY,520,720-wY);
+  // Shimmer lines
+  for(let i=0;i<10;i++){
+    const wx=50+i*45+Math.sin(iceT*.015+i*.7)*15;
+    gI.strokeStyle=`rgba(60,140,255,${.06+.04*Math.sin(iceT*.02+i)})`;
+    gI.lineWidth=1.5;gI.beginPath();gI.moveTo(wx,wY+2);gI.lineTo(wx+50,wY+2);gI.stroke();
+  }
+  // Water line
+  gI.strokeStyle='rgba(60,160,255,.45)';gI.lineWidth=1.5;gI.setLineDash([14,7]);
+  gI.beginPath();gI.moveTo(0,wY);gI.lineTo(520,wY);gI.stroke();gI.setLineDash([]);
+  // Surface ice tip
+  const ig=gI.createLinearGradient(0,40,0,wY);
+  ig.addColorStop(0,'rgba(200,230,255,.97)');ig.addColorStop(1,'rgba(80,140,220,.75)');
+  gI.fillStyle=ig;gI.beginPath();
+  gI.moveTo(200,50);gI.lineTo(320,50);gI.lineTo(385,wY);gI.lineTo(135,wY);gI.closePath();gI.fill();
+  // Ice detail
+  gI.strokeStyle='rgba(220,240,255,.25)';gI.lineWidth=1;gI.beginPath();gI.moveTo(225,70);gI.lineTo(255,280);gI.stroke();
+  // Deep web
+  const dg=gI.createLinearGradient(0,wY,0,510);
+  dg.addColorStop(0,'rgba(40,60,200,.88)');dg.addColorStop(1,'rgba(20,30,120,.92)');
+  gI.fillStyle=dg;gI.beginPath();
+  gI.moveTo(135,wY);gI.lineTo(385,wY);gI.lineTo(435,510);gI.lineTo(85,510);gI.closePath();gI.fill();
+  // Dark web
+  const rg=gI.createLinearGradient(0,510,0,690);
+  rg.addColorStop(0,'rgba(130,10,30,.92)');rg.addColorStop(1,'rgba(40,0,10,1)');
+  gI.fillStyle=rg;gI.beginPath();
+  gI.moveTo(85,510);gI.lineTo(435,510);gI.lineTo(470,690);gI.lineTo(50,690);gI.closePath();gI.fill();
+  // Red aura
+  const ra=gI.createRadialGradient(260,640,5,260,640,140);
+  ra.addColorStop(0,'rgba(255,20,40,.18)');ra.addColorStop(1,'transparent');
+  gI.fillStyle=ra;gI.fillRect(0,500,520,220);
+  // Tier labels
+  gI.textAlign='center';
+  gI.fillStyle='rgba(0,20,55,.7)';gI.font="bold 13px 'Exo 2'";gI.fillText('SURFACE WEB',260,190);
+  gI.fillStyle='rgba(150,200,255,.55)';gI.font="bold 13px 'Exo 2'";gI.fillText('DEEP WEB',260,415);
+  gI.fillStyle='rgba(255,100,110,.6)';gI.font="bold 13px 'Exo 2'";gI.fillText('DARK WEB',260,610);
+  // Pct
+  gI.fillStyle='rgba(180,220,255,.45)';gI.font="11px 'Share Tech Mono'";gI.textAlign='left';
+  gI.fillText('4%',20,190);gI.fillText('90%',20,415);gI.fillText('~6%',20,610);
+  iceT++;requestAnimationFrame(drawIce);
+}
+
+// ═══ TOR CANVAS ═══
+const s6w=document.getElementById('s6-canvas-wrap');
+const s6c=document.createElement('canvas');s6c.width=480;s6c.height=720;s6w.appendChild(s6c);
+const gT=s6c.getContext('2d');
+const TNS=[{x:240,y:90,l:'YOU',c:'#4af'},{x:100,y:240,l:'ENTRY',c:'#ff7700'},{x:380,y:310,l:'RELAY',c:'#ffaa00'},{x:150,y:460,l:'RELAY',c:'#ffaa00'},{x:360,y:560,l:'EXIT',c:'#ff4455'},{x:240,y:660,l:'.ONION',c:'#cc0022'}];
+const TLK=[[0,1],[1,2],[2,3],[3,4],[4,5]];
+let torT=0,torRunning=false;
+function drawTor(){
+  if(!torRunning)return;
+  gT.clearRect(0,0,480,720);
+  TLK.forEach(([a,b])=>{
+    const na=TNS[a],nb=TNS[b];
+    gT.strokeStyle='rgba(255,110,0,.12)';gT.lineWidth=1.5;gT.setLineDash([8,8]);
+    gT.beginPath();gT.moveTo(na.x,na.y);gT.lineTo(nb.x,nb.y);gT.stroke();gT.setLineDash([]);
+  });
+  TLK.forEach(([a,b],i)=>{
+    const ph=((torT/70)-i*.28)%1;
+    if(ph>0&&ph<1){
+      const na=TNS[a],nb=TNS[b],px=na.x+(nb.x-na.x)*ph,py=na.y+(nb.y-na.y)*ph;
+      const gr=gT.createRadialGradient(px,py,0,px,py,12);
+      gr.addColorStop(0,'rgba(255,160,0,.9)');gr.addColorStop(1,'transparent');
+      gT.fillStyle=gr;gT.fillRect(px-12,py-12,24,24);
+      gT.beginPath();gT.arc(px,py,5,0,Math.PI*2);gT.fillStyle='#ffaa00';gT.fill();
+    }
+  });
+  TNS.forEach((n,i)=>{
+    const pulse=.5+.5*Math.sin(torT*.055+i);
+    const gl=gT.createRadialGradient(n.x,n.y,4,n.x,n.y,32);
+    const ca=n.c.startsWith('#ff')?`rgba(255,100,0,${.25*pulse})`:`rgba(60,160,255,${.25*pulse})`;
+    gl.addColorStop(0,ca);gl.addColorStop(1,'transparent');
+    gT.fillStyle=gl;gT.beginPath();gT.arc(n.x,n.y,32,0,Math.PI*2);gT.fill();
+    gT.strokeStyle=n.c;gT.lineWidth=1.5;
+    gT.beginPath();gT.arc(n.x,n.y,20,0,Math.PI*2);
+    gT.fillStyle='rgba(4,7,18,.92)';gT.fill();gT.stroke();
+    gT.fillStyle=n.c;gT.font="bold 9px 'Share Tech Mono'";gT.textAlign='center';gT.fillText(n.l,n.x,n.y+4);
+    gT.strokeStyle=`rgba(255,110,0,${.05+.04*pulse})`;gT.lineWidth=1;
+    gT.beginPath();gT.arc(n.x,n.y,32+14*pulse,0,Math.PI*2);gT.stroke();
+  });
+  gT.fillStyle='rgba(255,110,0,.25)';gT.font="10px 'Share Tech Mono'";gT.textAlign='center';
+  gT.fillText('ENCRYPTED ROUTING',240,38);torT++;requestAnimationFrame(drawTor);
+}
+
+// ═══ TIMELINE — CONTENT-CALIBRATED DURATIONS ═══
+// Each scene timed to: animation stagger end + full reading time at ~180wpm
+// Grand Total: 7+10+15+18+20+17+13+14+19+14+15+14+15+15+12 = 218s = 3:38
+const SCENES=[
+  {id:'s1', ms:7000},   // TITLE          — 5 pure visual reveals, no body text. Cinematic breathing room.
+  {id:'s2', ms:10000},  // STATS HOOK     — 4 big numbers x 2-line label. Instant scan. Lands fast.
+  {id:'s3', ms:15000},  // ICEBERG        — 3 layer cards x ~20w each. Canvas animates live.
+  {id:'s4', ms:18000},  // WHAT IS        — 4 cards x ~30w = ~120w total. Densest paragraph text.
+  {id:'s5', ms:20000},  // HISTORY        — 5 timeline entries x ~20w, stagger every 800ms = last appears at 4.4s.
+  {id:'s6', ms:17000},  // TOR NETWORK    — 5 tech steps x ~15w + live animated TOR diagram.
+  {id:'s7', ms:13000},  // ONION DOMAINS  — 6 short items + 2 code examples. Lighter content.
+  {id:'s8', ms:14000},  // CONTENTS       — 10 bullets x ~10w each. Fast scannable stagger.
+  {id:'s9', ms:19000},  // REAL CASES     — 6 cards x ~35w = ~210w. Heaviest narrative scene.
+  {id:'s10',ms:14000},  // GLOBAL STATS   — 5 animated bars + 4 stat circles. Mostly visual.
+  {id:'s11',ms:15000},  // DANGERS        — 6 cards x ~25w = ~150w. Critical safety message.
+  {id:'s12',ms:14000},  // LAW ENFORCE    — 4 org cards x ~30w = ~120w.
+  {id:'s13',ms:15000},  // STAY SAFE      — 6 tips x ~25w = ~150w. Most important takeaway.
+  {id:'s14',ms:15000},  // INDIA RSRC     — 4 cards x ~40w + URLs to note = ~160w.
+  {id:'s15',ms:12000},  // OUTRO          — 50w quote + credits. Cinematic close.
+];
+
+const TOTAL=SCENES.reduce((s,x)=>s+x.ms,0);
+let t0=null,cur=-1;
+
+function fmt(ms){const s=Math.floor(ms/1000);return`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`}
+
+// ─── ENTER SCENE ANIMATIONS ───
+const A=(id,d,cls)=>{const el=document.getElementById(id);if(el)setTimeout(()=>{el.style.opacity='1';el.classList.add(cls||'au')},d)};
+const R=(id)=>{const el=document.getElementById(id);if(el){el.style.width='120px';el.classList.add('on')}};
+
+function enterScene(idx){
+  const sid=SCENES[idx].id;
+  // Stop canvases
+  iceRunning=false;torRunning=false;
+
+  // S1 — 7s: 5 reveals across first 3s, 4s to soak in
+  if(sid==='s1'){
+    A('e_s1pre',200,'au');A('e_s1the',600,'au');
+    setTimeout(()=>{const e=document.getElementById('e_s1dk');if(e)e.style.opacity='1';},950);
+    setTimeout(()=>{const e=document.getElementById('e_s1wb');if(e)e.style.opacity='1';},1300);
+    A('e_s1sb',1800,'au');A('e_s1dv',2300,'az');A('e_s1tg',2800,'au');
+  }
+  // S2 — 10s: 4 stat boxes stagger 300ms apart, all visible by 2.2s, 7.8s to read
+  if(sid==='s2'){
+    A('e_s2chip',200,'au');A('e_s2h',500,'au');setTimeout(()=>R('e_s2r'),800);
+    ['sb1','sb2','sb3','sb4'].forEach((id,i)=>A(id,1000+i*300,'az'));
+  }
+  // S3 — 15s: 3 layer cards at 600ms apart, last at 2.5s, 12.5s to read + watch canvas
+  if(sid==='s3'){
+    iceRunning=true;drawIce();
+    A('e_s3h',300,'ar');setTimeout(()=>R('e_s3r'),600);
+    ['lc1','lc2','lc3'].forEach((id,i)=>A(id,900+i*600,'ar'));
+  }
+  // S4 — 18s: 4 cards at 350ms apart, last at 2.9s, 15.1s to read ~120 words
+  if(sid==='s4'){
+    A('e_s4h',250,'au');setTimeout(()=>R('e_s4r'),550);
+    ['s4c1','s4c2','s4c3','s4c4'].forEach((id,i)=>A(id,750+i*350,'au'));
+  }
+  // S5 — 20s: 5 timeline items at 800ms apart → last appears at 700+3200=3.9s, 16.1s to read
+  if(sid==='s5'){
+    A('e_s5h',250,'au');setTimeout(()=>R('e_s5r'),550);
+    ['tl1','tl2','tl3','tl4','tl5'].forEach((id,i)=>A(id,700+i*800,'au'));
+  }
+  // S6 — 17s: 5 steps at 550ms apart → last at 1000+2200=3.2s, 13.8s to watch TOR + read steps
+  if(sid==='s6'){
+    torRunning=true;drawTor();
+    A('e_s6t',250,'al');A('e_s6chip',650,'al');
+    ['st1','st2','st3','st4','st5'].forEach((id,i)=>A(id,1000+i*550,'al'));
+  }
+  // S7 — 13s: 6 items + 2 examples, stagger 250ms → last at 800+1500=2.3s, 10.7s to read
+  if(sid==='s7'){
+    A('e_s7h',250,'au');setTimeout(()=>R('e_s7r'),550);
+    ['oi1','oi2','oi3','oi4','oi5','oi6'].forEach((id,i)=>A(id,800+i*250,'au'));
+    ['or1','or2'].forEach((id,i)=>A(id,1000+i*400,'az'));
+  }
+  // S8 — 14s: 10 bullets at 180ms apart → last at 900+1620=2.5s, 11.5s to scan all bullets
+  if(sid==='s8'){
+    A('e_s8h',250,'au');setTimeout(()=>R('e_s8r'),550);
+    ['s8h1','s8h2'].forEach((id,i)=>A(id,650+i*150,'au'));
+    ['s8r1','s8r2','s8r3','s8r4','s8r5','s8r6','s8r7','s8r8','s8r9','s8r10'].forEach((id,i)=>A(id,900+i*180,'au'));
+  }
+  // S9 — 19s: 6 case cards at 450ms apart → last at 700+2250=2.95s, 16s to read ~210 words
+  if(sid==='s9'){
+    A('e_s9h',250,'au');setTimeout(()=>R('e_s9r'),550);
+    ['cc1','cc2','cc3','cc4','cc5','cc6'].forEach((id,i)=>A(id,700+i*450,'au'));
+  }
+  // S10 — 14s: bars stagger 300ms, circles 280ms → all visible by 3s, 11s to absorb visuals
+  if(sid==='s10'){
+    A('e_s10h',250,'au');setTimeout(()=>R('e_s10r'),550);
+    ['br1','br2','br3','br4','br5'].forEach((id,i)=>{
+      A(id,750+i*300,'au');
+      setTimeout(()=>{const bf=document.getElementById('bf'+(i+1));if(bf)bf.style.width=bf.style.getPropertyValue('--w')||'40%';},1200+i*300);
+    });
+    ['cs1','cs2','cs3','cs4'].forEach((id,i)=>A(id,900+i*280,'az'));
+  }
+  // S11 — 15s: 6 danger cards at 280ms → last at 700+1400=2.1s, 12.9s to read ~150 words
+  if(sid==='s11'){
+    setTimeout(()=>{const e=document.getElementById('e_s11t');if(e)e.style.opacity='1';},250);
+    ['dc1','dc2','dc3','dc4','dc5','dc6'].forEach((id,i)=>A(id,700+i*280,'au'));
+  }
+  // S12 — 14s: 4 law cards at 350ms → last at 800+1050=1.85s, 12.15s to read ~120 words
+  if(sid==='s12'){
+    A('e_s12h',250,'au');setTimeout(()=>R('e_s12r'),550);
+    ['lwc1','lwc2','lwc3','lwc4'].forEach((id,i)=>A(id,800+i*350,'al'));
+  }
+  // S13 — 15s: 6 tips at 300ms → last at 700+1500=2.2s, 12.8s to read ~150 words
+  if(sid==='s13'){
+    setTimeout(()=>{const e=document.getElementById('e_s13t');if(e)e.style.opacity='1';},250);
+    ['sc1','sc2','sc3','sc4','sc5','sc6'].forEach((id,i)=>A(id,700+i*300,'au'));
+  }
+  // S14 — 15s: 4 resource cards at 380ms → last at 800+1140=1.94s, 13s to note URLs + read
+  if(sid==='s14'){
+    A('e_s14h',250,'au');setTimeout(()=>R('e_s14r'),550);
+    ['ic1','ic2','ic3','ic4'].forEach((id,i)=>A(id,800+i*380,'au'));
+  }
+  // S15 — 12s: staggered quote reveal, 4 beats with gaps to read the 50-word quote
+  if(sid==='s15'){
+    A('e_o1',300,'au');A('e_o2',800,'az');A('e_o3',1600,'au');A('e_o4',2800,'az');A('e_o5',3600,'au');
+  }
+}
+
+function resetAll(){
+  document.querySelectorAll('.sc').forEach(el=>{
+    el.querySelectorAll('[id]').forEach(ch=>{
+      ch.style.opacity='0';
+      ch.classList.remove('au','al','ar','az');
+    });
+    el.querySelectorAll('.rule').forEach(r=>{r.style.width='0';r.classList.remove('on')});
+    el.querySelectorAll('.bar-fill').forEach(b=>b.style.width='0');
+  });
+}
+
+function goTo(idx){
+  const wipe=document.getElementById('wipe');
+  wipe.style.transition='transform .32s cubic-bezier(.7,0,1,1)';
+  wipe.style.transformOrigin='left';wipe.style.transform='scaleX(1)';
+  setTimeout(()=>{
+    document.querySelectorAll('.sc').forEach(el=>el.classList.remove('on'));
+    document.getElementById(SCENES[idx].id).classList.add('on');
+    document.getElementById('hud-scene').textContent=`SCENE ${String(idx+1).padStart(2,'0')} / 15`;
+    enterScene(idx);
+    wipe.style.transition='transform .32s cubic-bezier(0,0,.3,1)';
+    wipe.style.transformOrigin='right';wipe.style.transform='scaleX(0)';
+  },320);
+}
+
+function tick(ts){
+  if(!t0)t0=ts;
+  const el=ts-t0;
+  document.getElementById('prog').style.width=(Math.min(el/TOTAL,1)*100)+'%';
+  document.getElementById('hud-time').textContent=fmt(el);
+  let acc=0;
+  for(let i=0;i<SCENES.length;i++){
+    acc+=SCENES[i].ms;
+    if(el<acc){if(i!==cur){cur=i;goTo(i);}break;}
+  }
+  if(el<TOTAL)requestAnimationFrame(tick);
+  else{
+    // Loop
+    resetAll();t0=null;cur=-1;
+    setTimeout(()=>requestAnimationFrame(tick),800);
+  }
+}
+
+window.addEventListener('load',()=>setTimeout(()=>requestAnimationFrame(tick),500));
+</script>
+</body>
+</html>

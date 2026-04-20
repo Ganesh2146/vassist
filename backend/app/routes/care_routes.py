@@ -50,11 +50,39 @@ def schedule_appointment():
         if not user:
             return jsonify({"status": "error", "message": "User not found"}), 404
         
+        # RULE 1: Check if student already has an active booking (scheduled or confirmed)
+        existing_active_appointment = Appointment.query.filter(
+            Appointment.user_id == user.id,
+            Appointment.status.in_(['scheduled', 'confirmed'])
+        ).first()
+        
+        if existing_active_appointment:
+            return jsonify({
+                "status": "error", 
+                "message": "You already have an active counseling booking. Please cancel your existing booking before booking a new slot.",
+                "error_code": "active_booking_exists"
+            }), 400
+        
         # Validate counselor exists if provided
         if counselor_id:
             counselor = User.query.get(int(counselor_id))
             if not counselor or counselor.user_type != 'counselor':
                 return jsonify({"status": "error", "message": "Invalid counselor"}), 400
+            
+            # RULE 2: Check if counselor already has a booking at the same date and time
+            counselor_booking_at_time = Appointment.query.filter(
+                Appointment.counselor_id == int(counselor_id),
+                Appointment.date == str(date),
+                Appointment.time == str(time),
+                Appointment.status.in_(['scheduled', 'confirmed'])
+            ).first()
+            
+            if counselor_booking_at_time:
+                return jsonify({
+                    "status": "error", 
+                    "message": "This counselor is already booked for this time slot. Please select another time or counselor.",
+                    "error_code": "counselor_slot_unavailable"
+                }), 400
         
         new_appointment = Appointment(
             user_id=user.id, 
@@ -147,6 +175,9 @@ def update_appointment(appointment_id):
         data = request.get_json(silent=True) or {}
         status = data.get("status")
         notes = data.get("notes")
+        cancellation_reason = data.get("cancellation_reason")
+        counselor_report = data.get("counselor_report")
+        student_feedback = data.get("student_feedback")
         
         email = (get_jwt_identity() or "").lower()
         user = User.query.filter_by(email=email).first()
@@ -163,10 +194,34 @@ def update_appointment(appointment_id):
         if user.id != appointment.user_id and user.id != appointment.counselor_id:
             return jsonify({"status": "error", "message": "Unauthorized"}), 403
         
+        # VALIDATION: Only students can cancel, and only if appointment is 'scheduled'
+        if status == 'cancelled':
+            # Only the student (not counselor) can cancel
+            if user.id != appointment.user_id:
+                return jsonify({
+                    "status": "error", 
+                    "message": "Only the student can cancel an appointment"
+                }), 403
+            
+            # Only allow cancelling if appointment is 'scheduled'
+            if appointment.status != 'scheduled':
+                return jsonify({
+                    "status": "error", 
+                    "message": f"Cannot cancel a {appointment.status} appointment. Only scheduled appointments can be cancelled.",
+                    "error_code": "invalid_status_for_cancellation",
+                    "current_status": appointment.status
+                }), 400
+        
         if status:
             appointment.status = status
         if notes is not None:
             appointment.notes = notes
+        if cancellation_reason is not None:
+            appointment.cancellation_reason = cancellation_reason
+        if counselor_report is not None:
+            appointment.counselor_report = counselor_report
+        if student_feedback is not None:
+            appointment.student_feedback = student_feedback
         
         appointment.updated_at = datetime.utcnow()
         db.session.commit()

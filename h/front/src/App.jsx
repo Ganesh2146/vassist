@@ -8,6 +8,7 @@ import ForgotPassword from './components/ForgotPassword';
 import AdminLogin from './components/AdminLogin';
 import Dashboard from './components/Dashboard';
 import Chat from './components/Chat';
+import MentalHealthChat from './components/MentalHealthChat';
 import Profile from './components/Profile';
 import AdminDashboard from './components/AdminDashboard';
 import Care from './components/Care';
@@ -110,6 +111,10 @@ function App() {
         <Route 
           path="/chat" 
           element={isLoggedIn ? <Chat userName={userName} onLogout={handleLogout} /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/mental-health" 
+          element={isLoggedIn ? <MentalHealthChat userName={userName} onLogout={handleLogout} /> : <Navigate to="/login" />} 
         />
         <Route 
           path="/profile" 

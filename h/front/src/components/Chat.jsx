@@ -1,11 +1,52 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiMessageSquare, FiMic, FiArrowRight, FiPaperclip, FiUser, FiPlus, FiTrash2, FiMessageCircle, FiHelpCircle, FiChevronLeft, FiChevronRight, FiGlobe, FiMoreHorizontal } from 'react-icons/fi';
+import { FiMessageSquare, FiMic, FiArrowRight, FiPaperclip, FiUser, FiPlus, FiTrash2, FiMessageCircle, FiHelpCircle, FiChevronLeft, FiChevronRight, FiGlobe, FiMoreHorizontal, FiSquare } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
 import { chatAPI, conversationAPI } from '../api/config';
 import TopNav from './TopNav';
 import PageTransition from './PageTransition';
 import './Chat.css';
+
+// Optimized markdown parser - moved outside component
+const parseMarkdown = (text) => {
+  if (!text || typeof text !== 'string') return text;
+  
+  // Quick check if text contains markdown
+  if (!/[\*_`\-\n]/.test(text)) return text;
+  
+  let result = text
+    // Bold: **text** and *text*
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^ ][\s\S]*?[^ ]|[^ ])\*/g, '<strong>$1</strong>')
+    // Italic: __text__ and _text_
+    .replace(/__(.+?)__/g, '<em>$1</em>')
+    .replace(/_([^ ][\s\S]*?[^ ]|[^ ])_/g, '<em>$1</em>')
+    // Code: `text`
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    // Line breaks
+    .replace(/\n/g, '<br/>')
+    // Bullet points
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+  
+  return result;
+};
+
+// Memoized component to prevent unnecessary re-renders
+const MarkdownText = memo(({ text }) => {
+  const parsed = useMemo(() => parseMarkdown(text), [text]);
+  
+  return (
+    <div
+      dangerouslySetInnerHTML={{ __html: parsed }}
+      style={{
+        wordWrap: 'break-word',
+        whiteSpace: 'pre-wrap',
+        lineHeight: '1.5'
+      }}
+    />
+  );
+});
 
 export default function Chat({ userName, onLogout }) {
   const navigate = useNavigate();
@@ -44,8 +85,6 @@ export default function Chat({ userName, onLogout }) {
       }
     };
   }, []);
-
-  // Save conversation to localStorage whenever messages change
   useEffect(() => {
     if (messages.length > 1) {
       saveConversation();
@@ -259,29 +298,34 @@ export default function Chat({ userName, onLogout }) {
     recognition.lang = 'en-US';
 
     let finalTranscript = '';
+    let lastResultIndex = 0;
 
     recognition.onstart = () => {
       setIsRecording(true);
       setIsTranscribing(true);
+      setInputValue(''); // Reset input when starting new recording
+      finalTranscript = '';
+      lastResultIndex = 0;
     };
 
     recognition.onresult = (event) => {
       let interimTranscript = '';
+      
+      // Only process new results since the last update
       for (let i = event.resultIndex; i < event.results.length; ++i) {
+        const transcript = event.results[i][0].transcript;
+        
         if (event.results[i].isFinal) {
-          finalTranscript += event.results[i][0].transcript;
+          finalTranscript += transcript + ' ';
         } else {
-          interimTranscript += event.results[i][0].transcript;
+          interimTranscript += transcript;
         }
       }
       
       // Update the input field dynamically as they speak
       const currentText = finalTranscript + interimTranscript;
-      setInputValue((prev) => {
-        // Only keep the previously typed text, and append the spoken text
-        const baseText = prev && !isRecording ? prev + ' ' : '';
-        return baseText + currentText;
-      });
+      setInputValue(currentText.trim());
+      lastResultIndex = event.results.length;
     };
 
     recognition.onerror = (event) => {
@@ -452,7 +496,7 @@ export default function Chat({ userName, onLogout }) {
                 )}
                 
                 <div className={`chat-bubble ${msg.sender}`}>
-                  {msg.text}
+                  <MarkdownText text={msg.text} />
                 </div>
                 
                 {msg.sender === 'user' && (
@@ -519,10 +563,10 @@ export default function Chat({ userName, onLogout }) {
               onClick={() => (isRecording ? stopRecording() : startRecording())}
               className={`btn chat-action-btn ${isRecording ? 'btn-danger recording-pulse' : 'btn-primary'}`}
               title={isRecording ? 'Stop recording' : 'Voice input'}
-              disabled={isTranscribing}
-              style={{ opacity: isTranscribing ? 0.6 : 1 }}
+              disabled={isTranscribing && !isRecording}
+              style={{ opacity: (isTranscribing && !isRecording) ? 0.6 : 1 }}
             >
-              <i className="fa-solid fa-microphone"></i>
+              {isRecording ? <FiSquare size={20} /> : <FiMic size={20} />}
             </button>
           </div>
         </div>

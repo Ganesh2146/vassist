@@ -11,6 +11,9 @@ class Appointment(db.Model):
     time = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(50), default="scheduled", nullable=False)  # scheduled, confirmed, cancelled, completed
     notes = db.Column(db.Text, nullable=True)
+    cancellation_reason = db.Column(db.Text, nullable=True)
+    counselor_report = db.Column(db.Text, nullable=True)
+    student_feedback = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -27,6 +30,9 @@ class Appointment(db.Model):
             "time": self.time,
             "status": self.status,
             "notes": self.notes,
+            "cancellation_reason": self.cancellation_reason,
+            "counselor_report": self.counselor_report,
+            "student_feedback": self.student_feedback,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None
         }

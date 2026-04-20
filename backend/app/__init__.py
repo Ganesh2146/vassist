@@ -38,17 +38,43 @@ def create_app(config_class=None):
         for origin in app.config["CORS_ORIGINS"].split(",")
         if _normalize_origin(origin)
     ]
-    cors.init_app(app, resources={r"/api/*": {"origins": cors_origins}})
+    
+    # Initialize CORS with explicit configuration
+    cors.init_app(
+        app, 
+        resources={r"/api/*": {"origins": cors_origins}},
+        supports_credentials=True,
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization"]
+    )
+
+    @app.before_request
+    def handle_preflight():
+        """Handle CORS preflight requests"""
+        if request.method == "OPTIONS":
+            response = app.make_default_options_response()
+            origin = request.headers.get("Origin", "").rstrip("/")
+            
+            if origin and (origin in cors_origins or "*" in cors_origins):
+                response.headers["Access-Control-Allow-Origin"] = origin
+                response.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+                response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
+                response.headers["Access-Control-Allow-Credentials"] = "true"
+            
+            return response
 
     @app.after_request
     def add_cors_headers(response):
-        origin = request.headers.get("Origin")
-        if origin and origin in cors_origins:
+        """Add CORS headers to all responses"""
+        origin = request.headers.get("Origin", "").rstrip("/")
+        
+        if origin and (origin in cors_origins or "*" in cors_origins):
             response.headers["Access-Control-Allow-Origin"] = origin
             response.headers["Vary"] = "Origin"
             response.headers["Access-Control-Allow-Credentials"] = "true"
             response.headers["Access-Control-Allow-Headers"] = "Authorization,Content-Type"
             response.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+        
         return response
 
     with app.app_context():

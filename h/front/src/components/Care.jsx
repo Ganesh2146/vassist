@@ -25,11 +25,12 @@ export default function Care({ onLogout }) {
   const [loading, setLoading] = useState(false);
 
   const [counselors, setCounselors] = useState([]);
+  const [existingActiveAppointment, setExistingActiveAppointment] = useState(null);
 
   useEffect(() => {
     fetchCareResources();
     fetchCounselors();
-    checkExistingBooking();
+    checkForActiveBooking();
   }, []);
 
   const fetchCounselors = async () => {
@@ -43,14 +44,21 @@ export default function Care({ onLogout }) {
     }
   };
 
-  const checkExistingBooking = () => {
-    // Check if user already has a booking for today
-    const existingBookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
-    const today = new Date().toDateString();
-    const hasBookingToday = existingBookings.some(booking => 
-      new Date(booking.date).toDateString() === today
-    );
-    setBookedToday(hasBookingToday);
+  const checkForActiveBooking = async () => {
+    try {
+      const response = await careAPI.getAppointments();
+      const appointments = response.data.data || [];
+      
+      // Check for any active appointment (scheduled or confirmed)
+      const activeAppointment = appointments.find(apt => 
+        apt.status === 'scheduled' || apt.status === 'confirmed'
+      );
+      
+      setExistingActiveAppointment(activeAppointment || null);
+      setBookedToday(!!activeAppointment);
+    } catch (error) {
+      console.error("Failed to check existing bookings", error);
+    }
   };
 
   const getDaysInMonth = (month, year) => {
@@ -94,10 +102,10 @@ export default function Care({ onLogout }) {
   };
 
   const handleScheduleAppointment = async (date, time, counselor) => {
-    // Check if user already booked for today
-    if (bookedToday) {
-      setErrorMessage('❌ You have already booked a counseling slot for today. Only 1 slot per day is allowed.');
-      setTimeout(() => setErrorMessage(''), 5000);
+    // Check if user already has an active booking
+    if (bookedToday || existingActiveAppointment) {
+      setErrorMessage('❌ You already have an active counseling booking. Please cancel your existing booking before booking a new slot.');
+      setTimeout(() => setErrorMessage(''), 6000);
       return;
     }
 
@@ -114,7 +122,8 @@ export default function Care({ onLogout }) {
     }
 
     try {
-      const selectedCounselorName = counselors.find(c => c.id === parseInt(counselor))?.name;
+      const selectedCounselorObj = counselors.find(c => c.id === parseInt(counselor));
+      const selectedCounselorName = selectedCounselorObj ? `${selectedCounselorObj.first_name} ${selectedCounselorObj.last_name}` : 'Unknown';
       
       // Format date as YYYY-MM-DD
       const formattedDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
@@ -147,15 +156,18 @@ export default function Care({ onLogout }) {
       localStorage.setItem('userBookings', JSON.stringify(existingBookings));
       
       setBookedToday(true);
+      setExistingActiveAppointment(response.data.data);
       setBookingSuccessful(true);
       setBookingDetails(bookingData);
       setErrorMessage('');
       setSelectedTime(null);
       setSelectedCounselor('');
       
+      // Auto-redirect after 3 seconds
       setTimeout(() => {
         setBookingSuccessful(false);
-      }, 5000);
+        navigate('/my-appointments');
+      }, 3000);
       
       console.log('✅ Appointment scheduled successfully');
     } catch (error) {
@@ -164,13 +176,38 @@ export default function Care({ onLogout }) {
         endpoint: 'POST /api/care/schedule-appointment',
         timestamp: new Date().toISOString()
       });
-      setErrorMessage('Failed to book appointment. Please try again.');
+      
+      // Handle backend validation errors
+      const errorCode = error.response?.data?.error_code;
+      let errorMsg = 'Failed to book appointment. Please try again.';
+      
+      if (errorCode === 'active_booking_exists') {
+        errorMsg = '❌ You already have an active counseling booking. Please cancel your existing booking first.';
+      } else if (errorCode === 'counselor_slot_unavailable') {
+        errorMsg = '❌ This counselor is already booked for this time slot. Please select another time or counselor.';
+      } else if (error.response?.data?.message) {
+        errorMsg = `❌ ${error.response.data.message}`;
+      }
+      
+      setErrorMessage(errorMsg);
       setTimeout(() => setErrorMessage(''), 5000);
     }
   };
 
   return (
     <PageTransition>
+      <style>{`
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+        }
+      `}</style>
       <div style={{minHeight: '100vh', backgroundColor: 'var(--bg-main)', paddingTop: '80px'}}>
         <TopNav />
         {/* Old Header Removed - TopNav is used instead */}
@@ -213,14 +250,44 @@ export default function Care({ onLogout }) {
             </button>
           </div>
 
+          {/* Active Booking Alert */}
+          {existingActiveAppointment && (
+            <div style={{backgroundColor: '#FEF3C7', border: '1px solid #FCD34D', borderRadius: '12px', padding: '16px', marginBottom: '30px'}}>
+              <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
+                <span style={{fontSize: '20px', marginTop: '2px'}}>⚠️</span>
+                <div>
+                  <p style={{color: '#92400E', fontSize: '14px', fontWeight: '700', margin: '0 0 8px', fontFamily: 'Poppins'}}>
+                    Active Booking
+                  </p>
+                  <p style={{color: '#92400E', fontSize: '13px', fontWeight: '500', margin: '0 0 8px'}}>
+                    You have an active counseling appointment:
+                  </p>
+                  <p style={{color: '#92400E', fontSize: '13px', fontWeight: '600', margin: '0', paddingLeft: '12px', borderLeft: '3px solid #FBBF24'}}>
+                    📅 {existingActiveAppointment.date} at {existingActiveAppointment.time}
+                    {existingActiveAppointment.counselor_info && ` | Counselor: ${existingActiveAppointment.counselor_info.name}`}
+                  </p>
+                  <p style={{color: '#92400E', fontSize: '12px', fontWeight: '500', margin: '8px 0 0', fontStyle: 'italic'}}>
+                    Status: <span style={{fontWeight: '700', textTransform: 'uppercase'}}>{existingActiveAppointment.status}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Schedule Counseling */}
-          <div style={{backgroundColor: '#FFFFFF', padding: '25px', borderRadius: '12px', marginBottom: '30px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)'}}>
+          <div style={{backgroundColor: existingActiveAppointment ? '#F3F4F6' : '#FFFFFF', padding: '25px', borderRadius: '12px', marginBottom: '30px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', opacity: existingActiveAppointment ? 0.7 : 1}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px'}}>
-              <span style={{fontSize: '24px', color: '#1E40AF'}}>
+              <span style={{fontSize: '24px', color: existingActiveAppointment ? '#9CA3AF' : '#1E40AF'}}>
                 <FiCalendar size={24} />
               </span>
-              <h4 style={{fontWeight: 700, color: '#111827', margin: 0, fontFamily: 'Poppins'}}>Schedule Counseling</h4>
+              <h4 style={{fontWeight: 700, color: existingActiveAppointment ? '#9CA3AF' : '#111827', margin: 0, fontFamily: 'Poppins'}}>Schedule Counseling</h4>
             </div>
+
+            {existingActiveAppointment && (
+              <div style={{backgroundColor: '#FEE2E2', border: '1px solid #FECACA', borderRadius: '8px', padding: '12px', marginBottom: '20px', color: '#DC2626', fontSize: '13px', fontWeight: '600'}}>
+                ❌ You already have an active booking. Cancel your existing appointment to book a new slot.
+              </div>
+            )}
 
             {/* Select Counselor */}
             <div style={{marginBottom: '20px'}}>
@@ -228,7 +295,7 @@ export default function Care({ onLogout }) {
               <select 
                 value={selectedCounselor}
                 onChange={(e) => setSelectedCounselor(e.target.value)}
-                disabled={bookedToday || counselors.length === 0}
+                disabled={existingActiveAppointment || bookedToday || counselors.length === 0}
                 style={{
                   width: '100%',
                   padding: '12px',
@@ -237,8 +304,8 @@ export default function Care({ onLogout }) {
                   fontSize: '14px',
                   fontFamily: 'Poppins',
                   backgroundColor: '#FFFFFF',
-                  cursor: (bookedToday || counselors.length === 0) ? 'not-allowed' : 'pointer',
-                  opacity: (bookedToday || counselors.length === 0) ? 0.5 : 1,
+                  cursor: (existingActiveAppointment || bookedToday || counselors.length === 0) ? 'not-allowed' : 'pointer',
+                  opacity: (existingActiveAppointment || bookedToday || counselors.length === 0) ? 0.5 : 1,
                   color: '#111827'
                 }}
               >
@@ -378,32 +445,23 @@ export default function Care({ onLogout }) {
 
             {/* Status Messages */}
             {bookingSuccessful && (
-              <div style={{backgroundColor: '#DCFCE7', border: '1px solid #BBF7D0', borderRadius: '8px', padding: '16px', marginBottom: '15px'}}>
-                <p style={{color: '#15803D', fontSize: '13px', fontWeight: '600', margin: '0 0 12px'}}>
-                  ✓ Appointment booked successfully! {bookingDetails?.counselor} will contact you on {bookingDetails?.bookedFor} at {bookingDetails?.time}.
+              <div style={{
+                position: 'fixed',
+                top: '100px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#DCFCE7',
+                border: '1px solid #BBF7D0',
+                borderRadius: '8px',
+                padding: '16px 24px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                zIndex: 1000,
+                maxWidth: '400px',
+                animation: 'slideDown 0.3s ease'
+              }}>
+                <p style={{color: '#15803D', fontSize: '14px', fontWeight: '600', margin: 0}}>
+                  ✓ Appointment booked successfully! Redirecting...
                 </p>
-                <button 
-                  onClick={() => navigate('/my-appointments')}
-                  style={{
-                    backgroundColor: '#16A34A',
-                    color: '#FFFFFF',
-                    border: 'none',
-                    borderRadius: '6px',
-                    padding: '8px 16px',
-                    fontSize: '12px',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#15803D';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#16A34A';
-                  }}
-                >
-                  View My Appointments
-                </button>
               </div>
             )}
             {errorMessage && (
@@ -414,33 +472,38 @@ export default function Care({ onLogout }) {
 
             <button 
               onClick={() => handleScheduleAppointment(selectedDate, selectedTime, selectedCounselor)}
-              disabled={bookedToday}
+              disabled={existingActiveAppointment || bookedToday}
               style={{
                 width: '100%',
                 padding: '14px',
-                backgroundColor: bookedToday ? '#CCCCCC' : '#1E40AF',
+                backgroundColor: (existingActiveAppointment || bookedToday) ? '#CCCCCC' : '#1E40AF',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '8px',
                 fontWeight: 700,
                 fontSize: '16px',
                 fontFamily: 'Poppins',
-                cursor: bookedToday ? 'not-allowed' : 'pointer',
+                cursor: (existingActiveAppointment || bookedToday) ? 'not-allowed' : 'pointer',
                 marginTop: '15px',
                 transition: 'all 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                if (!bookedToday) {
+                if (!bookedToday && !existingActiveAppointment) {
                   e.currentTarget.style.transform = 'scale(1.02)';
                 }
               }}
               onMouseLeave={(e) => {
-                if (!bookedToday) {
+                if (!bookedToday && !existingActiveAppointment) {
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!bookedToday && !existingActiveAppointment) {
                   e.currentTarget.style.transform = 'scale(1)';
                 }
               }}
             >
-              {bookedToday ? 'Already Booked Today' : 'Confirm Appointment'}
+              {existingActiveAppointment ? 'Active Booking Exists' : (bookedToday ? 'Already Booked Today' : 'Confirm Appointment')}
             </button>
           </div>
         </div>

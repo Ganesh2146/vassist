@@ -260,6 +260,7 @@ export default function Dashboard({ userName, onLogout }) {
                 <div className="row g-4">
                   {[
                     { label: 'Counseling', icon: FiUsers, route: '/care', colorClass: 'text-secondary', bgClass: 'bg-secondary bg-opacity-10 border-secondary' },
+                    { label: 'Mental Health', icon: FiSmile, route: '/mental-health', colorClass: 'text-success', bgClass: 'bg-success bg-opacity-10 border-success' },
                     { label: 'Help Line', icon: FiMessageCircle, route: '/contact', colorClass: 'text-primary', bgClass: 'bg-primary bg-opacity-10 border-primary' }
                   ].map((btn, idx) => {
                     const IconComponent = btn.icon;

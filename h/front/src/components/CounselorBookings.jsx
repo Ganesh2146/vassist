@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiCalendar, FiClock, FiUser, FiCheckCircle, FiXCircle, FiAlertCircle, FiRefreshCw } from 'react-icons/fi';
+import { FiCalendar, FiClock, FiUser, FiCheckCircle, FiXCircle, FiAlertCircle, FiRefreshCw, FiX } from 'react-icons/fi';
 import { careAPI } from '../api/config';
 import TopNav from './TopNav';
 import PageTransition from './PageTransition';
@@ -12,6 +12,7 @@ export default function CounselorBookings() {
   const [filterStatus, setFilterStatus] = useState('all');
 
   const [editingNotes, setEditingNotes] = useState({});
+  const [modalState, setModalState] = useState({ type: null, appointmentId: null, content: '' });
 
   useEffect(() => {
     fetchBookings();
@@ -58,6 +59,32 @@ export default function CounselorBookings() {
     } catch (err) {
       console.error('❌ Error updating appointment:', err);
       setError('Failed to update appointment');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  const handleUpdateStatus = async (appointmentId, newStatus, additionalData = {}) => {
+    try {
+      setUpdatingId(appointmentId);
+      const payload = { status: newStatus, ...additionalData };
+
+      console.log(`🔄 Updating appointment ${appointmentId} with:`, payload);
+      const response = await careAPI.updateAppointment(appointmentId, payload);
+      console.log('✅ Appointment updated');
+      
+      setBookings(prev => prev.map(booking =>
+        booking.id === appointmentId 
+          ? { ...booking, ...response.data.data } 
+          : booking
+      ));
+      setModalState({ type: null, appointmentId: null, content: '' });
+      setError('');
+    } catch (err) {
+      console.error('❌ Error updating appointment:', err);
+      const errorMessage = err.response?.data?.message || 'Failed to update appointment';
+      setError(errorMessage);
+      await fetchBookings();
     } finally {
       setUpdatingId(null);
     }
@@ -312,7 +339,7 @@ export default function CounselorBookings() {
                           {updatingId === booking.id ? 'Confirming...' : 'Confirm'}
                         </button>
                         <button
-                          onClick={() => handleUpdateStatus(booking.id, 'cancelled')}
+                          onClick={() => setModalState({ type: 'cancel_reason', appointmentId: booking.id, content: '' })}
                           disabled={updatingId === booking.id}
                           style={{
                             flex: 1,
@@ -333,14 +360,14 @@ export default function CounselorBookings() {
                           }}
                         >
                           <FiXCircle size={16} />
-                          {updatingId === booking.id ? 'Cancelling...' : 'Cancel'}
+                          Cancel
                         </button>
                       </div>
                     )}
 
                     {booking.status === 'confirmed' && (
                       <button
-                        onClick={() => handleUpdateStatus(booking.id, 'completed')}
+                        onClick={() => setModalState({ type: 'counselor_report', appointmentId: booking.id, content: '' })}
                         disabled={updatingId === booking.id}
                         style={{
                           width: '100%',
@@ -370,6 +397,172 @@ export default function CounselorBookings() {
             )}
           </div>
         </main>
+
+        {/* Modal for Cancellation Reason */}
+        {modalState.type === 'cancel_reason' && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}>
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              padding: '24px',
+              maxWidth: '400px',
+              width: '90%',
+              boxShadow: '0 20px 25px rgba(0,0,0,0.15)'
+            }}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+                <h3 style={{margin: 0, color: '#111827', fontWeight: '700'}}>Cancel Appointment</h3>
+                <button onClick={() => setModalState({ type: null, appointmentId: null, content: '' })} style={{background: 'none', border: 'none', cursor: 'pointer', fontSize: '24px'}}>
+                  <FiX />
+                </button>
+              </div>
+              <p style={{color: '#6B7280', marginBottom: '16px'}}>Please provide the reason for cancellation:</p>
+              <textarea
+                value={modalState.content}
+                onChange={(e) => setModalState({...modalState, content: e.target.value})}
+                placeholder="Enter cancellation reason..."
+                style={{
+                  width: '100%',
+                  minHeight: '100px',
+                  padding: '12px',
+                  border: '1px solid #E5E7EB',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontFamily: 'inherit',
+                  resize: 'vertical',
+                  marginBottom: '16px'
+                }}
+              />
+              <div style={{display: 'flex', gap: '12px'}}>
+                <button
+                  onClick={() => setModalState({ type: null, appointmentId: null, content: '' })}
+                  style={{
+                    flex: 1,
+                    padding: '10px',
+                    border: '1px solid #E5E7EB',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    backgroundColor: 'white'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleUpdateStatus(modalState.appointmentId, 'cancelled', { cancellation_reason: modalState.content })}
+                  disabled={!modalState.content.trim()}
+                  style={{
+                    flex: 1,
+                    padding: '10px',
+                    backgroundColor: '#DC2626',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    cursor: !modalState.content.trim() ? 'not-allowed' : 'pointer',
+                    opacity: !modalState.content.trim() ? 0.6 : 1
+                  }}
+                >
+                  Confirm Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal for Counselor Report */}
+        {modalState.type === 'counselor_report' && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}>
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              padding: '24px',
+              maxWidth: '500px',
+              width: '90%',
+              boxShadow: '0 20px 25px rgba(0,0,0,0.15)',
+              maxHeight: '80vh',
+              overflowY: 'auto'
+            }}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+                <h3 style={{margin: 0, color: '#111827', fontWeight: '700'}}>Complete Appointment</h3>
+                <button onClick={() => setModalState({ type: null, appointmentId: null, content: '' })} style={{background: 'none', border: 'none', cursor: 'pointer', fontSize: '24px'}}>
+                  <FiX />
+                </button>
+              </div>
+              <p style={{color: '#6B7280', marginBottom: '16px'}}>Add your counseling report/notes for this session:</p>
+              <textarea
+                value={modalState.content}
+                onChange={(e) => setModalState({...modalState, content: e.target.value})}
+                placeholder="Enter your report/session notes..."
+                style={{
+                  width: '100%',
+                  minHeight: '150px',
+                  padding: '12px',
+                  border: '1px solid #E5E7EB',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontFamily: 'inherit',
+                  resize: 'vertical',
+                  marginBottom: '16px'
+                }}
+              />
+              <div style={{display: 'flex', gap: '12px'}}>
+                <button
+                  onClick={() => setModalState({ type: null, appointmentId: null, content: '' })}
+                  style={{
+                    flex: 1,
+                    padding: '10px',
+                    border: '1px solid #E5E7EB',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    backgroundColor: 'white'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleUpdateStatus(modalState.appointmentId, 'completed', { counselor_report: modalState.content })}
+                  disabled={!modalState.content.trim()}
+                  style={{
+                    flex: 1,
+                    padding: '10px',
+                    backgroundColor: '#10B981',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    cursor: !modalState.content.trim() ? 'not-allowed' : 'pointer',
+                    opacity: !modalState.content.trim() ? 0.6 : 1
+                  }}
+                >
+                  Mark as Completed
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <style>{`
           @keyframes spin {

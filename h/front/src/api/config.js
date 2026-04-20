@@ -168,8 +168,8 @@ export const dashboardAPI = {
 // ==================== CHAT/AI ENDPOINTS ====================
 export const chatAPI = {
   // POST /api/chat/message
-  sendMessage: (message, conversationId = null) => 
-    api.post('/chat/message', { message, conversationId }),
+  sendMessage: (message, conversationId = null, mode = 'general') => 
+    api.post('/chat/message', { message, conversationId, mode }),
   
   // GET /api/chat/history
   getHistory: () => 
@@ -199,6 +199,10 @@ export const chatAPI = {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
   },
+
+  // POST /api/chat/mental-health/next-question
+  getNextMentalHealthQuestion: (conversationId, questionCount) =>
+    api.post('/chat/mental-health/next-question', { conversationId, questionCount }),
 };
 
 // ==================== CARE/MENTAL HEALTH ENDPOINTS ====================

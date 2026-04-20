@@ -396,6 +396,50 @@
   border-color: var(--border-subtle);
 }
 
+/* Markdown Element Styling */
+.chat-bubble strong {
+  font-weight: 700;
+  color: inherit;
+  background: rgba(79, 70, 229, 0.15);
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+.chat-bubble em {
+  font-style: italic;
+  color: inherit;
+  opacity: 0.9;
+}
+
+.chat-bubble code {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  color: inherit;
+}
+
+.chat-bubble br {
+  display: block;
+  content: '';
+}
+
+.chat-bubble ul {
+  margin: 8px 0 8px 20px;
+  padding: 0;
+  list-style-type: disc;
+}
+
+.chat-bubble li {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+.chat-bubble ul li::before {
+  content: '';
+}
+
 /* Input Area */
 .chat-input-wrapper {
   background: var(--bg-glass-strong);
